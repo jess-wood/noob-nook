@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import EntryPage from "./Pages/Login";
+import EntryPage from "./Pages/Login/Login";
 
 ReactDOM.render(
   <React.StrictMode>
-    <EntryPage />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
