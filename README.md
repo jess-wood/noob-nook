@@ -7,16 +7,14 @@ Add info about app
 # Progress Report
 
 ## Database
-needs to be created. 
-May need non-relational database if we are storing saved game data.    
-jsonbox.io (rest API no SQL), easy to access/add/delete data, for every object 
-it creates an ID, use axios dependency
+MariaDB (Jackson)
+Tables Created
 
 
 ## Pages
 
 ### Login/Signup
-needs design revision (Jess)
+done, just needs database implementation (Jess)
 
 ###Dashboard
 not started (Ethan)
