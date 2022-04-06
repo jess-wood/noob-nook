@@ -34,6 +34,12 @@ h7 {
 
 }
 
+h8 {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 30px;
+    text-align: center;
+}
+
     form {
         grid-column: 2;
         grid-row: 2;
@@ -136,6 +142,18 @@ button:hover {
                         }
                 }
 
+.myDiv{
+    display: flex;
+    flex-direction: column;
+    column-count: 7;
+    background-color: black;
+}
+
+.middleGrid {
+    height: 100vh;
+    spacing: 0;
+    direction: 'column'
+}
 
 @keyframes Gradient {
     0% {

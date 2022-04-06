@@ -1,11 +1,17 @@
-import Box from '@mui/material/Box';
 import ReactDOM from "react-dom";
 import './Login.css';
-// const { Component } = React
 import React, {Component, Fragment} from 'react';
-import {Typography} from "@mui/material";
-import {pressStart2PRegular, theme} from '../../utils/themes'
+import {theme} from '../../utils/themes'
 import { ThemeProvider } from '@material-ui/core/styles';
+import {BrowserRouter as Router, Routes, Route, BrowserRouter} from "react-router-dom";
+import Dashboard from "../Dashboard/Dashboard";
+import {Link} from "@mui/material";
+import TopBar from "../Navigations/TopBar";
+import GamesCatalog from "../GamesPages/GamesCatalog";
+import UserProfile from "../UserProfile/UserProfile";
+import Settings from "../Settings/Settings";
+import Box from "@mui/material/Box";
+//import { useHistory } from 'react-router-dom';
 
 class EntryPage extends Component {
 
@@ -35,6 +41,17 @@ class EntryPage extends Component {
                 return (
                     <ThemeProvider theme={theme}>
                         <Fragment>
+                            <Box sx={{display: 'flex', flexDirection: 'row'}}>
+                                {/*<BrowserRouter>*/}
+                                {/*<TopBar />*/}
+                                {/*<Routes>*/}
+                                {/*    <Route path='/games' element={<GamesCatalog/>} />*/}
+                                {/*    <Route path='/dashboard' element={<Dashboard/>} />*/}
+                                {/*    <Route path='/profile' element={<UserProfile/>} />*/}
+                                {/*    <Route path='/settings' element={<Settings/>} />*/}
+                                {/*</Routes>*/}
+                                {/*</BrowserRouter>*/}
+                            </Box>
                             <h7>NoobNook</h7>
                             <form>
                             <h2>Sign Up!</h2>
@@ -55,6 +72,7 @@ class EntryPage extends Component {
                                              </li>
                                          </ul>
                                      </fieldset>
+
                                      <button className={'b1'}>Submit</button>
                                      <button type="button" onClick={() => this.changeView("logIn")}>Have an Account?</button>
                                  </form>
@@ -129,7 +147,7 @@ class EntryPage extends Component {
     }
 }
 
-ReactDOM.render(<EntryPage/>, document.getElementById("app"))
+// ReactDOM.render(<EntryPage/>, document.getElementById("app"))
 
 export default EntryPage;
 
