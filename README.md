@@ -23,7 +23,7 @@ not started (Ethan)
 not started (Rommel)
 
 ### User Profile
-not started (Jackson)
+working, needs readjustment (Jess)
 
 ###Games Catalog
 not started (Jess)
@@ -34,13 +34,13 @@ not started (Jess)
 #### Wordle: Complete (Jess)
 #### 2048: Not started (Jackson)
 #### Matching Game: Not started (Rommel)
-####Snake Game: Has working version (needs revision)
+####Snake Game: Done (needs pause button?)
 ####Connect4: Not started
 ####Checkers: Not started (Ethan)
 ####Pong: Not started (Rommel)
-####Space Game: Not started (Jess)
+####Space Game: Done (need to fix game over)
 ####Typing Game: Not started
-####Tetris: Not started
+####Tetris: Done (needs to be centered)
 
 
 ## Available Scripts
