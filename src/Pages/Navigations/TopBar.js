@@ -6,6 +6,7 @@ import MuiAppBar from '@mui/material/AppBar';
 import { styled, useTheme } from '@mui/material/styles';
 import {Fragment, useState} from "react";
 import {presentationComponents} from "./MenuPresentationComponents";
+import Typography from "@mui/material/Typography";
 
 
 //search test array will replace with list of users
@@ -106,22 +107,23 @@ const TopBar = (props) => {
 
     return (
         <Fragment>
-            <AppBar position="fixed" >
+            <AppBar position="fixed" sx={{width: '100%'}} >
                 <Grid container columns={1} justifySelf={'center'} sx={{
                     columnGap: 0,
                     alignItems: 'center',
                     columnSpan: 'auto',
-                    width: 'auto',
+                    width: '100%',
                     height: 64
                 }}>
                 {
                     menu1Items.map(title =>
-                        <Grid item onClick={() => handleSelectedItem(title)} key={title} sx={{marginLeft: 5}}>
-                            {title}
+                        <Grid item onClick={() => handleSelectedItem(title)} key={title} sx={{marginLeft: '2%'}}>
+                            <Typography sx={{fontFamily: 'Jura, Arial'}}>{title}</Typography>
                         </Grid>
                     )
                 }
-                <Grid item key={"NookNook"} sx={{marginLeft: 52, marginRight: 20, alignItems: 'center', mt: 0.5}}>
+                <Grid item key={"NookNook"} sx={{marginLeft: "28%", marginRight: '8%',
+                    alignItems: 'center', mt: 0.5}}>
                     <h8>NoobNook</h8>
                 </Grid>
                     <Grid item key={'search'} >
@@ -135,8 +137,8 @@ const TopBar = (props) => {
                     </Grid>
                     {
                         menu2Items.map(title =>
-                            <Grid item onClick={() => handleSelectedItem(title)} key={title} sx={{marginLeft: 5}}>
-                                {title}
+                            <Grid item onClick={() => handleSelectedItem(title)} key={title} sx={{marginLeft: '5%'}}>
+                                <Typography sx={{fontFamily: 'Jura, Arial'}}>{title}</Typography>
                             </Grid>
                         )
                     }
