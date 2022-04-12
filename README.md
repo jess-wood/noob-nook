@@ -23,7 +23,8 @@ not started (Ethan)
 not started (Rommel)
 
 ### User Profile
-working, needs readjustment (Jess)
+-working needs adjustments 
+-follow button needs implementation
 
 ###Games Catalog
 not started (Jess)

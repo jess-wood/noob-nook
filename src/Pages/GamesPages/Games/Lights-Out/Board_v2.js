@@ -9,7 +9,8 @@ const NUM_ROWS = 5;
 const NUM_COLS = 5;
 const notLit = '#263238';
 const lit = '#00bcd4';
-let numTurns = 0;
+let numMoves = 0;
+let score = 0;
 
 function Cell1(props) {
 
@@ -61,6 +62,12 @@ function checkBoard(board){
                 return false;
             }
         }
+    }
+    //before returning must save score
+    if (numMoves < 11) //lowest moves and highest score
+        score = 100000;
+    else{
+        score = 100000 - (numMoves*410);
     }
     return true;
 }
@@ -152,6 +159,7 @@ const Board_v2 = (props) => {
                 }
                 newBoard[rowIdx-1] = nextAffectedRow;
             }
+            //set board
             newBoard[rowIdx] = affectedRow;
             setBoard(newBoard);
         }
@@ -253,7 +261,7 @@ const Board_v2 = (props) => {
                 setBoard(newBoard);
             }
         }
-        numTurns+=1;
+        numMoves+=1;
         //check for winner
         if (checkBoard(newBoard)){
             setWinner(true);

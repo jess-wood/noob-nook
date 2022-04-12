@@ -160,7 +160,10 @@ function Wordle() {
         if (countCorrectLetters === 5){
             //call game over function
             //msg = "You got it!";
-            setMSG("You guessed the word!")
+            let timeMinStr = Math.floor(((time*1.8184) / 60000) % 60);
+            let timeSecStr = Math.floor((time / 1000) % 60);
+            let timerSeconds = ("0" + Math.floor(((time*1.8183) / 1000) % 60)).slice(-2);
+            setMSG(`You guessed the word in ${timeMinStr} minutes ${timerSeconds} seconds!`)
             gameWon = true;
             gameOver = true;
         }
@@ -179,9 +182,29 @@ function Wordle() {
         style: boxStyleVariants.blankBox
     });
     const allBoxes = [...completedRows, ...activeRow, ...remainingRows];
+    //timer variables
+    const [isActive, setIsActive] = useState(false);
+    const [isPaused, setIsPaused] = useState(true);
+    const [time, setTime] = useState(0);
+
+    React.useEffect(() => {
+        let interval = null;
+
+        if (isActive && isPaused === false) {
+            interval = setInterval(() => {
+                setTime((time) => time + 10);
+            }, 10);
+        } else {
+            clearInterval(interval);
+        }
+        return () => {
+            clearInterval(interval);
+        };
+    }, [isActive, isPaused]);
 
     //show word for testing
-    console.log(chosenWord);
+    //console.log(chosenWord);
+    //console.log(time);
 
     //resets the game
     const resetGame = () => {
@@ -203,6 +226,9 @@ function Wordle() {
         //reset chosenWord
         rand = Math.floor(Math.random() * allWords.length);
         chosenWord = allWords[rand].toUpperCase();
+        //reset timer
+        setIsActive(false);
+        setTime(0);
     }
 
     //hande keyboard events
@@ -213,6 +239,14 @@ function Wordle() {
             gameOver = false;
             gameWon = false;
         }
+
+        //start the timer if it has not started
+        if (!isActive){
+            setIsActive(true);
+            setIsPaused(false);
+        }
+
+        //handle keys
         if (activeRowIdx === 0 && attrsOfKeyClicked.isBackspaceKey) {
             //activeRow is empty and there is no letter to erase
             setMSG("No letter to delete");
@@ -249,6 +283,7 @@ function Wordle() {
             }
             setActiveRowIdx(0); //set index back to 0 for next row
             if (gameOver){
+                //do something with timer
                 //game over
                 resetGame();
                 return;

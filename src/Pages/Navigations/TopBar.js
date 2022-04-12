@@ -7,6 +7,8 @@ import { styled, useTheme } from '@mui/material/styles';
 import {Fragment, useState} from "react";
 import {presentationComponents} from "./MenuPresentationComponents";
 import Typography from "@mui/material/Typography";
+import LogoutIcon from '@mui/icons-material/Logout';
+import Button from "@mui/material/Button";
 
 
 //search test array will replace with list of users
@@ -111,37 +113,43 @@ const TopBar = (props) => {
                 <Grid container columns={1} justifySelf={'center'} sx={{
                     columnGap: 0,
                     alignItems: 'center',
+                    justifyContent: 'space-between',
                     columnSpan: 'auto',
                     width: '100%',
                     height: 64
                 }}>
+                    <Grid container item key='left' columns={2} sx={{width: '35%', justifyContent: 'space-between'}}>
                 {
                     menu1Items.map(title =>
-                        <Grid item onClick={() => handleSelectedItem(title)} key={title} sx={{marginLeft: '2%'}}>
-                            <Typography sx={{fontFamily: 'Jura, Arial'}}>{title}</Typography>
+                        <Grid item onClick={() => handleSelectedItem(title)} key={title} sx={{marginLeft: '4%', marginRight: '5%' }}>
+                            <Button sx={{color:'white'}}><Typography sx={{fontFamily: 'Jura, Arial'}}>{title}</Typography></Button>
                         </Grid>
                     )
                 }
-                <Grid item key={"NookNook"} sx={{marginLeft: "28%", marginRight: '8%',
+                        <Grid item key={'search'} sx={{marginLeft: '5%'}}>
+                            <input
+                                type="text"
+                                placeholder="Search Users"
+                                onChange={(e) =>{
+                                    setSearchInput(e.target.value);
+                                }}
+                                value={searchInput} />
+                        </Grid>
+                    </Grid>
+                <Grid item key={"NookNook"} sx={{
                     alignItems: 'center', mt: 0.5}}>
                     <h8>NoobNook</h8>
                 </Grid>
-                    <Grid item key={'search'} >
-                        <input
-                            type="text"
-                            placeholder="Search here"
-                            onChange={(e) =>{
-                                setSearchInput(e.target.value);
-                            }}
-                            value={searchInput} />
-                    </Grid>
+                    <Grid container item key='right' columns={2} sx={{width: '25%', justifyContent: 'space-between'}}>
                     {
                         menu2Items.map(title =>
-                            <Grid item onClick={() => handleSelectedItem(title)} key={title} sx={{marginLeft: '5%'}}>
-                                <Typography sx={{fontFamily: 'Jura, Arial'}}>{title}</Typography>
+                            <Grid item onClick={() => handleSelectedItem(title)} key={title} sx={{marginRight: '4%'}}>
+                                <Button sx={{color:'white'}}><Typography sx={{fontFamily: 'Jura, Arial'}}>{title}</Typography></Button>
                             </Grid>
                         )
                     }
+                    <Grid item key='logout' sx={{marginRight:'4%'}}><Button sx={{color: '#EB2D30'}}><LogoutIcon/></Button></Grid>
+                    </Grid>
                 </Grid>
             </AppBar>
             <Main open={open}>
@@ -153,3 +161,6 @@ const TopBar = (props) => {
 }
 
 export default TopBar;
+
+//need to add functionality for logout
+//need to add functionality for search
