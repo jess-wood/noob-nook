@@ -9,6 +9,7 @@ import {green, grey, orange} from '@mui/material/colors';
 import { alpha } from '@material-ui/core/styles/colorManipulator';
 import {theme} from "../utils/themes";
 import { ThemeProvider } from '@material-ui/core/styles';
+import GlobalStyles from "../utils/globalStyles";
 
 import { guessBoxSizes
 } from "../utils/sizes";

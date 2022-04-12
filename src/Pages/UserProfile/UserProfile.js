@@ -55,6 +55,10 @@ const testHighScores = [
     {
         game: "Memory Scramble",
         score: "7487"
+    },
+    {
+        game: "snake",
+        score: '6857'
     }
 ];
 
@@ -75,7 +79,7 @@ const UserProfile = (props) => {
             backgroundColor: '#714C7A'
         }} direction='row'  columns={2} sx={{display:'flex', border: 1,}}>
             <Grid item key={'left'} style={{
-                minWidth: "50%",
+                width: "50%",
                 height: "100%",
             }} sx={{}}>
                 <Grid container style={{border: 2}} sx={{border: 5, display: 'flex', flexDirection: 'row', width:'100%'}}>
@@ -83,7 +87,7 @@ const UserProfile = (props) => {
                         <Card key={"profilePic"} sx={{border: 2, borderRadius: '50%', height: '60%', marginLeft: 4, width: '75%', mt: 5}}>
                             <CardMedia style={{width: 250, height: 250, justifySelf: 'center'}} image={require('./TestUser/profPicSample.jpeg')} title={"profilePic"}/>
                         </Card>
-                        <Button key={'follow'} sx={{marginLeft: 13, mt: 3, mb: 3}}> Follow <AddCircleOutlineOutlined/></Button>
+                        <Button key={'follow'} sx={{marginLeft: 13, mt: 3, mb: 3, backgroundColor: 'darkgray'}}> Follow <AddCircleOutlineOutlined/></Button>
                     </Grid>
                     <Grid item key={"UserInfo"} sx={{border: 0, width: '50%', alignItems: 'center'}}>
                         <Box key={testUser[0].fullName} sx={{border: 1, mt: 10, width: 'fit-content', marginLeft: 3}}>
@@ -101,15 +105,18 @@ const UserProfile = (props) => {
                     </Grid>
                 </Grid>
                 <Grid container sx={{width: '100%', border: 1}}>
-                    <Grid item key={'highscores'} sx={{ width: '100%'}}>
-                        <Typography fontWeight='bold' fontSize='25px' sx={{mt: 0.5, mb: 0.5, textAlign: 'center', fontFamily: "Jura, Arial"}}>High Scores</Typography>
+                    <Grid item key={'highscores'} sx={{ width: '100%', height: '100%'}}>
+                        <Typography fontWeight='bold' fontSize='25px' sx={{border: 0, mt: 0.5, mb: 0.5, marginRight: '5%', textAlign: 'center', fontFamily: "Jura, Arial"}}>High Scores</Typography>
+                        <Grid container item direction='row' sx={{width: '100%', height: '100%'}}>
                         {
                             testHighScores.map(score =>
-                                <Box key={score.game} sx={{marginLeft: 3, mt: 0.5, mb: 1}}>
-                                    <Typography fontWeight='bold' sx={{mt: 0.5, mb: 0.5, fontFamily: "Jura, Arial"}}>{score.game}: {score.score}</Typography>
-                                </Box>
+                                <Grid item key={score.game} sx={{ mt: 0.5, mb: 0, width: '50%', height: '20%', border: 0}}>
+                                    <Typography fontWeight='bold' sx={{marginLeft: '20%', mt: 0.5, mb: 0.5, fontFamily: "Jura, Arial"}}>{score.game}: {score.score}</Typography>
+                                </Grid>
                             )
                         }
+
+                    </Grid>
                     </Grid>
                 </Grid>
             </Grid>
@@ -138,3 +145,4 @@ export default UserProfile;
 
 //bold the name, make username apparent
 //Profile pic must be from a file, must figure out how to fix that
+//need to toggle follow button to not show on their profile, need to toggle follow/unfollow
