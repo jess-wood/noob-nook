@@ -3,7 +3,7 @@ import './Login.css';
 import React, {Component, Fragment} from 'react';
 import {theme} from '../../utils/themes'
 import { ThemeProvider } from '@material-ui/core/styles';
-import {BrowserRouter as Router, Routes, Route, BrowserRouter} from "react-router-dom";
+//import {BrowserRouter as Router, Routes, Route, BrowserRouter} from "react-router-dom";
 import Dashboard from "../Dashboard/Dashboard";
 import {Link} from "@mui/material";
 import TopBar from "../Navigations/TopBar";

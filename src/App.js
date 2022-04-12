@@ -3,7 +3,7 @@ import './App.css';
 import React, {Fragment, useState} from "react";
 import EntryPage from './Pages/Login/Login'
 import { useEffect } from 'react';
-import {BrowserRouter as Router, Routes, Route, BrowserRouter} from "react-router-dom";
+//import {BrowserRouter as Router, Routes, Route, BrowserRouter} from "react-router-dom";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Settings from './Pages/Settings/Settings';
 import UserProfile from "./Pages/UserProfile/UserProfile";

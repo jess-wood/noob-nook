@@ -1,32 +1,172 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import Divider from '@mui/material/Divider'
+import Stack from '@mui/material/Stack';
 import '../Login/Login.css';
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import TopBar from "../Navigations/TopBar";
-import GamesCatalog from "../GamesPages/GamesCatalog";
-import UserProfile from "../UserProfile/UserProfile";
-import Settings from "../Settings/Settings";
+import Container from '@mui/material/Container'
 import {Fragment} from "react";
+import {CssBaseline} from "@mui/material";
+import { makeStyles } from "@material-ui/core/styles";
+import {testHighScores} from "../UserProfile/UserProfile";
 
-const Dashboard = (props) => {
-    console.log("in dashboard")
+const useStyles = makeStyles((theme) => ({
+    container: {
+        border: '4px solid green',
+        display: 'inline-flex',
+    },
+    item: {
+        border: '1px',
+        display: 'inline-flex',
+        borderRadius: '30px'
+    }
+}));
+
+const UsernameHeader = (props) => {
     return (
-        <Fragment>
-            <h1>Dashboard</h1>
-        </Fragment>
+        <Container sx={{borderBottom: 1, height: 75, mt: 3, marginLeft: 1}}>
+            <Typography fontWeight='bold' fontSize='35px' sx={{fontFamily: 'Jura, Arial'}}>
+                Welcome "username"!
+            </Typography>
+        </Container>
+    );
+}
+
+function UserDataEntry (props) {
+    return (
+        <Grid container sx={{
+            width: 800,
+            height: 100,
+            backgroundColor: '#b3e5fc',
+            '&:hover': {
+                backgroundColor: '#b3e5fc',
+                opacity: [0.9, 0.8, 0.7],
+            },
+            border: 2,
+            borderColor: '#4fc3f7'
+        }}>
+            <Box display='flex' flexDirection='row' justifyContent='left' sx={{width: '30%', borderRight: 1.5, borderColor: '#4fc3f7'}}>
+                <Box display='flex' flexDirection='row' key="profilePic" sx={{width: '40%', height: '80%', borderRadius: '50%',  border: 1, mt: 1, marginLeft: 1}}>
+
+                </Box>
+                <Box key="userName" sx={{height:'30%', width:'80%', marginLeft: 1}}>
+                    <Typography fontSize='16px' sx={{fontFamily: "Jura, Arial", mt: 4}}>
+                        "Username Here"
+                    </Typography>
+                </Box>
+            </Box>
+            <Box display='flex' flexDirection='row' justifyContent='center' alignItems='center' sx={{marginLeft: 2}}>
+                Activity Here
+            </Box>
+        </Grid>
+    );
+}
+
+function ActivityFeed (props) {
+    return (
+        <Box sx={{mt: -7}}>
+            <Typography fontWeight='bold' fontSize='25px' sx={{textAlign: 'center', fontFamily: "Jura, Arial", mb: 2}}>
+                FOLLOWED USERS ACTIVITY
+            </Typography>
+            <Box sx={{
+                minWidth: '100%',
+                height: '100%',
+                border: 1,
+                padding: 1,
+                backgroundColor: '#946aa6'
+            }}>
+                <UserDataEntry/>
+            </Box>
+        </Box>
     )
 }
 
-export default Dashboard;
+function UserHighScores (props) {
+    return (
+        <Box sx={{width: 350, marginLeft: 1, mb: 4, border: 1, backgroundColor: '#946aa6'}}>
+            <Box display='flex' flexDirection='row' justifyContent='center' sx={{borderBottom: 1}}>
+                <Typography fontWeight='bold' fontSize='25px' sx={{mt: 0.5, mb: 0.5, textAlign: 'center', fontFamily: "Jura, Arial"}}>
+                    YOUR HIGH SCORES:
+                </Typography>
+            </Box>
+            <Stack divider={<Divider orientation="horizontal" flexItem />}>
+                {
+                    props.highScores.map(game =>
+                        <Box display='flex' flexDirection='row' justifyContent='center' sx={{marginBlock: 3, mt: 3}}>
+                            <Typography fontSize='20px' sx={{textAlign: 'center', fontFamily: "Jura, Arial"}}>
+                                {game.game}: {game.score}
+                            </Typography>
+                        </Box>
+                    )
+                }
+            </Stack>
+        </Box>
+    )
+}
 
-// <Router>
-//     <TopBar />
-//     <Routes>
-//         <Route path='/' exact element={Dashboard} />
-//         <Route path='/games' element={GamesCatalog} />
-//         <Route path='/profile' element={UserProfile} />
-//         <Route path='/settings' element={Settings} />
-//     </Routes>
-// </Router>
+function OtherUsersHighScores (props) {
+    return (
+        <Box sx={{width: 350, marginLeft: 1, mb: 4, border: 1, backgroundColor: '#946aa6'}}>
+            <Box display='flex' flexDirection='row' justifyContent='center' sx={{borderBottom: 1}}>
+                <Typography fontWeight='bold' fontSize='25px' sx={{mt: 0.5, mb: 0.5, textAlign: 'center', fontFamily: "Jura, Arial"}}>
+                    FRIENDS' HIGH SCORES:
+                </Typography>
+            </Box>
+            <Stack divider={<Divider orientation="horizontal" flexItem />}>
+                {
+                    props.highScores.map(game =>
+                        <Box display='flex' flexDirection='row' justifyContent='center' sx={{marginBlock: 3, mt: 3}}>
+                            <Typography fontSize='20px' sx={{textAlign: 'center', fontFamily: "Jura, Arial"}}>
+                                {game.game}: {game.score}
+                            </Typography>
+                        </Box>
+                    )
+                }
+            </Stack>
+        </Box>
+    )
+}
+
+function HighScoreSideBar (props) {
+    return (
+        <Stack>
+            <Box>
+                <OtherUsersHighScores highScores={testHighScores}/>
+            </Box>
+            <Box>
+                <UserHighScores highScores={testHighScores}/>
+            </Box>
+        </Stack>
+    )
+}
+
+const Dashboard = (props) => {
+    const classes = useStyles();
+    return (
+        <Fragment>
+            <Grid container positions='fixed' style={{
+                minWidth: '100%',
+                height: '100%',
+                backgroundColor: '#714C7A',
+            }}>
+                <CssBaseline/>
+                <Box mb={10}>
+                    <UsernameHeader/>
+                </Box>
+                <Grid container item spacing={20} sx={{
+
+                }}>
+                    <Grid item className={classes.item}>
+                        <HighScoreSideBar/>
+                    </Grid>
+                    <Grid item className={classes.item}>
+                        <ActivityFeed />
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Fragment>
+    );
+}
+
+export default Dashboard;
