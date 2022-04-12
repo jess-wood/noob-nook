@@ -9,7 +9,9 @@ import Container from '@mui/material/Container'
 import {Fragment} from "react";
 import {CssBaseline} from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
-import {testHighScores} from "../UserProfile/UserProfile";
+import {Card, CardMedia} from "@mui/material";
+import {testHighScores, testUser} from "../UserProfile/UserProfile";
+import image from '../UserProfile/TestUser/profPicSample.jpeg';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -46,18 +48,20 @@ function UserDataEntry (props) {
             border: 2,
             borderColor: '#4fc3f7'
         }}>
-            <Box display='flex' flexDirection='row' justifyContent='left' sx={{width: '30%', borderRight: 1.5, borderColor: '#4fc3f7'}}>
-                <Box display='flex' flexDirection='row' key="profilePic" sx={{width: '40%', height: '80%', borderRadius: '50%',  border: 1, mt: 1, marginLeft: 1}}>
-
-                </Box>
+            <Box display='flex' flexDirection='row' justifyContent='left' sx={{height: '100%', width: '30%', borderRight: 1.5, borderColor: '#4fc3f7'}}>
+                    <Card key={"profilePic"} sx={{width: '40%', height: '80%', borderRadius: '50%',  border: 1, mt: 1, marginLeft: 1}}>
+                        <CardMedia style={{width: '100%', height: '100%', justifySelf: 'center'}} image={require('../UserProfile/TestUser/profPicSample.jpeg')} title={"profilePic"}/>
+                    </Card>
                 <Box key="userName" sx={{height:'30%', width:'80%', marginLeft: 1}}>
                     <Typography fontSize='16px' sx={{fontFamily: "Jura, Arial", mt: 4}}>
-                        "Username Here"
+                        {props.account[0].username}
                     </Typography>
                 </Box>
             </Box>
-            <Box display='flex' flexDirection='row' justifyContent='center' alignItems='center' sx={{marginLeft: 2}}>
-                Activity Here
+            <Box display='flex' flexDirection='row' justifyContent='center' sx={{marginLeft: 2}}>
+                <Typography fontSize='16px' sx={{fontFamily: "Jura, Arial", mt: 4}}>
+                    {props.account[0].posts[0]}
+                </Typography>
             </Box>
         </Grid>
     );
@@ -71,12 +75,12 @@ function ActivityFeed (props) {
             </Typography>
             <Box sx={{
                 minWidth: '100%',
-                height: '100%',
+                height: '95%',
                 border: 1,
                 padding: 1,
                 backgroundColor: '#946aa6'
             }}>
-                <UserDataEntry/>
+                <UserDataEntry account={testUser}/>
             </Box>
         </Box>
     )
