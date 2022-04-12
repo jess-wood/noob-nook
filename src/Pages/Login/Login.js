@@ -41,17 +41,6 @@ class EntryPage extends Component {
                 return (
                     <ThemeProvider theme={theme}>
                         <Fragment>
-                            <Box sx={{display: 'flex', flexDirection: 'row'}}>
-                                {/*<BrowserRouter>*/}
-                                {/*<TopBar />*/}
-                                {/*<Routes>*/}
-                                {/*    <Route path='/games' element={<GamesCatalog/>} />*/}
-                                {/*    <Route path='/dashboard' element={<Dashboard/>} />*/}
-                                {/*    <Route path='/profile' element={<UserProfile/>} />*/}
-                                {/*    <Route path='/settings' element={<Settings/>} />*/}
-                                {/*</Routes>*/}
-                                {/*</BrowserRouter>*/}
-                            </Box>
                             <h7>NoobNook</h7>
                             <form>
                             <h2>Sign Up!</h2>

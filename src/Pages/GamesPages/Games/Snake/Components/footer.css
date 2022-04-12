@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
+.footer{
+    margin: 0 auto;
+    box-sizing: border-box;
+    width: 360px;
+    height: 80px;
+    background-color: #b7d4a8;
+    border: 10px solid black;
+    border-radius: 10px;
+    font: bold 20px "DotGothic16";
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.start:hover{
+    cursor: pointer;
+
+}
