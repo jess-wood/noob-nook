@@ -13,10 +13,13 @@ import UserProfile from "../UserProfile/UserProfile";
 import Settings from "../Settings/Settings";
 import {Fragment} from "react";
 import {CssBaseline} from "@mui/material";
+import ListItemText from '@mui/material/ListItemText';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 
 const UsernameHeader = (props) => {
     return (
-        <h1>Welcome "usernam"!</h1>
+        <h1>Welcome "username"!</h1>
     );
 }
 
