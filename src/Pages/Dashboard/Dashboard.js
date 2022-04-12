@@ -16,7 +16,7 @@ import {CssBaseline} from "@mui/material";
 
 const UsernameHeader = (props) => {
     return (
-        <h1>Welcome "username"!</h1>
+        <h1>Welcome "usernam"!</h1>
     );
 }
 
