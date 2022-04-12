@@ -19,7 +19,7 @@ const testUser = [
     }
 ];
 
-const testHighScores = [
+export const testHighScores = [
     {
         game: "Wordle",
         score: "10m5s"
