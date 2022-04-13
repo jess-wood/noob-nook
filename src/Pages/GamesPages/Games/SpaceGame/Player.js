@@ -1,4 +1,4 @@
-import img from './utils/player.png'
+import img from './utils/rocket.png';
 export class Player{
     dead = false;
     health = 100;
@@ -53,11 +53,11 @@ export class Player{
         image.src = img;
         ctx.drawImage(image,this.posX,this.posY,65,90);
 
-        ctx.font = '16px Arial';
+        ctx.font = '16px Obitron';
         ctx.fillStyle = "white";
         ctx.fillText(`Health: ${this.health}`, 950 - 95, 550 - 15);
 
-        ctx.font = '16px Arial';
+        ctx.font = '16px Obitron';
         ctx.fillStyle = "lightgreen";
         ctx.fillText(`Score: ${this.score}`, 15, 25);
     }

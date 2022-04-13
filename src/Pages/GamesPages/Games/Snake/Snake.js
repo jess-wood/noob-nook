@@ -1,3 +1,4 @@
+//credit to: https://github.com/kouteisang/snake-game
 import Footer from "./Components/footer.jsx";
 import Panel from "./Components/panel.jsx";
 import './snake.css'
