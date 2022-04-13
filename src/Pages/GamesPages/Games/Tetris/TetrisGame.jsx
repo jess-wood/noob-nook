@@ -1,3 +1,5 @@
+//credit to : https://github.com/thisisrishabh22/Tetromino
+
 import React, { useCallback, useState } from "react";
 import Stage from "./Pages/Stage";
 import Display from "./Pages/Display";
@@ -90,7 +92,7 @@ const Tetris = () => {
 
 
     return (
-        <Grid container direction='column'>
+        <Grid container direction='column' position='fixed'>
         <div>
 
             <StyledTetrisWrapper

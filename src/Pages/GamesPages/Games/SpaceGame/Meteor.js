@@ -1,4 +1,4 @@
-import img from './utils/meteors.png'
+import img1 from './utils/meteor2.png'
 export class Meteor {
     speed = 4;
     dead = false;
@@ -43,7 +43,7 @@ export class Meteor {
 
     draw = (ctx) =>{
         const image = new Image();
-        image.src = img;
+        image.src = img1;
         ctx.drawImage(image,this.xPos,this.yPos,75,100);
     }
 }

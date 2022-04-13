@@ -18,7 +18,7 @@ export class Bullet{
     draw = (ctx) => {
         ctx.beginPath();
         ctx.arc(this.xPos,this.yPos,5,0,2*Math.PI);
-        ctx.fillStyle = "#1F51FF";
+        ctx.fillStyle = "#D61114";
         ctx.fill();
         ctx.lineWİdth = 5;
         ctx.stroke()

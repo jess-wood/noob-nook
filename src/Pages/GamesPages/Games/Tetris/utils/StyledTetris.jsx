@@ -4,7 +4,7 @@ import bgImage from './stars.png'
 export const StyledTetrisWrapper = styled.div`
 width: 100vw;
 height: 100vh;
-background: url(${bgImage}), linear-gradient(#2b1055, #7597de);
+background: url(${bgImage}), linear-gradient(#003153, #B666D2);
 background-size: cover;
 overflow: auto;    
 `
@@ -22,3 +22,5 @@ export const StyledTetris = styled.div`
     padding: 0 20px;
   }
 `
+
+//linear-gradient(#2b1055, #7597de);
