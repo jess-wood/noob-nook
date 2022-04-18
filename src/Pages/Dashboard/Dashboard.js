@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 const UsernameHeader = (props) => {
     return (
         <Container sx={{borderBottom: 1, height: 75, mt: 3, marginLeft: 1}}>
-            <Typography fontWeight='bold' fontSize='35px' sx={{fontFamily: 'Jura, Arial'}}>
+            <Typography fontWeight='bold' fontSize='35px' sx={{fontFamily: 'Jura, Arial'}} color='#e7dedc'>
                 Welcome "username"!
             </Typography>
         </Container>
@@ -69,8 +69,8 @@ function UserDataEntry (props) {
 
 function ActivityFeed (props) {
     return (
-        <Box sx={{mt: -7}}>
-            <Typography fontWeight='bold' fontSize='25px' sx={{textAlign: 'center', fontFamily: "Jura, Arial", mb: 2}}>
+        <Box sx={{height: 1300, mt: -7}}>
+            <Typography fontWeight='bold' fontSize='25px' sx={{textAlign: 'center', fontFamily: "Jura, Arial", mb: 2}} color='#e7dedc'>
                 FOLLOWED USERS ACTIVITY
             </Typography>
             <Box sx={{
@@ -88,9 +88,9 @@ function ActivityFeed (props) {
 
 function UserHighScores (props) {
     return (
-        <Box sx={{width: 350, marginLeft: 1, mb: 4, border: 1, backgroundColor: '#946aa6'}}>
+        <Box sx={{height: 400, width: 350, marginLeft: 1, mb: 4, border: 1, backgroundColor: '#946aa6', overflowY: 'scroll'}}>
             <Box display='flex' flexDirection='row' justifyContent='center' sx={{borderBottom: 1}}>
-                <Typography fontWeight='bold' fontSize='25px' sx={{mt: 0.5, mb: 0.5, textAlign: 'center', fontFamily: "Jura, Arial"}}>
+                <Typography fontWeight='bold' fontSize='25px' sx={{mt: 0.5, mb: 0.5, textAlign: 'center', fontFamily: "Jura, Arial"}} color='#e7dedc'>
                     YOUR HIGH SCORES:
                 </Typography>
             </Box>
@@ -98,7 +98,7 @@ function UserHighScores (props) {
                 {
                     props.highScores.map(game =>
                         <Box display='flex' flexDirection='row' justifyContent='center' sx={{marginBlock: 3, mt: 3}}>
-                            <Typography fontSize='20px' sx={{textAlign: 'center', fontFamily: "Jura, Arial"}}>
+                            <Typography fontSize='20px' sx={{textAlign: 'center', fontFamily: "Jura, Arial"}} color='#f8f0e3'>
                                 {game.game}: {game.score}
                             </Typography>
                         </Box>
@@ -111,9 +111,9 @@ function UserHighScores (props) {
 
 function OtherUsersHighScores (props) {
     return (
-        <Box sx={{width: 350, marginLeft: 1, mb: 4, border: 1, backgroundColor: '#946aa6'}}>
+        <Box sx={{height: 400, width: 350, marginLeft: 1, mb: 4, border: 1, backgroundColor: '#946aa6', overflowY: 'scroll'}}>
             <Box display='flex' flexDirection='row' justifyContent='center' sx={{borderBottom: 1}}>
-                <Typography fontWeight='bold' fontSize='25px' sx={{mt: 0.5, mb: 0.5, textAlign: 'center', fontFamily: "Jura, Arial"}}>
+                <Typography fontWeight='bold' fontSize='25px' sx={{mt: 0.5, mb: 0.5, textAlign: 'center', fontFamily: "Jura, Arial"}} color='#e7dedc'>
                     FRIENDS' HIGH SCORES:
                 </Typography>
             </Box>
@@ -121,7 +121,7 @@ function OtherUsersHighScores (props) {
                 {
                     props.highScores.map(game =>
                         <Box display='flex' flexDirection='row' justifyContent='center' sx={{marginBlock: 3, mt: 3}}>
-                            <Typography fontSize='20px' sx={{textAlign: 'center', fontFamily: "Jura, Arial"}}>
+                            <Typography fontSize='20px' sx={{textAlign: 'center', fontFamily: "Jura, Arial"}} color='#f8f0e3'>
                                 {game.game}: {game.score}
                             </Typography>
                         </Box>
@@ -135,7 +135,7 @@ function OtherUsersHighScores (props) {
 function HighScoreSideBar (props) {
     return (
         <Stack>
-            <Box>
+            <Box sx={{mb: 5}}>
                 <OtherUsersHighScores highScores={testHighScores}/>
             </Box>
             <Box>
@@ -151,11 +151,12 @@ const Dashboard = (props) => {
         <Fragment>
             <Grid container positions='fixed' style={{
                 minWidth: '100%',
-                height: '100%',
+                minHeight: '100%',
+                height: 1500,
                 backgroundColor: '#714C7A',
             }}>
                 <CssBaseline/>
-                <Box mb={10}>
+                <Box >
                     <UsernameHeader/>
                 </Box>
                 <Grid container item spacing={20} sx={{
