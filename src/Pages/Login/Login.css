@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 * { font-family: Jura, Arial; font-weight: 400; }
 body { margin: 0; padding: 0; }
-h1,h2,h3,h4,h5,h6,p { margin: 0; }
+h1,h2,h3,h4,h5,h6,p { margin: 0; font-family: Jura, Arial }
 
 
 
@@ -30,6 +30,7 @@ h7 {
     border-width: 1px;
     align-content: center;
     margin-top: 90px;
+    color: #E7DECC;
     /*margin-left: 400px; /*need help aligning*/
 
 }
@@ -71,6 +72,7 @@ h8 {
             padding: 5px;
             background-color: #A0A0A0;
             border-radius: 5px;
+            font-family: Jura, Arial
         }
         ul {
             margin: 0;
@@ -81,6 +83,7 @@ h8 {
             margin: 10px;}
         a {
             color: #02c;
+            font-family: Jura, Arial
         }
         em {
             grid-column: span 2;
@@ -90,12 +93,14 @@ h8 {
         label {
             text-align: left;
             padding-bottom: 2px;
+            font-family: Jura, Arial
         }
         input {
             padding: 5px;
             border: 1px solid #989898;
             background: 	#C8C8C8;
-            border-radius: 5px;}
+            border-radius: 5px;
+            font-family: Jura, Arial}
         input:hover {
              border: 1px solid #aaf;
          }
@@ -107,6 +112,7 @@ h8 {
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
             margin-top: 10px;
             margin-left: 45px;
+            font-family: Jura, Arial
         }
 .b1 {
     padding: 10px;
@@ -115,6 +121,7 @@ h8 {
     background: #6bab63;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     margin-right: 20px;
+    font-family: Jura, Arial
 }
 
 button:hover {
