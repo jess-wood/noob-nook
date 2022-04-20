@@ -11,19 +11,35 @@ import GamesCatalog from "./Pages/GamesPages/GamesCatalog";
 import TopBar from "./Pages/Navigations/TopBar";
 import {Grid} from "@mui/material";
 
+const logout = (setUser) => {
+    console.log("in logout");
+    return () => {
+        setUser(undefined);
+    }
+};
+
+let username = '';
 
 function App() {
     //test var, change to false to see login, true to see topbar and other pages
     const [loggedIn, setLoggedIn] = useState(true);
-    console.log("in app.js")
+    const [user, setUser] = useState(undefined);
+    //const [username, setUsername] = useState(undefined);
+    if (user !== undefined){
+        console.log(user['username']);
+        username = user.username;
+        console.log(username);
+    }
+    console.log(user);
   return (
       <Fragment>
-          {loggedIn ? <TopBar/> : <EntryPage/>}
+          {user !== undefined ? <TopBar logout={logout(setUser)} user={username}/> : <EntryPage user={user} setUser={setUser}/>}
       </Fragment>
   );
 }
 
 export default App;
+
 
 // <div className={'myDiv'}>
 //     <Router>

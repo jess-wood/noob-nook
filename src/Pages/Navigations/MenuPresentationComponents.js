@@ -5,6 +5,7 @@ import GamesCatalog from "../GamesPages/GamesCatalog";
 import EntryPage from "../Login/Login";
 import TopBar from "./TopBar";
 import MuiAppBar from '@mui/material/AppBar';
+//import username from '../../App';
 
 
 
@@ -20,7 +21,7 @@ const presentationComponents = (props) => {
         },
         {
             title: 'Profile',
-            component: <UserProfile/>
+            component: <UserProfile isUserLoggedIn={true}/>
         },
         {
             title: 'Settings',
