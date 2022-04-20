@@ -10,8 +10,17 @@ import {Fragment} from "react";
 import {CssBaseline} from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import {Card, CardMedia} from "@mui/material";
-import {testHighScores, testUser} from "../UserProfile/UserProfile";
-import image from '../UserProfile/TestUser/profPicSample.jpeg';
+import {testHighScores} from "../UserProfile/UserProfile";
+import image from '../UserProfile/UsersPictures/slick_doe.jpg';
+
+
+const testUser = [
+    {
+        username: 'slick_doe',
+        posts: ['@slick_doe beat their highscore in Lights Out!']
+
+    }
+];
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -50,7 +59,7 @@ function UserDataEntry (props) {
         }}>
             <Box display='flex' flexDirection='row' justifyContent='left' sx={{height: '100%', width: '30%', borderRight: 1.5, borderColor: '#4fc3f7'}}>
                     <Card key={"profilePic"} sx={{width: '40%', height: '80%', borderRadius: '50%',  border: 1, mt: 1, marginLeft: 1}}>
-                        <CardMedia style={{width: '100%', height: '100%', justifySelf: 'center'}} image={require('../UserProfile/TestUser/profPicSample.jpeg')} title={"profilePic"}/>
+                        <CardMedia style={{width: '100%', height: '100%', justifySelf: 'center'}} image={require('../UserProfile/UsersPictures/slick_doe.jpg')} title={"profilePic"}/>
                     </Card>
                 <Box key="userName" sx={{height:'30%', width:'80%', marginLeft: 1}}>
                     <Typography fontSize='16px' sx={{fontFamily: "Jura, Arial", mt: 4}}>
