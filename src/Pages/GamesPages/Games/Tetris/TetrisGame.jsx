@@ -1,6 +1,6 @@
 //credit to : https://github.com/thisisrishabh22/Tetromino
 
-import React, { useCallback, useState } from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import Stage from "./Pages/Stage";
 import Display from "./Pages/Display";
 import StartButton from "./Pages/StartButton";
@@ -14,6 +14,7 @@ import Box from "@mui/material/Box";
 import {Grid} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import './utils/Game.css';
+import API from "../../../../API_Interface/API_Interface";
 
 const Tetris = () => {
     const [dropTime, setDropTime] = useState(null);

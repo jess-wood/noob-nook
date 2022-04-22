@@ -18,8 +18,8 @@ var connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
     user: 'root',
-    password: 'Smile4me!!',
-    database: 'noob_nook'
+    password: 'YOUR-DB-PW',
+    database: 'Noob_Nook'
 });
 
 module.exports = connection;
