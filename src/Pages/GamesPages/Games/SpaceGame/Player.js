@@ -1,5 +1,23 @@
 import img from './utils/rocket.png';
+import API from "../../../../API_Interface/API_Interface";
+
+let hs=0;
+
 export class Player{
+
+    getCurrHS = () => {
+        const api = new API();
+
+        async function getUserHS() {
+            const gameHSJSONString = await api.getSpaceHS(window.currentUserLoggedIn);
+            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+            hs = gameHSJSONString.data[0]['HS_SpaceGame'];
+            return gameHSJSONString.data[0]['HS_SpaceGame'];
+
+        }
+        getUserHS();
+    }
+
     dead = false;
     health = 100;
     ammo = 100;
@@ -7,6 +25,7 @@ export class Player{
     speed = 25;
     firebullets = [];
     lastFireAt = Date.now();
+    highScore = this.getCurrHS
 
     constructor(posX,posY){
         this.posX = posX;
@@ -39,12 +58,45 @@ export class Player{
             })
         }
         if(this.posX < -10 || this.posX > 890){
-            this.dead = true
-            gameOver(this.score);
+            console.log(hs);
+            this.dead = true;
+            let currScore= this.score;
+            if (this.score > hs){
+                const api = new API();
+
+                async function makeNewScore() {
+                    const gameHSJSONString = await api.postNewHighScoreSpace(currScore, window.currentUserLoggedIn);
+                    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                    //setCurrHighScore(gameHSJSONString.data);
+
+                }
+                makeNewScore();
+            }
+            alert("GameOver");
         }
         if (this.health <= 0) {
+            console.log(hs);
+            console.log(this.score);
             this.dead = true;
-            gameOver(this.score);
+            let currScore= this.score;
+            if (this.score > hs){
+                const api = new API();
+
+                async function makeNewScore() {
+                    const gameHSJSONString = await api.postNewHighScoreSpace(currScore, window.currentUserLoggedIn);
+                    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                    //setCurrHighScore(gameHSJSONString.data);
+
+                }
+                makeNewScore();
+            }
+            alert("GameOver");
+            this.dead = false;
+            this.health = 100;
+            this.ammo = 100;
+            this.score = 0;
+
+            //gameOver(this.score);
         }
     }
 

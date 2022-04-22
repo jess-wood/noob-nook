@@ -3,6 +3,7 @@ import * as React from "react";
 import {Fragment, useState} from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import API from "../../../../API_Interface/API_Interface";
 
 
 let m_idx = 1;
@@ -32,6 +33,19 @@ let quotes_array = [
 
 const TypingMaster = (props) => {
 
+    const getCurrHS = () => {
+        const api = new API();
+
+        async function getUserHS() {
+            const gameHSJSONString = await api.getTypingHS(window.currentUserLoggedIn);
+            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+            console.log(gameHSJSONString.data[0]['HS_Typing']);
+            setHighScore(gameHSJSONString.data[0]['HS_Typing']);
+
+        }
+        getUserHS();
+    }
+
     //function to start game
     function startGame() {
         setMSG(quotes_array[0]);
@@ -43,6 +57,7 @@ const TypingMaster = (props) => {
 
     //function to process user text
     function processCurrentText() {
+        console.log(`hs=${highScore}`);
         //split user text and message to array of chars
         let curr_input_array = userText.split('');
         let curr_msg_array = msg.split('');
@@ -73,8 +88,6 @@ const TypingMaster = (props) => {
             }
         });
 
-        console.log(JSON.stringify(msg_Arr));
-
         //update error count and accuracy
         setErrors(curr_errors);
 
@@ -84,10 +97,10 @@ const TypingMaster = (props) => {
 
         if (userText.length+1 === msg.length) {
             userText.split(" ").forEach((word, idx) => {
-                console.log(word);
+                //console.log(word);
                 words += 1;
             });
-            console.log(words);
+            //console.log(words);
         }
 
     }
@@ -103,6 +116,19 @@ const TypingMaster = (props) => {
 
         setCPM(charsTyped);
         setWPM(words);
+        console.log(`wpm=${wpm} and hs=${highScore}`);
+        if (wpm > highScore){
+            console.log('got new high score');
+            const api = new API();
+
+            async function makeNewScore() {
+                const gameHSJSONString = await api.postNewHighScoreWPM(wpm, window.currentUserLoggedIn);
+                console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                //setCurrHighScore(gameHSJSONString.data);
+
+            }
+            makeNewScore();
+        }
     }
 
     function resetGame() {
@@ -134,6 +160,7 @@ const TypingMaster = (props) => {
     const [isPaused, setIsPaused] = useState(true);
     const [isGameOver, setIsGameOver] = useState(false);
     const [msg, setMSG] = useState("Click on the area below to start the game.");
+    const [highScore, setHighScore] = useState(getCurrHS);
 
     React.useEffect(() => {
         if (userText.length === msg.length) {
@@ -162,7 +189,7 @@ const TypingMaster = (props) => {
         };
     }, [isActive, isPaused, timeRemaining]);
 
-    console.log(`type of ${typeof msg}`);
+    //console.log(`type of ${typeof msg}`);
 
     return (
         <Fragment>

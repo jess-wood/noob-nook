@@ -20,6 +20,8 @@ const logout = (setUser) => {
 
 let username = '';
 
+window.currentUserLoggedIn = '';
+
 function App() {
     //test var, change to false to see login, true to see topbar and other pages
     const [loggedIn, setLoggedIn] = useState(true);
@@ -28,7 +30,8 @@ function App() {
     if (user !== undefined){
         console.log(user['username']);
         username = user.username;
-        console.log(username);
+        window.currentUserLoggedIn = user.username;
+        console.log(window.currentUserLoggedIn);
     }
     console.log(user);
   return (
@@ -39,17 +42,3 @@ function App() {
 }
 
 export default App;
-
-
-// <div className={'myDiv'}>
-//     <Router>
-//         <TopBar />
-//         <Routes>
-//             <Route exact path='/' element={<Login/>} />
-//             <Route path='/games' element={<GamesCatalog/>} />
-//             <Route path='/dashboard' element={<Dashboard/>} />
-//             <Route path='/profile' element={<UserProfile/>} />
-//             <Route path='/settings' element={<Settings/>} />
-//         </Routes>
-//     </Router>
-// </div>

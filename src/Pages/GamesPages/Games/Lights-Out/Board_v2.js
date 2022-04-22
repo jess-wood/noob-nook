@@ -1,8 +1,9 @@
-import React, {useState, Fragment} from "react";
+import React, {useState, Fragment, useEffect} from "react";
 import {Component} from "react";
 import Cell from './Cell';
 import {Box, Fade, Grid, Stack} from "@mui/material";
 import './utils/Board.css';
+import API from "../../../../API_Interface/API_Interface";
 
 //global constants
 const NUM_ROWS = 5;
@@ -89,7 +90,7 @@ function createInitialBoard(){
     let numLit = 0;
     for (let i=0; i < board.length; i++){
         for (let j=0; j < board[i].length; j++){
-            if(Math.random() < 0.25 && numLit < 10){
+            if(Math.random() < 0.6 && numLit < 0){
                 console.log(`row=${i} col=${j}`);
                 console.log(board[i][j]);
                 board[i][j] = attrL;
@@ -108,6 +109,34 @@ function createInitialBoard(){
 const Board_v2 = (props) => {
     const [board, setBoard] = useState(createInitialBoard);
     const [haveAwinner, setWinner] = useState(false);
+    const [currHighScore, setCurrHighScore] = useState(0);
+
+
+    useEffect(() => {
+        console.log('in useEffect for user high score lights out');
+        const api = new API();
+
+        async function getUserHS() {
+            const gameHSJSONString = await api.getLOHS( window.currentUserLoggedIn);
+            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+            setCurrHighScore(gameHSJSONString.data[0]['HS_LightsOut']);
+
+        }
+        getUserHS();
+    }, []);
+
+    const makeNewHighScore = () => {
+        const api = new API();
+
+        async function makeNewScore() {
+            const gameHSJSONString = await api.postNewHighScoreLO(score, window.currentUserLoggedIn);
+            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+            //setCurrHighScore(gameHSJSONString.data);
+
+        }
+        makeNewScore();
+    }
+
 
     const reset = () => {
         setBoard(createInitialBoard);
@@ -265,6 +294,9 @@ const Board_v2 = (props) => {
         //check for winner
         if (checkBoard(newBoard)){
             setWinner(true);
+            if (score > currHighScore){
+                makeNewHighScore();
+            }
             return;
         }
     }

@@ -48,6 +48,78 @@ export default class APIInterface {
     }
 
     async followUser(username, userFollow){
-        return axiosAgent.get(`follow/${username}/${userFollow}`);
+        return axiosAgent.get(`follow/${username}/${userFollow}/follow`);
+    }
+
+    async unfollowUser(username, userUnfollow){
+        return axiosAgent.get(`follow/${username}/${userUnfollow}/unfollow`);
+    }
+
+    async allUserFollowings(username){
+        return axiosAgent.get(`follow/${username}/allFollowings`);
+    }
+
+    async getHighScoreByGame(game, username){
+        return axiosAgent.get(`high-scores/${game}/${username}/get-score`);
+    }
+
+    async getLOHS(username){
+        return axiosAgent.get(`high-scores/${username}/get-lo`);
+    }
+
+    async getTetrisHS(username){
+        return axiosAgent.get(`high-scores/${username}/get-tetris`);
+    }
+
+    async getSpaceHS(username){
+        return axiosAgent.get(`high-scores/${username}/get-space`);
+    }
+
+    async getWordleHS(username){
+        return axiosAgent.get(`high-scores/${username}/get-wordle`);
+    }
+
+    async getWordleMinSec(username){
+        return axiosAgent.get(`high-scores/${username}/get-wordleMinSec`)
+    }
+
+    async getTypingHS(username){
+        return axiosAgent.get(`high-scores/${username}/get-wpm`);
+    }
+
+    async getSnakeHS(username){
+        return axiosAgent.get(`high-scores/${username}/get-snake`);
+    }
+
+    async postNewHighScoreWPM(score, username){
+        return axiosAgent.get(`high-scores/${score}/${username}/score-wpm`);
+    }
+
+    async postNewHighScoreWordle(score, username){
+        return axiosAgent.get(`high-scores/${score}/${username}/score-wordle`);
+    }
+
+    async postNewHighScoreSpace(score, username){
+        return axiosAgent.get(`high-scores/${score}/${username}/score-space`);
+    }
+
+    async postNewHighScoreTetris(score, username){
+        return axiosAgent.get(`high-scores/${score}/${username}/score-tetris`);
+    }
+
+    async postNewHighScoreSnake(score, username){
+        return axiosAgent.get(`high-scores/${score}/${username}/score-snake`);
+    }
+
+    async postNewHighScoreLO(score, username){
+        return axiosAgent.get(`high-scores/${score}/${username}/score-lo`);
+    }
+
+    async postNewHighScoreWordleMin(score, username){
+        return axiosAgent.get(`high-scores/${score}/${username}/score-wordleMin`);
+    }
+
+    async postNewHighScoreWordleSec(score, username){
+        return axiosAgent.get(`high-scores/${score}/${username}/score-wordleSec`);
     }
 }

@@ -2,12 +2,20 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import image from './UsersPictures/slick_doe.jpg';
 import '../Login/Login.css';
 import {Card, CardMedia, Grid} from "@mui/material";
 import {AddCircleOutlineOutlined} from '@mui/icons-material';
 import {useState, useEffect} from "react";
 import API from '../../API_Interface/API_Interface';
+import {makeStyles} from "@material-ui/core/styles";
+import {alpha} from "@material-ui/core/styles/colorManipulator";
+
+const useStyles = makeStyles({
+    button: {
+        '&:hover': {
+            backgroundColor: '#5CAD31',
+        },
+    }})
 
 export const testHighScores = [
     {
@@ -52,15 +60,22 @@ export const testHighScores = [
     }
 ];
 
-const FollowButton = () => {
+const FollowButton = (props) => {
+    const classes = useStyles();
+    const {mainUser, userToFollow, followStatus, follow, unfollow} = props;
+    console.log(`in followButton ${followStatus}`);
 
-    return <Button key={'follow'} sx={{marginLeft: 0, mt: 3, mb: 3, backgroundColor: 'darkgray'}}> Follow <AddCircleOutlineOutlined/></Button>
 
+
+    if (followStatus){
+        return <Button key={'follow'} sx={{marginLeft: '33%', mt: 4, mb: 3, backgroundColor: '#FCB360', color: '#D6CBBF'}} onClick={() => props.unfollow}> Following </Button>
+    }
+    else {
+        return <Button className={classes.button} key={'follow'} sx={{marginLeft: '33%', mt: 4, mb: 3, backgroundColor: alpha('#5CAD31', 0.9), color: '#D4C3DB'}} onClick={() => props.follow}> Follow  <AddCircleOutlineOutlined style={{ color: '#D4C3DB' }}/></Button>
+    }
 }
 
-const EditProfileButton = (props) => {
 
-}
 
 const highScoresTableAttributes = [
     {
@@ -110,35 +125,93 @@ const highScoresTableAttributes = [
 ];
 
 const UserProfile = (props) => {
-    console.log("in profile");
-    const {user, isUserLoggedIn} = props;
-    console.log(user);
+    const classes = useStyles();
+    const {user, mainUser, isUserLoggedIn} = props;
     const [userData, setUserData] = useState([]);
     const [posts, setPosts] = useState([]);
+    const [userFollowings, setUserFollowings] = useState([]);
+    const [isFollowing, setIsFollowing] = useState(checkFollowStatus());
+    console.log(`isFollowing = ${isFollowing}`)
+
+
+    useEffect(() => {
+        console.log('in useEffect for user following');
+        const api = new API();
+
+        async function getUserFollowing() {
+            const userFollowJSONString = await api.allUserFollowings(mainUser);
+            console.log(`routes from the DB ${JSON.stringify(userFollowJSONString)}`);
+            setUserFollowings(userFollowJSONString.data);
+            if (userFollowings.length > 0)
+                setIsFollowing(checkFollowStatus());
+        }
+        getUserFollowing();
+    }, []);
 
     useEffect(() => {
         console.log('in useEffect');
         const api = new API();
 
         async function getUserData() {
-            console.log("in getUserData");
             const userJSONString = await api.userInfo(user);
             console.log(`routes from the DB ${JSON.stringify(userJSONString)}`);
             setUserData(userJSONString.data);
-            console.log(`first ${JSON.stringify(userData[0]['HS_Wordle'])}`);
         }
 
         async function getUserPosts(){
-            console.log("in getUserPosts");
             const userPostJSONString = await api.userPost(user);
             console.log(`routes from the DB ${JSON.stringify(userPostJSONString)}`);
             setPosts(userPostJSONString.data);
-            console.log(JSON.stringify(posts));
         }
 
+        async function getUserFollowing() {
+            const userFollowJSONString = await api.allUserFollowings(mainUser);
+            console.log(`routes from the DB ${JSON.stringify(userFollowJSONString)}`);
+            setUserFollowings(userFollowJSONString.data);
+
+        }
+
+        getUserFollowing();
         getUserData();
         getUserPosts();
     }, [user]);
+
+    function checkFollowStatus(){
+        if(userFollowings.length === 0){
+            return false;
+        }
+        for (let i=0; i < userFollowings.length; i ++){
+            if (userFollowings[i].username_follower){
+                console.log(`in checkStatus about to return true`);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    const handleFollow = () => {
+        console.log("in handleFollow");
+        const api = new API();
+
+        async function followUser() {
+            const userJSONString = await api.followUser(mainUser, user);
+            console.log(`routes from the DB ${JSON.stringify(userJSONString)}`);
+            setIsFollowing(true);
+        }
+        followUser();
+    }
+
+    const handleUnfollow = () => {
+        console.log("in handleUnFollow");
+        const api = new API();
+
+        async function unfollowUser() {
+            const userJSONString = await api.unfollowUser(mainUser, user);
+            console.log(`routes from the DB ${JSON.stringify(userJSONString)}`);
+            setIsFollowing(false);
+        }
+        unfollowUser();
+    }
 
     return (
         <Grid container position='fixed' style={{
@@ -155,7 +228,10 @@ const UserProfile = (props) => {
                         <Card key={"profilePic"} sx={{border: 4, borderRadius: '50%', height: '60%', marginLeft: 4, width: '75%', mt: 5}}>
                             <CardMedia style={{width: 250, height: 250, justifySelf: 'center'}} image={require(`./UsersPictures/${user}.jpg`)} title={"profilePic"}/>
                         </Card>
-                        {isUserLoggedIn ? <br/> : <FollowButton/>}
+                        {isUserLoggedIn ? <br/> :
+                            isFollowing ? <Button key={'follow'} sx={{marginLeft: '33%', mt: 4, mb: 3, backgroundColor: '#FCB360', color: '#33302C'}} onClick={() => handleUnfollow()}> Following </Button> :
+                                <Button key={'follow'} sx={{marginLeft: '33%', mt: 4, mb: 3, backgroundColor: alpha('#5CAD31', 0.9), color: '#D4C3DB'}} onClick={() => handleFollow()}> Follow  <AddCircleOutlineOutlined style={{ color: '#D4C3DB' }}/></Button>
+                        }
                     </Grid>
                     <Grid item key={"UserInfo"} sx={{border: 0, width: '50%', alignItems: 'center', height: '50%'}}>
                         <Box key='user full name' sx={{border: 0, mt: 10, width: 'fit-content', marginLeft: 3, color:'#E7DECC'}}>
