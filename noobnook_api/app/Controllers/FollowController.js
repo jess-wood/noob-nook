@@ -6,7 +6,7 @@ function now() {
     return dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
 }
 
-class UserProfileController {
+class FollowController {
     constructor() {
         console.log('Constructor of UserProfileController is called.');
     }
@@ -88,4 +88,4 @@ class UserProfileController {
 
 }
 
-module.exports = UserProfileController;
+module.exports = FollowController;

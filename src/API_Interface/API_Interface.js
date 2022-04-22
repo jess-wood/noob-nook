@@ -34,6 +34,10 @@ export default class APIInterface {
                 }));
     }
 
+    async getUserSignUp(username, password, email, date){
+        return axiosAgent.get(`login/${username}/${password}/${email}/${date}/signUp`);
+    }
+
     async userInfo(username){
         return axiosAgent.get(`userprofile/${username}/username`);
     }

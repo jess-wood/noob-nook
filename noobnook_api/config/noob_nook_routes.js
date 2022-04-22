@@ -32,7 +32,7 @@ const loginRouter = require('koa-router')({
     prefix: '/login'
 });
 loginRouter.get('/:username/:password', LoginController.authorizeUser, (err) => console.log("routers.js: loginRouter error:", err));
-console.log("under loginRouter");
+loginRouter.get('/:username/:pw/:email/:date/signUp', LoginController.userSignUp);
 
 
 

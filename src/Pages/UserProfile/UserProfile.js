@@ -131,7 +131,8 @@ const UserProfile = (props) => {
     const [posts, setPosts] = useState([]);
     const [userFollowings, setUserFollowings] = useState([]);
     const [isFollowing, setIsFollowing] = useState(checkFollowStatus());
-    console.log(`isFollowing = ${isFollowing}`)
+    const [userPic, setUserPic] = useState(user);
+
 
 
     useEffect(() => {
@@ -226,7 +227,7 @@ const UserProfile = (props) => {
                 <Grid container style={{border: 2}} sx={{border: 5, display: 'flex', flexDirection: 'row', width:'100%', height: '50%'}}>
                     <Grid item key={"ProfilePic"} sx={{border: 0, width: '50%'}}>
                         <Card key={"profilePic"} sx={{border: 4, borderRadius: '50%', height: '60%', marginLeft: 4, width: '75%', mt: 5}}>
-                            <CardMedia style={{width: 250, height: 250, justifySelf: 'center'}} image={require(`./UsersPictures/${user}.jpg`)} title={"profilePic"}/>
+                            <CardMedia style={{width: 250, height: 250, justifySelf: 'center'}} image={require(`./UsersPictures/${userPic}`)} title={"profilePic"}/>
                         </Card>
                         {isUserLoggedIn ? <br/> :
                             isFollowing ? <Button key={'follow'} sx={{marginLeft: '33%', mt: 4, mb: 3, backgroundColor: '#FCB360', color: '#33302C'}} onClick={() => handleUnfollow()}> Following </Button> :
