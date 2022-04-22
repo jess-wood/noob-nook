@@ -1,6 +1,6 @@
 //Written by: Jessica Wood
 
-import {Fragment, useState} from 'react';
+import {Fragment, useEffect, useState} from 'react';
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import {green, grey, orange} from '@mui/material/colors';
@@ -21,6 +21,7 @@ import {
 
 import boxStyleVariants from "./utils/keyboardAndGuessAreaBoxTypes";
 import Typography from "@mui/material/Typography";
+import API from "../../../../API_Interface/API_Interface";
 
 
 
@@ -161,9 +162,55 @@ function Wordle() {
             //call game over function
             //msg = "You got it!";
             let timeMinStr = Math.floor(((time*1.8184) / 60000) % 60);
-            let timeSecStr = Math.floor((time / 1000) % 60);
+            let timeSecStr = Math.floor(((time*1.8183) / 1000) % 60);
             let timerSeconds = ("0" + Math.floor(((time*1.8183) / 1000) % 60)).slice(-2);
-            setMSG(`You guessed the word in ${timeMinStr} minutes ${timerSeconds} seconds!`)
+            setMSG(`You guessed the word in ${timeMinStr} minutes ${timerSeconds} seconds!`);
+            if (timeMinStr <= highscoreMin){
+                if (timeMinStr < highscoreMin) {
+                    const api = new API();
+
+                    async function makeNewScore() {
+                        const gameHSJSONString = await api.postNewHighScoreWordle(`${timeMinStr}m${timerSeconds}s`, window.currentUserLoggedIn);
+                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                    }
+
+                    async function makeNewScoreMin() {
+                        const gameHSJSONString = await api.postNewHighScoreWordleMin(timeMinStr, window.currentUserLoggedIn);
+                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                    }
+
+                    async function makeNewScoreSec() {
+                        const gameHSJSONString = await api.postNewHighScoreWordleSec(timeSecStr, window.currentUserLoggedIn);
+                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                    }
+
+                    makeNewScore();
+                    makeNewScoreMin();
+                    makeNewScoreSec();
+                }
+                else if (timeMinStr === highscoreMin && timeSecStr < highscoreSec){
+                    const api = new API();
+
+                    async function makeNewScore() {
+                        const gameHSJSONString = await api.postNewHighScoreWordle(`${timeMinStr}m${timerSeconds}s`, window.currentUserLoggedIn);
+                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                    }
+
+                    async function makeNewScoreMin() {
+                        const gameHSJSONString = await api.postNewHighScoreWordleMin(timeMinStr, window.currentUserLoggedIn);
+                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                    }
+
+                    async function makeNewScoreSec() {
+                        const gameHSJSONString = await api.postNewHighScoreWordleSec(timeSecStr, window.currentUserLoggedIn);
+                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                    }
+
+                    makeNewScore();
+                    makeNewScoreMin();
+                    makeNewScoreSec();
+                }
+            }
             gameWon = true;
             gameOver = true;
         }
@@ -186,6 +233,25 @@ function Wordle() {
     const [isActive, setIsActive] = useState(false);
     const [isPaused, setIsPaused] = useState(true);
     const [time, setTime] = useState(0);
+    const [highscoreMin, setHighScoreMin] = useState(0);
+    const [highscoreSec, setHighScoreSec] = useState(0);
+    console.log(`HS=${highscoreMin}, ${highscoreSec}`);
+
+    useEffect(() => {
+        console.log('in useEffect for user high score lights out');
+        const api = new API();
+
+        async function getUserHS() {
+            const gameHSJSONString = await api.getWordleMinSec( window.currentUserLoggedIn);
+            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+            console.log(`data=${gameHSJSONString.data[0]['HS_Wordle']}`);
+            setHighScoreMin(gameHSJSONString.data[0]['HS_WordleMinInt']);
+            setHighScoreSec(gameHSJSONString.data[0]['HS_WordleSecInt'])
+
+        }
+        getUserHS();
+    }, []);
+
 
     React.useEffect(() => {
         let interval = null;
@@ -203,7 +269,7 @@ function Wordle() {
     }, [isActive, isPaused]);
 
     //show word for testing
-    //console.log(chosenWord);
+    console.log(chosenWord);
     //console.log(time);
 
     //resets the game
@@ -285,6 +351,7 @@ function Wordle() {
             if (gameOver){
                 //do something with timer
                 //game over
+
                 resetGame();
                 return;
             }

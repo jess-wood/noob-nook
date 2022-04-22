@@ -7,41 +7,42 @@ Add info about app
 # Progress Report
 
 ## Database
-MariaDB (Jackson)
-Tables Created
+Set up.
+Needs dashboardController, SettingsController.
+Needs more HighScore routes for all games.
+
 
 
 ## Pages
 
 ### Login/Signup
-done, just needs database implementation (Jess)
+done, add post for user online (Jess)
 
 ###Dashboard
-not started (Ethan)
+in progress, needs DB (Ethan)
 
 ###Settings
 not started (Rommel)
 
 ### User Profile
--working needs adjustments 
--follow button needs implementation
+done, needs adjustments, follow button is buggy
 
 ###Games Catalog
-not started (Jess)
+not started (Jackson)
 
 ### Games:
 
-#### Lights Out: Complete (Jess)
-#### Wordle: Complete (Jess)
+#### Lights Out: Complete, needs post and highscores(Jess)
+#### Wordle: Complete,needs post (Jess)
 #### 2048: Not started (Jackson)
 #### Matching Game: Not started (Rommel)
-####Snake Game: Done (needs pause button?)
-####Connect4: Not started
+####Snake Game: Done needs post (needs pause button?)
+####Connect4: Not started (Ethan)
 ####Checkers: Not started (Ethan)
 ####Pong: Not started (Rommel)
-####Space Game: Done (need to fix game over)
-####Typing Game: Not started
-####Tetris: Done (needs to be centered)
+####Space Game: Done (need post)
+####Typing Game: Complete,needs post
+####Tetris: Done,needs HS and post (needs to be centered)
 
 
 ## Available Scripts

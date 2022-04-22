@@ -42,7 +42,7 @@ const findSelectedComponent = (selectedItem, user) => {
         if (component[0].title === "Profile"){
             return {
                 title: null,
-                component: <UserProfile user={user} isUserLoggedIn={true}/>
+                component: <UserProfile user={user} mainUser={user} isUserLoggedIn={true}/>
             }
         }
         return component[0];
@@ -55,8 +55,8 @@ const findSelectedComponent = (selectedItem, user) => {
     }
 };
 
-const otherUserProfile = (otherUser) => {
-    return <UserProfile user={otherUser} isUserLoggedIn={false}/>
+const otherUserProfile = (otherUser, mainUser) => {
+    return <UserProfile user={otherUser} mainUser={mainUser} isUserLoggedIn={false}/>
 };
 
 const DrawerHeader = styled('div')(({ theme }) => ({
@@ -134,7 +134,7 @@ const TopBar = (props) => {
                     justifyContent: 'space-between',
                     columnSpan: 'auto',
                     width: '100%',
-                    height: 64
+                    height: 64,
                 }}>
                     <Grid container item key='left' columns={2} sx={{width: '35%', justifyContent: 'space-between'}}>
                 {
@@ -182,7 +182,7 @@ const TopBar = (props) => {
             </AppBar>
             <Main open={open}>
                 <DrawerHeader />
-                {otherUser === undefined ? findSelectedComponent(selectedItem, user).component : otherUserProfile(otherUser)}
+                {otherUser === undefined ? findSelectedComponent(selectedItem, user).component : otherUserProfile(otherUser, user)}
             </Main>
         </Fragment>
     )

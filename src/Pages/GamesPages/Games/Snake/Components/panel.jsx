@@ -1,13 +1,33 @@
 import React, { Component } from 'react'
 import uuid from 'react-uuid';
 import './panel.css';
+import API from "../../../../../API_Interface/API_Interface";
+
+let hs=0;
+
 
 export default class Panel extends Component {
 
     state = {
         snakePositions : [{top:"0px", left:'0px'}, {top:"0px", left:"10px"}],
         direction:'ArrowRight',
-        score:0
+        score:0,
+        highScore: 1
+    }
+
+    getCurrHS = () => {
+        const api = new API();
+
+        async function getUserHS() {
+            const gameHSJSONString = await api.getSnakeHS(window.currentUserLoggedIn);
+            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+            console.log(gameHSJSONString.data[0]['HS_Snake']);
+            this.setState({highScore:gameHSJSONString.data[0]['HS_Snake']});
+            hs = gameHSJSONString.data[0]['HS_Snake'];
+            return gameHSJSONString.data[0]['HS_Snake'];
+
+        }
+        return getUserHS();
     }
 
     init = (timeinterval)=>{
@@ -51,6 +71,7 @@ export default class Panel extends Component {
 
 
     checkEat = ()=>{
+        console.log(`hs=${this.state.highScore}`);
         const {snakePositions} = this.state
         const snakeHead = snakePositions[snakePositions.length-1]
         const headTop = snakeHead.top
@@ -68,12 +89,29 @@ export default class Panel extends Component {
     }
 
     checkDie = ()=>{
+        this.getCurrHS();
         const {snakePositions} = this.state
         const snakeHead = snakePositions[snakePositions.length-1]
         const headTop = snakeHead.top
         const headLeft = snakeHead.left
 
+        const score = this.state.score;
+        const {getHS} = this.state.highScore;
+
         if(parseInt(headTop) < 0 || parseInt(headTop) > 290 || parseInt(headLeft) < 0 || parseInt(headLeft) > 290){
+            console.log(` hs=${hs}, score=${score}`);
+            if (score > hs){
+                console.log(`making new hs, hs=${getHS}, score=${score}`);
+                const api = new API();
+
+                async function makeNewScore() {
+                    const gameHSJSONString = await api.postNewHighScoreSnake(score, window.currentUserLoggedIn);
+                    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                    //setCurrHighScore(gameHSJSONString.data);
+
+                }
+                makeNewScore();
+            }
             alert("Game Over")
             clearInterval(this.timer)
             return
@@ -81,6 +119,19 @@ export default class Panel extends Component {
 
         for(let i = 0; i <= snakePositions.length-2; i ++){
             if(snakePositions[i].top === headTop && snakePositions[i].left === headLeft){
+                console.log(` hs=${hs}, score=${score}`);
+                if (score > hs){
+                    console.log(`making new hs, hs=${getHS}, score=${score}`);
+                    const api = new API();
+
+                    async function makeNewScore() {
+                        const gameHSJSONString = await api.postNewHighScoreSnake(score, window.currentUserLoggedIn);
+                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                        //setCurrHighScore(gameHSJSONString.data);
+
+                    }
+                    makeNewScore();
+                }
                 alert("Game Over")
                 clearInterval(this.timer)
                 return
