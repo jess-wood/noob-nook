@@ -6,24 +6,24 @@ function now() {
     return dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
 }
 
-class UserProfileController {
+class PostsController {
     constructor() {
         console.log('Constructor of UserProfileController is called.');
     }
 
-    async userData(ctx) {
-        console.log('UP allUP called.');
+    async allFollowings(ctx) {
+        console.log('allFollowings called.');
         return new Promise((resolve, reject) => {
             const query = `
-                       select *, DATE_FORMAT(dateJoined, '%m/%d/%Y') from users u, user_highscores h 
-                       where u.username = h.username and u.username = ?
+                       SELECT username_follower FROM users_followers
+                        WHERE username = ?
                         `;
             dbConnection.query({
                 sql: query,
                 values: [ctx.params.username]
             }, (error, tuples) => {
                 if (error) {
-                    console.log("Connection error in UserProfileController::userData", error);
+                    console.log("Connection error in FollowController::allFollowings", error);
                     ctx.body = [];
                     ctx.status = 200;
                     return reject(error);
@@ -35,24 +35,24 @@ class UserProfileController {
         }).catch(err => console.log("Database connection error.", err));
     }
 
-    async userPosts(ctx) {
-        console.log('.');
+    async followUser(ctx) {
+        console.log('followUser called.');
         return new Promise((resolve, reject) => {
             const query = `
-                       select username, post_content, DATE_FORMAT(date_created, '%m/%d/%Y') from user_post
-                       where username = ?
+                       INSERT INTO 
+                        users_followers
+                        VALUES (?,?)
                         `;
             dbConnection.query({
                 sql: query,
-                values: [ctx.params.username]
+                values: [ctx.params.username, ctx.params.userFollow]
             }, (error, tuples) => {
                 if (error) {
-                    console.log("Connection error in UserProfileController::userPost", error);
+                    console.log("Connection error in FollowController::followUser", error);
                     ctx.body = [];
                     ctx.status = 200;
                     return reject(error);
                 }
-                console.log(JSON.stringify(tuples));
                 ctx.body = tuples;
                 ctx.status = 200;
                 return resolve();
@@ -60,17 +60,20 @@ class UserProfileController {
         }).catch(err => console.log("Database connection error.", err));
     }
 
-    async allUsernames(ctx) {
-        console.log('all usernames called.');
+    async unfollowUser(ctx) {
+        console.log('unfollowUser called.');
         return new Promise((resolve, reject) => {
             const query = `
-                       SELECT username FROM users
+                       DELETE FROM users_followers
+                        WHERE
+                            username = ? AND username_follower = ?
                         `;
             dbConnection.query({
                 sql: query,
+                values: [ctx.params.username, ctx.params.userUnfollow]
             }, (error, tuples) => {
                 if (error) {
-                    console.log("Connection error in UserProfileController::usernames", error);
+                    console.log("Connection error in FollowController::unfollowUser", error);
                     ctx.body = [];
                     ctx.status = 200;
                     return reject(error);
@@ -81,6 +84,8 @@ class UserProfileController {
             });
         }).catch(err => console.log("Database connection error.", err));
     }
+
+
 }
 
-module.exports = UserProfileController;
+module.exports = PostsController;

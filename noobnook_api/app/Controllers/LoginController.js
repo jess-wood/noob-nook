@@ -52,6 +52,30 @@ class LoginController {
 
     }
 
+    async userSignUp(ctx) {
+        console.log('userSignUpCalled.');
+        return new Promise((resolve, reject) => {
+            const query = `
+                       INSERT INTO users (username, user_email, user_password, dateJoined, user_rank)
+                       VALUES (?,?,?,?,'Little Noob')
+                        `;
+            dbConnection.query({
+                sql: query,
+                values: [ctx.params.username, ctx.params.email, ctx.params.pw, ctx.params.date]
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in LoginController::userSignUp", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => console.log("Database connection error.", err));
+    }
+
 }
 
 module.exports = LoginController;
