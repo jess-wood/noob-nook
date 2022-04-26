@@ -10,6 +10,11 @@ import Typography from "@mui/material/Typography";
 import {Grid} from "@mui/material";
 import API from "../../../../API_Interface/API_Interface";
 
+let today = new Date();
+let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+let dateTime = date+' '+time;
+
 export default class Snake extends Component {
 
     state = {
@@ -31,6 +36,13 @@ export default class Snake extends Component {
     }
 
     startGame = ()=>{
+        document.body.style.backgroundColor = "#6190ab"
+        const api = new API();
+        async function makeNewPost() {
+            const gameHSJSONString = await api.postNewGameStatus(window.currentUserLoggedIn, "is playing Snake!", dateTime);
+            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+        }
+        makeNewPost();
         const {panel} = this
         panel.init(1000)
     }
@@ -38,8 +50,7 @@ export default class Snake extends Component {
     render() {
         return (
             <Fragment>
-                <Grid container position='fixed' direction='column' className='back' sx={{border: 0, backgroundColor:'#6190ab'}}>
-
+                <Grid container position='fixed' className='back' direction='column' sx={{border: 0, backgroundColor:'#6190ab'}}>
                 <Typography className='snake' justifySelf='center' sx={{fontWeight: 'bold', fontFamily: 'DotGothic16, sans-serif', fontSize: '40px'}}>S N A K E</Typography>
                 <div className="App">
                     <Panel changeScore={this.changeScore} ref = {c=>this.panel = c} ></Panel>

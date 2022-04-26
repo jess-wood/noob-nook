@@ -23,7 +23,10 @@ import boxStyleVariants from "./utils/keyboardAndGuessAreaBoxTypes";
 import Typography from "@mui/material/Typography";
 import API from "../../../../API_Interface/API_Interface";
 
-
+let today = new Date();
+let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+let dateTime = date+' '+time;
 
 const words = ["ABOUT","ABOVE","AFTER","ALONE","BEACH","BEGIN","BLACK","BRING","BROWN","CAMEL", "CANDY","CHILD","CLEAN",
     "CLOSE","COUNT","DREAM","DRIVE","EIGHT","FIGHT", "FOUND","GHOST","GREAT","HEARD","HEART","HORSE","HOUSE","INDIA",
@@ -38,7 +41,7 @@ const color = 'white';
 //let msg = ""
 let completedRows = [];
 let rand = Math.floor(Math.random() * words.length);
-let chosenWord = allWords[rand].toUpperCase();
+let chosenWord = words[rand].toUpperCase();
 let gameWon = false;
 let gameOver = false;
 
@@ -183,7 +186,16 @@ function Wordle() {
                         const gameHSJSONString = await api.postNewHighScoreWordleSec(timeSecStr, window.currentUserLoggedIn);
                         console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                     }
-
+                    async function deletePost() {
+                        const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Wordle!");
+                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                    }
+                    async function newHSPost() {
+                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `solved Wordle in ${timeMinStr}m${timerSeconds}s and beat their high score!`, dateTime);
+                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                    }
+                    newHSPost();
+                    deletePost();
                     makeNewScore();
                     makeNewScoreMin();
                     makeNewScoreSec();
@@ -205,11 +217,33 @@ function Wordle() {
                         const gameHSJSONString = await api.postNewHighScoreWordleSec(timeSecStr, window.currentUserLoggedIn);
                         console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                     }
-
+                    async function deletePost() {
+                        const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Wordle!");
+                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                    }
+                    async function newHSPost() {
+                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `solved Wordle in ${timeMinStr}m${timerSeconds}s and beat their high score!`, dateTime);
+                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                    }
+                    newHSPost()
+                    deletePost();
                     makeNewScore();
                     makeNewScoreMin();
                     makeNewScoreSec();
                 }
+            }
+            else {
+                const api = new API();
+                async function deletePost() {
+                    const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Wordle!");
+                    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                }
+                async function newPost() {
+                    const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `solved Wordle in ${timeMinStr}m${timerSeconds}s but didn't beat their high score :(`, dateTime);
+                    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                }
+                newPost();
+                deletePost();
             }
             gameWon = true;
             gameOver = true;
@@ -238,7 +272,6 @@ function Wordle() {
     console.log(`HS=${highscoreMin}, ${highscoreSec}`);
 
     useEffect(() => {
-        console.log('in useEffect for user high score lights out');
         const api = new API();
 
         async function getUserHS() {
@@ -249,6 +282,11 @@ function Wordle() {
             setHighScoreSec(gameHSJSONString.data[0]['HS_WordleSecInt'])
 
         }
+        async function makeNewPost() {
+            const gameHSJSONString = await api.postNewGameStatus(window.currentUserLoggedIn, "is playing Wordle!", dateTime);
+            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+        }
+        makeNewPost();
         getUserHS();
     }, []);
 
@@ -409,3 +447,5 @@ function Wordle() {
 }
 
 export default Wordle;
+
+//fix wordle when user didnt beat high score

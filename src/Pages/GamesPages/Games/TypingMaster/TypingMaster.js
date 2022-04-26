@@ -4,6 +4,7 @@ import {Fragment, useState} from "react";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import API from "../../../../API_Interface/API_Interface";
+import Box from "@mui/material/Box";
 
 
 let m_idx = 1;
@@ -28,7 +29,10 @@ let quotes_array = [
     "To be the best, you must be able to handle the worst."
 ];
 
-
+let today = new Date();
+let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+let dateTime = date+' '+time;
 
 
 const TypingMaster = (props) => {
@@ -43,6 +47,11 @@ const TypingMaster = (props) => {
             setHighScore(gameHSJSONString.data[0]['HS_Typing']);
 
         }
+        async function makeNewPost() {
+            const gameHSJSONString = await api.postNewGameStatus(window.currentUserLoggedIn, "is playing Typing Master!", dateTime);
+            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+        }
+        makeNewPost();
         getUserHS();
     }
 
@@ -118,7 +127,6 @@ const TypingMaster = (props) => {
         setWPM(words);
         console.log(`wpm=${wpm} and hs=${highScore}`);
         if (wpm > highScore){
-            console.log('got new high score');
             const api = new API();
 
             async function makeNewScore() {
@@ -127,7 +135,30 @@ const TypingMaster = (props) => {
                 //setCurrHighScore(gameHSJSONString.data);
 
             }
+            async function newHSPost() {
+                const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `typed ${wpm} words in Typing Master and beat their high score!`, dateTime);
+                console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+            }
+            async function deletePost() {
+                const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Typing Master!");
+                console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+            }
+            deletePost();
+            newHSPost();
             makeNewScore();
+        }
+        else {
+            const api = new API();
+            async function newPost() {
+                const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `typed ${wpm} words in Typing Master but didn't beat their high score :(`, dateTime);
+                console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+            }
+            async function deletePost() {
+                const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Typing Master!");
+                console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+            }
+            deletePost();
+            newPost();
         }
     }
 
@@ -193,6 +224,7 @@ const TypingMaster = (props) => {
 
     return (
         <Fragment>
+            <Box className="body1">
             <div className="container">
                 <div className="heading">
                     Typing Master
@@ -238,6 +270,7 @@ const TypingMaster = (props) => {
                     Restart
                 </button>
             </div>
+            </Box>
         </Fragment>
     )
 }

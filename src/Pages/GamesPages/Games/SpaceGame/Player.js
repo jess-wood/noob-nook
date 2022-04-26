@@ -2,6 +2,10 @@ import img from './utils/rocket.png';
 import API from "../../../../API_Interface/API_Interface";
 
 let hs=0;
+let today = new Date();
+let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+let dateTime = date+' '+time;
 
 export class Player{
 
@@ -10,9 +14,9 @@ export class Player{
 
         async function getUserHS() {
             const gameHSJSONString = await api.getSpaceHS(window.currentUserLoggedIn);
-            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString[0]['HS_SpaceGame'])}`);
             hs = gameHSJSONString.data[0]['HS_SpaceGame'];
-            return gameHSJSONString.data[0]['HS_SpaceGame'];
+            //return gameHSJSONString.data[0]['HS_SpaceGame'];
 
         }
         getUserHS();
@@ -25,7 +29,8 @@ export class Player{
     speed = 25;
     firebullets = [];
     lastFireAt = Date.now();
-    highScore = this.getCurrHS
+    highScore = this.getCurrHS;
+
 
     constructor(posX,posY){
         this.posX = posX;
@@ -58,7 +63,18 @@ export class Player{
             })
         }
         if(this.posX < -10 || this.posX > 890){
-            console.log(hs);
+            this.highScore();
+            const api = new API();
+
+            async function getUserHS() {
+                const gameHSJSONString = await api.getSpaceHS(window.currentUserLoggedIn);
+                console.log(`routes from the DB ${JSON.stringify(gameHSJSONString[0]['HS_SpaceGame'])}`);
+                hs = gameHSJSONString.data[0]['HS_SpaceGame'];
+                //return gameHSJSONString.data[0]['HS_SpaceGame'];
+
+            }
+            getUserHS();
+            console.log(`hs=${hs}`);
             this.dead = true;
             let currScore= this.score;
             if (this.score > hs){
@@ -67,18 +83,52 @@ export class Player{
                 async function makeNewScore() {
                     const gameHSJSONString = await api.postNewHighScoreSpace(currScore, window.currentUserLoggedIn);
                     console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
-                    //setCurrHighScore(gameHSJSONString.data);
-
                 }
+                async function newHSPost() {
+                    const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${currScore} points in Meteor Killers and beat their high score!`, dateTime);
+                    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                }
+                async function deletePost() {
+                    const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Meteor Killers!");
+                    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                }
+                deletePost();
+                newHSPost();
                 makeNewScore();
+            }
+            else {
+                const api = new API();
+                async function newHSPost() {
+                    const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${currScore} points in Meteor Killers but didn't beat their high score :(`, dateTime);
+                    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                }
+                async function deletePost() {
+                    const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Meteor Killers!");
+                    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                }
+                deletePost();
+                newHSPost();
             }
             alert("GameOver");
         }
         if (this.health <= 0) {
-            console.log(hs);
-            console.log(this.score);
+            this.highScore();
+            const api = new API();
+
+            async function getUserHS() {
+                console.log("in get HS");
+                const gameHSJSONString = await api.getSpaceHS(window.currentUserLoggedIn);
+                console.log("got game HS")
+                console.log(`routes from the DB ${gameHSJSONString[0]['HS_SpaceGame']}`);
+                hs = gameHSJSONString.data[0]['HS_SpaceGame'];
+                //return gameHSJSONString.data[0]['HS_SpaceGame'];
+
+            }
+            getUserHS();
+            console.log(`hs=${hs}`);
             this.dead = true;
             let currScore= this.score;
+            console.log(hs);
             if (this.score > hs){
                 const api = new API();
 
@@ -88,10 +138,34 @@ export class Player{
                     //setCurrHighScore(gameHSJSONString.data);
 
                 }
+
+                async function newHSPost() {
+                    const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${currScore} points in Meteor Killers and beat their high score!`, dateTime);
+                    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                }
+                async function deletePost() {
+                    const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Meteor Killers!");
+                    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                }
+                deletePost();
+                newHSPost();
                 makeNewScore();
             }
+            else {
+                const api = new API();
+                async function newHSPost() {
+                    const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${currScore} points in Meteor Killers but didn't beat their high score :(`, dateTime);
+                    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                }
+                async function deletePost() {
+                    const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Meteor Killers!");
+                    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                }
+                deletePost();
+                newHSPost();
+            }
             alert("GameOver");
-            this.dead = false;
+            this.dead = true;
             this.health = 100;
             this.ammo = 100;
             this.score = 0;
@@ -128,3 +202,5 @@ function gameOver(score) {
 }
 
 export default Player;
+
+//NEED TO FIX HIGHSCORES

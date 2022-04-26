@@ -63,7 +63,7 @@ export default class APIInterface {
         return axiosAgent.get(`follow/${username}/allFollowings`);
     }
 
-    async getHighScoreByGame(game, username){
+    async getHighScoreByGame(game, username){ //does not work, must manually make for each game
         return axiosAgent.get(`high-scores/${game}/${username}/get-score`);
     }
 
@@ -77,10 +77,6 @@ export default class APIInterface {
 
     async getSpaceHS(username){
         return axiosAgent.get(`high-scores/${username}/get-space`);
-    }
-
-    async getWordleHS(username){
-        return axiosAgent.get(`high-scores/${username}/get-wordle`);
     }
 
     async getWordleMinSec(username){
@@ -125,5 +121,17 @@ export default class APIInterface {
 
     async postNewHighScoreWordleSec(score, username){
         return axiosAgent.get(`high-scores/${score}/${username}/score-wordleSec`);
+    }
+
+    async postNewGameStatus(username, content, date){
+        return axiosAgent.get(`posts/${username}/${content}/${date}/new-post`);
+    }
+
+    async updateUserPost(oldContent, date, username, newContent){
+        return axiosAgent.get(`posts/${newContent}/${date}/${username}/${oldContent}/update-post`);
+    }
+
+    async deleteUserPost(username, postContent){
+        return axiosAgent.get(`posts/${username}/${postContent}/delete-post`);
     }
 }

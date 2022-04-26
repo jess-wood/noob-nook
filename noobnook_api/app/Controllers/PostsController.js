@@ -11,16 +11,19 @@ class PostsController {
         console.log('Constructor of UserProfileController is called.');
     }
 
-    async allFollowings(ctx) {
-        console.log('allFollowings called.');
+    async updateUserPost(ctx) {
+        //function to update a user post
+        console.log("update post called");
         return new Promise((resolve, reject) => {
             const query = `
-                       SELECT username_follower FROM users_followers
-                        WHERE username = ?
+                       UPDATE user_post
+                        SET
+                            post_content = ?, date_created = ?
+                        WHERE username = ? AND post_content = ?
                         `;
             dbConnection.query({
                 sql: query,
-                values: [ctx.params.username]
+                values: [ctx.params.newContent, ctx.params.date, ctx.params.username, ctx.params.oldContent]
             }, (error, tuples) => {
                 if (error) {
                     console.log("Connection error in FollowController::allFollowings", error);
@@ -35,17 +38,17 @@ class PostsController {
         }).catch(err => console.log("Database connection error.", err));
     }
 
-    async followUser(ctx) {
-        console.log('followUser called.');
+    async userPost(ctx) {
+        //function to create a post for a given user
         return new Promise((resolve, reject) => {
             const query = `
                        INSERT INTO 
-                        users_followers
-                        VALUES (?,?)
+                        user_post
+                        VALUES (?,?,?)
                         `;
             dbConnection.query({
                 sql: query,
-                values: [ctx.params.username, ctx.params.userFollow]
+                values: [ctx.params.username, ctx.params.postContent, ctx.params.date]
             }, (error, tuples) => {
                 if (error) {
                     console.log("Connection error in FollowController::followUser", error);
@@ -60,17 +63,18 @@ class PostsController {
         }).catch(err => console.log("Database connection error.", err));
     }
 
-    async unfollowUser(ctx) {
-        console.log('unfollowUser called.');
+    async deleteUserPost(ctx) {
+       //used to delete a users post, possible use: upon finishing a game delete post "user is playing..."
+        console.log("in delete post");
         return new Promise((resolve, reject) => {
             const query = `
-                       DELETE FROM users_followers
+                       DELETE FROM user_post
                         WHERE
-                            username = ? AND username_follower = ?
+                            username = ? AND post_content = ?
                         `;
             dbConnection.query({
                 sql: query,
-                values: [ctx.params.username, ctx.params.userUnfollow]
+                values: [ctx.params.username, ctx.params.postContent]
             }, (error, tuples) => {
                 if (error) {
                     console.log("Connection error in FollowController::unfollowUser", error);

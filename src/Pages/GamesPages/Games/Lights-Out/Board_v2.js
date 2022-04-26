@@ -4,6 +4,7 @@ import Cell from './Cell';
 import {Box, Fade, Grid, Stack} from "@mui/material";
 import './utils/Board.css';
 import API from "../../../../API_Interface/API_Interface";
+import Button from "@mui/material/Button";
 
 //global constants
 const NUM_ROWS = 5;
@@ -12,6 +13,10 @@ const notLit = '#263238';
 const lit = '#00bcd4';
 let numMoves = 0;
 let score = 0;
+let today = new Date();
+let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+let dateTime = date+' '+time;
 
 function Cell1(props) {
 
@@ -88,16 +93,47 @@ function createInitialBoard(){
     }
     //randomize lights on
     let numLit = 0;
-    for (let i=0; i < board.length; i++){
-        for (let j=0; j < board[i].length; j++){
-            if(Math.random() < 0.6 && numLit < 0){
-                console.log(`row=${i} col=${j}`);
-                console.log(board[i][j]);
-                board[i][j] = attrL;
-                numLit++;
+    // for (let i=0; i < board.length; i++){
+    //     for (let j=0; j < board[i].length; j++){
+    //         if(Math.random() < 0.6 && numLit < 9){
+    //             console.log(board[i][j]);
+    //             board[i][j] = attrL;
+    //             numLit++;
+    //         }
+    //         else {
+    //             board[i][j] = attrNL;
+    //         }
+    //     }
+    // }
+    if (Math.random() < 0.5){
+        for (let i=0; i < board.length; i++){
+            for (let j=0; j < board[i].length; j++){
+                if (i === 0 || i === 4){
+                    if (j===1 || j===2 || j===3){
+                        board[i][j] = attrL;
+                    }
+                }
+                else if (i === 1 || i === 3){
+                    if (j % 2 === 0){
+                        board[i][j] = attrL;
+                    }
+                }
+                else if (i === 2){
+                    if (j !== 2){
+                        board[i][j] = attrL;
+                    }
+                }
             }
-            else {
-                board[i][j] = attrNL;
+        }
+    }
+    else {
+        for (let i=0; i < board.length; i++){
+            for (let j=0; j < board[i].length; j++){
+                if (i === 0 || i === 1 || i === 3 || i === 4){
+                    if (j % 2 === 0){
+                        board[i][j] = attrL;
+                    }
+                }
             }
         }
     }
@@ -120,10 +156,14 @@ const Board_v2 = (props) => {
             const gameHSJSONString = await api.getLOHS( window.currentUserLoggedIn);
             console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
             setCurrHighScore(gameHSJSONString.data[0]['HS_LightsOut']);
-
+        }
+        async function makeNewPost() {
+            const gameHSJSONString = await api.postNewGameStatus(window.currentUserLoggedIn, "is playing Lights Out!", dateTime);
+            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
         }
         getUserHS();
-    }, []);
+        makeNewPost();
+    }, [currHighScore]);
 
     const makeNewHighScore = () => {
         const api = new API();
@@ -132,15 +172,21 @@ const Board_v2 = (props) => {
             const gameHSJSONString = await api.postNewHighScoreLO(score, window.currentUserLoggedIn);
             console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
             //setCurrHighScore(gameHSJSONString.data);
-
+        }
+        //update post here
+        async function newHSPost() {
+            const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Lights Out and beat their high score!`, dateTime);
+            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
         }
         makeNewScore();
+        newHSPost();
     }
 
 
     const reset = () => {
         setBoard(createInitialBoard);
         setWinner(false);
+        setCurrHighScore(0);
     }
 
     function onClickCallback(rowIdx, colIdx){
@@ -294,8 +340,22 @@ const Board_v2 = (props) => {
         //check for winner
         if (checkBoard(newBoard)){
             setWinner(true);
+            const api = new API();
+            async function deletePost() {
+                const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Lights Out!");
+                console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+            }
+            deletePost();
+
             if (score > currHighScore){
                 makeNewHighScore();
+            }
+            else {
+                async function newGamePost() {
+                    const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Lights Out but didn't beat their high score :(`, dateTime);
+                    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                }
+                newGamePost();
             }
             return;
         }
@@ -303,6 +363,7 @@ const Board_v2 = (props) => {
 
     return (
         <Fragment>
+            <Box className='body2' sx={{height: '100%', width: '100%'}}>
             <Stack>
                 {haveAwinner ?
                     <div className='winner'>
@@ -325,9 +386,13 @@ const Board_v2 = (props) => {
                     )
                 }
             </Grid>
+            <Button sx={{width: '10%', alignSelf: 'center', mt: '3.5%', color: '#FED128'}} onClick={() => reset()}>Reset</Button>
             </Stack>
+            </Box>
         </Fragment>
     )
 }
 
 export default Board_v2;
+
+//fix delete post

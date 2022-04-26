@@ -182,7 +182,7 @@ const UserProfile = (props) => {
             return false;
         }
         for (let i=0; i < userFollowings.length; i ++){
-            if (userFollowings[i].username_follower){
+            if (userFollowings[i].username_follower === user){
                 console.log(`in checkStatus about to return true`);
                 return true;
             }
@@ -215,22 +215,23 @@ const UserProfile = (props) => {
     }
 
     return (
-        <Grid container position='fixed' style={{
+        <Grid container style={{
             minWidth: "100%",
             height: "100%",
             backgroundColor: '#714C7A'
         }} direction='row'  columns={2} sx={{display:'flex', border: 1,}}>
-            <Grid item key={'left'} style={{
-                width: "50%",
+            <Grid item key={'left'} position='fixed' style={{
+                width: "45%",
                 height: "100%",
-            }} sx={{}}>
+                backgroundColor: '#714C7A',
+            }} sx={{border: 1}}>
                 <Grid container style={{border: 2}} sx={{border: 5, display: 'flex', flexDirection: 'row', width:'100%', height: '50%'}}>
                     <Grid item key={"ProfilePic"} sx={{border: 0, width: '50%'}}>
                         <Card key={"profilePic"} sx={{border: 4, borderRadius: '50%', height: '60%', marginLeft: 4, width: '75%', mt: 5}}>
-                            <CardMedia style={{width: 250, height: 250, justifySelf: 'center'}} image={require(`./UsersPictures/${userPic}`)} title={"profilePic"}/>
+                            <CardMedia style={{width: 250, height: 250, justifySelf: 'center'}} image={require(`./UsersPictures/default.jpg`)} title={"profilePic"}/>
                         </Card>
                         {isUserLoggedIn ? <br/> :
-                            isFollowing ? <Button key={'follow'} sx={{marginLeft: '33%', mt: 4, mb: 3, backgroundColor: '#FCB360', color: '#33302C'}} onClick={() => handleUnfollow()}> Following </Button> :
+                            checkFollowStatus() ? <Button key={'follow'} sx={{marginLeft: '33%', mt: 4, mb: 3, backgroundColor: '#FCB360', color: '#33302C'}} onClick={() => handleUnfollow()}> Following </Button> :
                                 <Button key={'follow'} sx={{marginLeft: '33%', mt: 4, mb: 3, backgroundColor: alpha('#5CAD31', 0.9), color: '#D4C3DB'}} onClick={() => handleFollow()}> Follow  <AddCircleOutlineOutlined style={{ color: '#D4C3DB' }}/></Button>
                         }
                     </Grid>
@@ -249,7 +250,7 @@ const UserProfile = (props) => {
                         </Box>
                     </Grid>
                 </Grid>
-                <Grid container sx={{width: '100%', border: 1, height: '40%'}}>
+                <Grid container sx={{width: '100%', border: 1, height: '40%', backgroundColor: '#714C7A'}}>
                     <Grid item key={'highscores'} sx={{ width: '100%', height: '100%', justifyContent: 'center'}}>
                         <Typography fontWeight='bold' fontSize='30px' sx={{textDecoration: 'underline', border: 0, color:'#E7DECC', mt: 0.5, mb: 0.5, marginRight: '5%', textAlign: 'center', fontFamily: "Jura, Arial"}}>High Scores</Typography>
                         <Grid container item direction='row' sx={{width: '100%', height: '85%'}}>
@@ -257,7 +258,7 @@ const UserProfile = (props) => {
                         {
                             highScoresTableAttributes.map(attr =>
                                 <Grid item key={attr.attributeName} sx={{ mt: 0.5, mb: 0, width: '50%', height: '15%', border: 0, justifyContent: 'center'}}>
-                                    <Typography fontWeight='bold' sx={{textAlign: 'left',marginLeft: '10%', mt: 0, mb: 0, fontFamily: "Jura, Arial", color:'#F8F0E3', fontSize: '20px'}}>{attr.attributeName}: {userData.length > 0 ? userData[0][attr.attributeDBName]: '0'}</Typography>
+                                    <Typography fontWeight='bold' sx={{textAlign: 'left',marginLeft: '10%', mt: 0, mb: 0, fontFamily: "Jura, Arial", color:'#F8F0E3', fontSize: '20px'}}>{attr.attributeName}: {userData.length > 0 ? userData[0][attr.attributeDBName]: '0'}{attr.attributeDBName === "HS_Typing" ? " WPM":""}</Typography>
                                 </Grid>
                             )
                         }
@@ -267,9 +268,11 @@ const UserProfile = (props) => {
                 </Grid>
             </Grid>
             <Grid item key={'ActivityFeed'} style={{
-                minWidth: "50%",
-                height: "100%",
-            }} sx={{border: 1, display:'flex',flexDirection:'column' }}>
+                width: "55%",
+                height: "100vh",
+                marginLeft: '45%',
+                backgroundColor: '#714C7A'
+            }} sx={{border: 1, display:'flex',flexDirection:'column', backgroundColor: '#714C7A' }}>
                 <Box sx={{width: '100%', height: '8%', alignItems: 'center', fontSize: 30}}>
                     <Typography sx={{fontWeight: 'bold', fontSize: '30px', textAlign: 'center', fontFamily: "Jura, Arial", color:'#E7DECC'}}>
                         Activity Feed
@@ -277,8 +280,8 @@ const UserProfile = (props) => {
                 </Box>
                 {
                     posts.map(post =>
-                        <Box key={post} sx={{width: '100%', height: '8%', border: 1, justifyContent: 'center', alignItems: 'flex-start'}}>
-                            <Typography sx={{mt: '2%', fontFamily: "Jura, Arial", fontWeight: '400', fontSize: '20px', color:'#F8F0E3'}}>@{post.username} {post.post_content}</Typography>
+                        <Box key={post.post_content} sx={{width: '100%', height: '10%', border: 1, justifySelf: 'center', justifyContent: 'center', alignItems: 'flex-start', backgroundColor: '#714C7A'}}>
+                            <Typography sx={{mt: '3%', marginLeft: '2%',fontFamily: "Jura, Arial", fontWeight: '400', fontSize: '20px', color:'#F8F0E3'}}>@{post.username} {post.post_content}</Typography>
                         </Box>
                     )
                 }

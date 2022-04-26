@@ -59,6 +59,16 @@ followRouter.get('/:username/:userUnfollow/unfollow', FollowController.unfollowU
 
 
 
+//Post Route
+const PostsController = new (require('../app/Controllers/PostsController.js'))();
+const postsRouter = require('koa-router')({
+    prefix: '/posts'
+});
+
+postsRouter.get('/:newContent/:date/:username/:oldContent/update-post', PostsController.updateUserPost);
+postsRouter.get('/:username/:postContent/:date/new-post', PostsController.userPost);
+postsRouter.get(':username/:postContent/delete-post', PostsController.deleteUserPost);
+
 //High Scores Route
 const HighScoresController = new (require('../app/Controllers/HighScoresController.js'))();
 const highScoresRouter = require('koa-router')({
@@ -91,7 +101,8 @@ router.use(
     loginRouter.routes(),
     userProfileRouter.routes(),
     followRouter.routes(),
-    highScoresRouter.routes()
+    highScoresRouter.routes(),
+    postsRouter.routes()
 );
 
 module.exports = function (app) {
