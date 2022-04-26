@@ -16,15 +16,61 @@ import Typography from "@mui/material/Typography";
 import './utils/Game.css';
 import API from "../../../../API_Interface/API_Interface";
 
+let today = new Date();
+let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+let dateTime = date+' '+time;
+
 const Tetris = () => {
     const [dropTime, setDropTime] = useState(null);
     const [gameOver, setGameOver] = useState(false);
     const [gameStart, setGameStart] = useState(false);
+    const [highScore, setHighScore] = useState(0);
 
     const [player, updatePlayerPos, resetPlayer, playerRotate] = usePlayer();
     const [stage, setStage, rowsCleared] = useStage(player, resetPlayer);
     const [score, setScore, rows, setRows, level, setLevel] =
         useGameStatus(rowsCleared);
+
+    useEffect( () => {
+        const api = new API();
+
+        async function getUserHS() {
+            const gameHSJSONString = await api.getTetrisHS(window.currentUserLoggedIn);
+            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+            console.log(gameHSJSONString.data[0]['HS_Tetris']);
+            setHighScore(gameHSJSONString.data[0]['HS_Tetris']);
+
+        }
+        async function makeNewPost() {
+            const gameHSJSONString = await api.postNewGameStatus(window.currentUserLoggedIn, "is playing Tetris!", dateTime);
+            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+        }
+        makeNewPost();
+        getUserHS();
+    }, [])
+
+    const makeHighScore = () => {
+        console.log('got new high score');
+        const api = new API();
+
+        async function makeNewScore() {
+            const gameHSJSONString = await api.postNewHighScoreTetris(score, window.currentUserLoggedIn);
+            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+
+        }
+        async function newHSPost() {
+            const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Tetris and beat their high score!`, dateTime);
+            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+        }
+        async function deletePost() {
+            const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Tetris!");
+            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+        }
+        deletePost();
+        newHSPost();
+        makeNewScore();
+    }
 
     const movePlayer = (dir) => {
         if (!checkCollision(player, stage, { x: dir, y: 0 })) {
@@ -53,6 +99,23 @@ const Tetris = () => {
         } else {
             if (player.pos.y < 1) {
                 console.log("Game Over !!");
+                if (score > highScore){
+                    makeHighScore();
+                }
+                else {
+                    const api = new API();
+                    async function deletePost() {
+                        const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Lights Out!");
+                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                    }
+
+                    async function newGamePost() {
+                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Lights Out but didn't beat their high score :(`, dateTime);
+                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                    }
+                    deletePost();
+                    newGamePost();
+                }
                 setGameOver(true);
                 setDropTime(null);
             }

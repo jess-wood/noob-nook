@@ -80,7 +80,7 @@ const TopBar = (props) => {
     const [allUsers, setAllUsers] = useState([]);
     const [suggestions, setSuggestions] = useState([]);
     const [otherUser, setOtherUser] = useState(undefined);
-    console.log(otherUser);
+    //console.log(otherUser);
 
     //get users for search bar
     useEffect(() => {

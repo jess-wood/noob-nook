@@ -4,6 +4,10 @@ import './panel.css';
 import API from "../../../../../API_Interface/API_Interface";
 
 let hs=0;
+let today = new Date();
+let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+let dateTime = date+' '+time;
 
 
 export default class Panel extends Component {
@@ -22,15 +26,18 @@ export default class Panel extends Component {
             const gameHSJSONString = await api.getSnakeHS(window.currentUserLoggedIn);
             console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
             console.log(gameHSJSONString.data[0]['HS_Snake']);
-            this.setState({highScore:gameHSJSONString.data[0]['HS_Snake']});
             hs = gameHSJSONString.data[0]['HS_Snake'];
-            return gameHSJSONString.data[0]['HS_Snake'];
+            console.log(`hs=${hs}`);
+            this.setState({highScore:gameHSJSONString.data[0]['HS_Snake']});
+
+            //return gameHSJSONString.data[0]['HS_Snake'];
 
         }
         return getUserHS();
     }
 
     init = (timeinterval)=>{
+        document.body.style.backgroundColor = "#6190ab"
         clearInterval(this.timer)
         this.timer = setInterval(() => {
             this.changeSnakePosition()
@@ -71,7 +78,6 @@ export default class Panel extends Component {
 
 
     checkEat = ()=>{
-        console.log(`hs=${this.state.highScore}`);
         const {snakePositions} = this.state
         const snakeHead = snakePositions[snakePositions.length-1]
         const headTop = snakeHead.top
@@ -99,9 +105,13 @@ export default class Panel extends Component {
         const {getHS} = this.state.highScore;
 
         if(parseInt(headTop) < 0 || parseInt(headTop) > 290 || parseInt(headLeft) < 0 || parseInt(headLeft) > 290){
-            console.log(` hs=${hs}, score=${score}`);
+            const api = new API();
+            async function deletePost() {
+                const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Snake!");
+                console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+            }
+            deletePost();
             if (score > hs){
-                console.log(`making new hs, hs=${getHS}, score=${score}`);
                 const api = new API();
 
                 async function makeNewScore() {
@@ -110,7 +120,19 @@ export default class Panel extends Component {
                     //setCurrHighScore(gameHSJSONString.data);
 
                 }
+                async function newHSPost() {
+                    const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Snake and beat their high score!`, dateTime);
+                    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                }
+                newHSPost();
                 makeNewScore();
+            }
+            else {
+                async function newGamePost() {
+                    const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Snake but didn't beat their high score :(`, dateTime);
+                    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                }
+                newGamePost();
             }
             alert("Game Over")
             clearInterval(this.timer)
@@ -119,9 +141,13 @@ export default class Panel extends Component {
 
         for(let i = 0; i <= snakePositions.length-2; i ++){
             if(snakePositions[i].top === headTop && snakePositions[i].left === headLeft){
-                console.log(` hs=${hs}, score=${score}`);
+                const api = new API();
+                async function deletePost() {
+                    const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Snake!");
+                    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                }
+                deletePost();
                 if (score > hs){
-                    console.log(`making new hs, hs=${getHS}, score=${score}`);
                     const api = new API();
 
                     async function makeNewScore() {
@@ -130,7 +156,19 @@ export default class Panel extends Component {
                         //setCurrHighScore(gameHSJSONString.data);
 
                     }
+                    async function newHSPost() {
+                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Snake and beat their high score!`, dateTime);
+                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                    }
+                    newHSPost();
                     makeNewScore();
+                }
+                else {
+                    async function newGamePost() {
+                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Snake but didn't beat their high score :(`, dateTime);
+                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                    }
+                    newGamePost();
                 }
                 alert("Game Over")
                 clearInterval(this.timer)

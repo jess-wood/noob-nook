@@ -52,7 +52,7 @@ class UserProfileController {
                     ctx.status = 200;
                     return reject(error);
                 }
-                console.log(JSON.stringify(tuples));
+
                 ctx.body = tuples;
                 ctx.status = 200;
                 return resolve();

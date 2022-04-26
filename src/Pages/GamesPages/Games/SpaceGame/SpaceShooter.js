@@ -5,51 +5,71 @@ import { Meteor } from './Meteor'
 import { Bullet } from './Bullet';
 import Typography from "@mui/material/Typography";
 import './utils/spaceShooter.css';
+import API from "../../../../API_Interface/API_Interface";
 
 function SpaceShooter() {
     let canvas;
     let ctx;
     let maxMeteorCount = 10;
     let lastMeteorSpawnAt = Date.now();
+    let today = new Date();
+    let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    let dateTime = date+' '+time;
 
     const player = new Player(950 / 2,550 / 1.5)
     const randomNumber = (min,max) => Math.random() * max + min;
 
     useEffect(() => {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        canvas = document.getElementById("myCanvas");
+        const api = new API();
 
-        let meteors = []
-        let bullets = []
-        const fireBulletcb = (xpos,ypos) => bullets.push(new Bullet(xpos,ypos));
+        async function makeNewPost() {
+            const gameHSJSONString = await api.postNewGameStatus(window.currentUserLoggedIn, "is playing Meteor Killers!", dateTime);
+            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+        }
+        makeNewPost();
+    }, [])
 
-        setInterval(() => {
+    useEffect(() => {
+        if (player.dead) {
+            return;
+        }
             // eslint-disable-next-line react-hooks/exhaustive-deps
-            ctx = canvas.getContext("2d");
-            ctx.clearRect(0,0,950,550);
+            canvas = document.getElementById("myCanvas");
 
-            player.update(fireBulletcb);
-            player.draw(ctx);
+            let meteors = []
+            let bullets = []
+            const fireBulletcb = (xpos, ypos) => bullets.push(new Bullet(xpos, ypos));
 
-            const random = randomNumber(0,700);
-            if(meteors.length < maxMeteorCount && (Date.now() - lastMeteorSpawnAt) > 1500){
-                meteors.push(new Meteor(random,-200));
-                lastMeteorSpawnAt = Date.now();
-            }
+            setInterval(() => {
+                // eslint-disable-next-line react-hooks/exhaustive-deps
+                ctx = canvas.getContext("2d");
+                ctx.clearRect(0, 0, 950, 550);
 
-            meteors = meteors.filter((enemy) => !enemy.dead);
-            meteors.forEach(meteor => {
-                meteor.update(player,bullets);
-                meteor.draw(ctx);
-            });
+                player.update(fireBulletcb);
+                player.draw(ctx);
 
-            bullets = bullets.filter((bullet) => !bullet.dead);
-            bullets.forEach(bullet => {
-                bullet.update();
-                bullet.draw(ctx);
-            });
+                const random = randomNumber(0, 700);
+                if (meteors.length < maxMeteorCount && (Date.now() - lastMeteorSpawnAt) > 1500) {
+                    meteors.push(new Meteor(random, -200));
+                    lastMeteorSpawnAt = Date.now();
+                }
 
-        }, 1000 / 30);
+                meteors = meteors.filter((enemy) => !enemy.dead);
+                meteors.forEach(meteor => {
+                    meteor.update(player, bullets);
+                    meteor.draw(ctx);
+                });
+
+                bullets = bullets.filter((bullet) => !bullet.dead);
+                bullets.forEach(bullet => {
+                    bullet.update();
+                    bullet.draw(ctx);
+                });
+
+
+            }, 1000 / 30);
+
     });
 
 
