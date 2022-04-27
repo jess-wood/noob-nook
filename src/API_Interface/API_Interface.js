@@ -38,6 +38,11 @@ export default class APIInterface {
         return axiosAgent.get(`login/${username}/${password}/${email}/${date}/signUp`);
     }
 
+    async createHSRow(username){
+        console.log("in api interface about to get HSRow")
+        return axiosAgent.get(`login/${username}/add-highscores/add-row`);
+    }
+
     async userInfo(username){
         return axiosAgent.get(`userprofile/${username}/username`);
     }

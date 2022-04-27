@@ -33,6 +33,7 @@ const loginRouter = require('koa-router')({
 });
 loginRouter.get('/:username/:password', LoginController.authorizeUser, (err) => console.log("routers.js: loginRouter error:", err));
 loginRouter.get('/:username/:pw/:email/:date/signUp', LoginController.userSignUp);
+loginRouter.get('/:username/add-highscores/add-row', LoginController.userHighScores);
 
 
 
@@ -67,7 +68,7 @@ const postsRouter = require('koa-router')({
 
 postsRouter.get('/:newContent/:date/:username/:oldContent/update-post', PostsController.updateUserPost);
 postsRouter.get('/:username/:postContent/:date/new-post', PostsController.userPost);
-postsRouter.get(':username/:postContent/delete-post', PostsController.deleteUserPost);
+postsRouter.get('/:username/:postContent/delete-post', PostsController.deleteUserPost);
 
 //High Scores Route
 const HighScoresController = new (require('../app/Controllers/HighScoresController.js'))();
