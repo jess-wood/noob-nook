@@ -60,22 +60,6 @@ export const testHighScores = [
     }
 ];
 
-const FollowButton = (props) => {
-    const classes = useStyles();
-    const {mainUser, userToFollow, followStatus, follow, unfollow} = props;
-    console.log(`in followButton ${followStatus}`);
-
-
-
-    if (followStatus){
-        return <Button key={'follow'} sx={{marginLeft: '33%', mt: 4, mb: 3, backgroundColor: '#FCB360', color: '#D6CBBF'}} onClick={() => props.unfollow}> Following </Button>
-    }
-    else {
-        return <Button className={classes.button} key={'follow'} sx={{marginLeft: '33%', mt: 4, mb: 3, backgroundColor: alpha('#5CAD31', 0.9), color: '#D4C3DB'}} onClick={() => props.follow}> Follow  <AddCircleOutlineOutlined style={{ color: '#D4C3DB' }}/></Button>
-    }
-}
-
-
 
 const highScoresTableAttributes = [
     {
@@ -124,6 +108,42 @@ const highScoresTableAttributes = [
     },
 ];
 
+const FollowButton = (props) => {
+    const classes = useStyles();
+    const {mainUser, userToFollow, followStatus, follow, unfollow} = props;
+    console.log(`in followButton ${followStatus}`);
+    if (followStatus){
+        return <Button key={'follow'} sx={{marginLeft: '33%', mt: 4, mb: 3, backgroundColor: '#FCB360', color: '#D6CBBF'}} onClick={() => props.unfollow}> Following </Button>
+    }
+    else {
+        return <Button className={classes.button} key={'follow'} sx={{marginLeft: '33%', mt: 4, mb: 3, backgroundColor: alpha('#5CAD31', 0.9), color: '#D4C3DB'}} onClick={() => props.follow}> Follow  <AddCircleOutlineOutlined style={{ color: '#D4C3DB' }}/></Button>
+    }
+}
+
+const UserHighScores = (props) => {
+    const {userData} = props;
+    return (
+        <Grid container sx={{width: '100%', height: '100%', backgroundColor: '#714C7A', borderRight:0, borderLeft: 2, borderTop:2}}>
+            <Grid item key={'highscores'} sx={{ width: '100%', height: '100%', justifyContent: 'center'}}>
+                <Typography fontWeight='bold' fontSize='30px' sx={{textDecoration: 'underline', border: 0, color:'#E7DECC', mt: 0.5, mb: 0.5, marginRight: '5%', textAlign: 'center', fontFamily: "Jura, Arial"}}>High Scores</Typography>
+                <Grid container item direction='row' sx={{width: '100%', height: '85%'}}>
+
+                    {
+                        highScoresTableAttributes.map(attr =>
+                            <Grid item key={attr.attributeName} sx={{ mt: 0.5, mb: 0, width: '50%', height: '15%', border: 0, justifyContent: 'center'}}>
+                                <Typography fontWeight='bold' sx={{textAlign: 'left',marginLeft: '10%', mt: 0, mb: 0, fontFamily: "Jura, Arial", color:'#F8F0E3', fontSize: '20px'}}>{attr.attributeName}: {userData.length > 0 ? userData[0][attr.attributeDBName]: '0'}{attr.attributeDBName === "HS_Typing" ? " WPM":""}</Typography>
+                            </Grid>
+                        )
+                    }
+
+                </Grid>
+            </Grid>
+        </Grid>
+    )
+}
+
+
+
 const UserProfile = (props) => {
     const classes = useStyles();
     const {user, mainUser, isUserLoggedIn} = props;
@@ -132,6 +152,7 @@ const UserProfile = (props) => {
     const [userFollowings, setUserFollowings] = useState([]);
     const [isFollowing, setIsFollowing] = useState(checkFollowStatus());
     const [userPic, setUserPic] = useState(user);
+    console.log(mainUser);
 
 
 
@@ -146,11 +167,36 @@ const UserProfile = (props) => {
             if (userFollowings.length > 0)
                 setIsFollowing(checkFollowStatus());
         }
+        async function createUserHS() {
+            console.log(`main user in UserProfile.js: ${mainUser}`);
+            const userHSJSONString = await api.createHSRow(mainUser);
+            console.log(`routes from the DB ${JSON.stringify(userHSJSONString)}`);
+        }
+        async function deleteIsPlayingStatus(){
+            const userDeleteWordleJSONString = await api.deleteUserPost(mainUser, "is playing Wordle!");
+            console.log(`routes from the DB ${JSON.stringify(userDeleteWordleJSONString)}`);
+            const userDeleteLOJSONString = await api.deleteUserPost(mainUser, "is playing Lights Out!");
+            console.log(`routes from the DB ${JSON.stringify(userDeleteLOJSONString)}`);
+            //const userDelete2048JSONString = await api.deleteUserPost(mainUser, "is playing 2048!");
+            //console.log(`routes from the DB ${JSON.stringify(userDelete2048JSONString)}`);
+            //const userDeletePongJSONString = await api.deleteUserPost(mainUser, "is playing Pong!");
+            //console.log(`routes from the DB ${JSON.stringify(userDeletePongJSONString)}`);
+            const userDeleteSnakeJSONString = await api.deleteUserPost(mainUser, "is playing Snake!");
+            console.log(`routes from the DB ${JSON.stringify(userDeleteSnakeJSONString)}`);
+            const userDeleteSpaceJSONString = await api.deleteUserPost(mainUser, "is playing Meteor Killers!");
+            console.log(`routes from the DB ${JSON.stringify(userDeleteSpaceJSONString)}`);
+            const userDeleteTetrisJSONString = await api.deleteUserPost(mainUser, "is playing Tetris!");
+            console.log(`routes from the DB ${JSON.stringify(userDeleteTetrisJSONString)}`);
+            const userDeleteTMJSONString = await api.deleteUserPost(mainUser, "is playing Typing Master!");
+            console.log(`routes from the DB ${JSON.stringify(userDeleteTMJSONString)}`);
+        }
+        deleteIsPlayingStatus();
+        createUserHS();
         getUserFollowing();
     }, []);
 
     useEffect(() => {
-        console.log('in useEffect');
+        //console.log('in useEffect');
         const api = new API();
 
         async function getUserData() {
@@ -161,13 +207,14 @@ const UserProfile = (props) => {
 
         async function getUserPosts(){
             const userPostJSONString = await api.userPost(user);
-            console.log(`routes from the DB ${JSON.stringify(userPostJSONString)}`);
+            //console.log(`routes from the DB ${JSON.stringify(userPostJSONString)}`);
+            //console.log(`time: ${posts[0]['DATE_FORMAT(date_created, \'%m/%d/%Y\')']} ${posts[0]['cast(date_created as time)']}`);
             setPosts(userPostJSONString.data);
         }
 
         async function getUserFollowing() {
             const userFollowJSONString = await api.allUserFollowings(mainUser);
-            console.log(`routes from the DB ${JSON.stringify(userFollowJSONString)}`);
+            //console.log(`routes from the DB ${JSON.stringify(userFollowJSONString.data)}`);
             setUserFollowings(userFollowJSONString.data);
 
         }
@@ -177,13 +224,24 @@ const UserProfile = (props) => {
         getUserPosts();
     }, [user]);
 
+    useEffect(() => {
+        const api = new API();
+        async function getUserFollowing() {
+            const userFollowJSONString = await api.allUserFollowings(mainUser);
+            //console.log(`routes from the DB ${JSON.stringify(userFollowJSONString.data)}`);
+            setUserFollowings(userFollowJSONString.data);
+
+        }
+
+        getUserFollowing();
+    }, [isFollowing]);
+
     function checkFollowStatus(){
         if(userFollowings.length === 0){
             return false;
         }
         for (let i=0; i < userFollowings.length; i ++){
             if (userFollowings[i].username_follower === user){
-                console.log(`in checkStatus about to return true`);
                 return true;
             }
         }
@@ -191,7 +249,6 @@ const UserProfile = (props) => {
     }
 
     const handleFollow = () => {
-        console.log("in handleFollow");
         const api = new API();
 
         async function followUser() {
@@ -203,7 +260,6 @@ const UserProfile = (props) => {
     }
 
     const handleUnfollow = () => {
-        console.log("in handleUnFollow");
         const api = new API();
 
         async function unfollowUser() {
@@ -224,65 +280,86 @@ const UserProfile = (props) => {
                 width: "45%",
                 height: "100%",
                 backgroundColor: '#714C7A',
-            }} sx={{border: 1}}>
+            }} sx={{border: 2}}>
                 <Grid container style={{border: 2}} sx={{border: 5, display: 'flex', flexDirection: 'row', width:'100%', height: '50%'}}>
-                    <Grid item key={"ProfilePic"} sx={{border: 0, width: '50%'}}>
-                        <Card key={"profilePic"} sx={{border: 4, borderRadius: '50%', height: '60%', marginLeft: 4, width: '75%', mt: 5}}>
-                            <CardMedia style={{width: 250, height: 250, justifySelf: 'center'}} image={require(`./UsersPictures/default.jpg`)} title={"profilePic"}/>
+                    <Grid item key={"ProfilePic"} sx={{border: 0, width: '50%', mt: 0, mb: 3}}>
+                        <Card key={"profilePic"} sx={{border: 4, borderRadius: '50%', height: '70%', marginLeft: 4, width: '80%', mt: 5}}>
+                            <CardMedia style={{width: '101%', height: '100%', justifySelf: 'center', marginLeft: 0}} image={require(`./UsersPictures/${userData[0]['user_ProfilePic']}`)} title={"profilePic"}/>
                         </Card>
                         {isUserLoggedIn ? <br/> :
-                            checkFollowStatus() ? <Button key={'follow'} sx={{marginLeft: '33%', mt: 4, mb: 3, backgroundColor: '#FCB360', color: '#33302C'}} onClick={() => handleUnfollow()}> Following </Button> :
-                                <Button key={'follow'} sx={{marginLeft: '33%', mt: 4, mb: 3, backgroundColor: alpha('#5CAD31', 0.9), color: '#D4C3DB'}} onClick={() => handleFollow()}> Follow  <AddCircleOutlineOutlined style={{ color: '#D4C3DB' }}/></Button>
+                            checkFollowStatus() || isFollowing ? <Button key={'unfollow'} sx={{marginLeft: '35%', mt: 3, mb: 3, backgroundColor: '#4fc3f7', color: '#000',borderColor: '#4fc3f7','&:hover': {backgroundColor: '#4fc3f7',opacity: [0.6, 0.6, 0.6],}}} onClick={() => handleUnfollow()}> <Typography sx={{fontFamily: "Jura, Arial", fontWeight:'bold'}}>Following</Typography> </Button> :
+                                <Button key={'follow'} sx={{marginLeft: '35%', mt: 3, mb: 3, backgroundColor: alpha('#5CAD31', 0.9), color: '#000', fontWeight: 'bold','&:hover': {backgroundColor: alpha('#5CAD31', 0.9)}}} onClick={() => handleFollow()}> <Typography sx={{fontFamily: "Jura, Arial", fontWeight:'bold'}}>Follow  </Typography>  <AddCircleOutlineOutlined style={{ color: '#000', marginLeft:1 }}/></Button>
                         }
                     </Grid>
                     <Grid item key={"UserInfo"} sx={{border: 0, width: '50%', alignItems: 'center', height: '50%'}}>
-                        <Box key='user full name' sx={{border: 0, mt: 10, width: 'fit-content', marginLeft: 3, color:'#E7DECC'}}>
-                            <Typography sx={{fontFamily: "Jura, Arial", fontWeight: 'bold', fontSize: '40px'}}>{userData.length > 0 ? userData[0]['user_fName'] : "none"} {userData.length > 0  ? userData[0]['user_lName'] : 'none'}</Typography>
+                        <Box key='user_full_name' sx={{border: 0, mt: 10, width: 'fit-content', marginLeft: 3, color:'#E7DECC'}}>
+                            <Typography sx={{fontFamily: "Jura, Arial", fontWeight: 'bold', fontSize: '40px'}}>{userData.length > 0 ? userData[0]['user_fName'] !== null ? userData[0]['user_fName'] : 'First' : "First"} {userData.length > 0 ? userData[0]['user_lName'] !== null ? userData[0]['user_lName'] : 'Last' : 'Last'}</Typography>
                         </Box>
-                        <Box key='username' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 3}}>
+                        <Box key='usernameProfile' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 3}}>
                             <Typography sx={{fontFamily: "Jura, Arial", fontWeight: 'bold', fontSize: '20px', color:'#F8F0E3'}}>@{userData.length > 0 ? userData[0]['username'] : 'none'}</Typography>
                         </Box>
-                        <Box key='dateJoined' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 3}}>
+                        <Box key='dateJoinedProfile' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 3}}>
                             <Typography sx={{fontFamily: "Jura, Arial", fontWeight: 'bold', fontSize: '20px', color:'#F8F0E3'}}>A noob since {userData.length > 0 ? userData[0]['DATE_FORMAT(dateJoined, \'%m/%d/%Y\')'] : '03/19/22'}</Typography>
                         </Box>
-                        <Box key='rank' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 3}}>
+                        <Box key='rankProfile' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 3}}>
                             <Typography sx={{fontFamily: "Jura, Arial", fontWeight: 'bold', fontSize: '20px', color:'#F8F0E3'}}>Rank: {userData.length > 0 ? userData[0]['user_rank'] : 'none'}</Typography>
                         </Box>
                     </Grid>
                 </Grid>
-                <Grid container sx={{width: '100%', border: 1, height: '40%', backgroundColor: '#714C7A'}}>
-                    <Grid item key={'highscores'} sx={{ width: '100%', height: '100%', justifyContent: 'center'}}>
-                        <Typography fontWeight='bold' fontSize='30px' sx={{textDecoration: 'underline', border: 0, color:'#E7DECC', mt: 0.5, mb: 0.5, marginRight: '5%', textAlign: 'center', fontFamily: "Jura, Arial"}}>High Scores</Typography>
-                        <Grid container item direction='row' sx={{width: '100%', height: '85%'}}>
-
-                        {
-                            highScoresTableAttributes.map(attr =>
-                                <Grid item key={attr.attributeName} sx={{ mt: 0.5, mb: 0, width: '50%', height: '15%', border: 0, justifyContent: 'center'}}>
-                                    <Typography fontWeight='bold' sx={{textAlign: 'left',marginLeft: '10%', mt: 0, mb: 0, fontFamily: "Jura, Arial", color:'#F8F0E3', fontSize: '20px'}}>{attr.attributeName}: {userData.length > 0 ? userData[0][attr.attributeDBName]: '0'}{attr.attributeDBName === "HS_Typing" ? " WPM":""}</Typography>
-                                </Grid>
-                            )
-                        }
-
-                    </Grid>
-                    </Grid>
+                <Grid item key={'UserHighScoresProfile'} sx={{width: '100%', border: 0, height: '40%', backgroundColor: '#714C7A'}}>
+                    <UserHighScores userData={userData}/>
                 </Grid>
             </Grid>
             <Grid item key={'ActivityFeed'} style={{
                 width: "55%",
                 height: "100vh",
                 marginLeft: '45%',
-                backgroundColor: '#714C7A'
-            }} sx={{border: 1, display:'flex',flexDirection:'column', backgroundColor: '#714C7A' }}>
-                <Box sx={{width: '100%', height: '8%', alignItems: 'center', fontSize: 30}}>
-                    <Typography sx={{fontWeight: 'bold', fontSize: '30px', textAlign: 'center', fontFamily: "Jura, Arial", color:'#E7DECC'}}>
+                backgroundColor: '#714C7A',
+                padding: 1
+            }} sx={{border: 1, display:'flex',flexDirection:'column' }}>
+                <Box sx={{width: '100%', height: '8%', alignItems: 'center', fontSize: 30, backgroundColor: '#714C7A', mb: 1}}>
+                    <Typography sx={{textDecoration: 'underline', fontWeight: 'bold', fontSize: '30px', textAlign: 'center', fontFamily: "Jura, Arial", color:'#E7DECC'}}>
                         Activity Feed
                     </Typography>
                 </Box>
                 {
                     posts.map(post =>
-                        <Box key={post.post_content} sx={{width: '100%', height: '10%', border: 1, justifySelf: 'center', justifyContent: 'center', alignItems: 'flex-start', backgroundColor: '#714C7A'}}>
-                            <Typography sx={{mt: '3%', marginLeft: '2%',fontFamily: "Jura, Arial", fontWeight: '400', fontSize: '20px', color:'#F8F0E3'}}>@{post.username} {post.post_content}</Typography>
-                        </Box>
+                        <Grid container direction='column' sx={{
+                            width: '95%',
+                            height: '10%',
+                            backgroundColor: '#b3e5fc',
+                            '&:hover': {
+                                backgroundColor: '#b3e5fc',
+                                opacity: [0.9, 0.8, 0.7],
+                            },
+                            border: 2,
+                            borderColor: '#4fc3f7',
+                            marginLeft:0,
+                            alignItems: 'center',
+                            alignSelf: 'center',
+                            mb: 1
+                        }}>
+                            <Box display='flex' flexDirection='row' justifyContent='center' sx={{height: '100%', width: '30%', borderRight: 1.5, borderColor: '#4fc3f7', marginLeft:1, mb: 1}}>
+                                <Card key={"profilePicInProfile"} sx={{width: '35%', height: '90%', borderRadius: '50%',  border: 1, mt: 1, marginLeft: 1}}>
+                                    <CardMedia style={{width: '100%', height: '100%', justifySelf: 'center'}} image={require(`../UserProfile/UsersPictures/${userData[0]['user_ProfilePic']}`)} title={"profilePic"}/>
+                                </Card>
+                                <Box key="userName" sx={{height:'30%', width:'80%', marginLeft: 1}}>
+                                    <Typography fontSize='16px' sx={{fontFamily: "Jura, Arial", mt: 3, marginLeft: 1, fontWeight:'bold'}}>
+                                        @{userData.length > 0 ? userData[0]['username'] : 'none'}
+                                    </Typography>
+                                </Box>
+                            </Box>
+                            <Box display='flex' flexDirection='row' justifyContent='center' sx={{width: '65%', marginLeft: 0, mt:2.5, marginRight:20}}>
+                                <Typography fontSize='16px' sx={{fontFamily: "Jura, Arial", mb: 1, fontWeight:'bold'}}>
+                                     {post.post_content}
+                                </Typography>
+                            </Box>
+                            <Box display='flex' flexDirection='row' justifyContent='center' sx={{width: '50%', height: '10%', marginLeft: 34}}>
+                                <Typography fontSize='10px' sx={{fontFamily: "Jura, Arial", mb: 2, fontWeight:'bold'}}>
+                                    {post['DATE_FORMAT(date_created, \'%m/%d/%Y\')'] ? post['DATE_FORMAT(date_created, \'%m/%d/%Y\')'] : ""} {post['cast(date_created as time)']}
+                                </Typography>
+                            </Box>
+                        </Grid>
                     )
                 }
             </Grid>
@@ -294,6 +371,26 @@ export default UserProfile;
 
 //bold the name, make username apparent
 //Profile pic must be from a file, must figure out how to fix that
-//need to toggle follow button to not show on their profile, need to toggle follow/unfollow
-//{userData[0]['user_fName'] } {userData[0]['user_lName']}
-//userData[0]['username']
+//fix snake back, edit profile, fix 2048 centering
+
+
+//USERPROFILE ACTIVITY FEED
+// <Grid item key={'ActivityFeed'} style={{
+//     width: "55%",
+//     height: "100vh",
+//     marginLeft: '45%',
+//     backgroundColor: '#714C7A'
+// }} sx={{border: 1, display:'flex',flexDirection:'column', backgroundColor: '#714C7A' }}>
+//     <Box sx={{width: '100%', height: '8%', alignItems: 'center', fontSize: 30}}>
+//         <Typography sx={{textDecoration: 'underline', fontWeight: 'bold', fontSize: '30px', textAlign: 'center', fontFamily: "Jura, Arial", color:'#E7DECC'}}>
+//             Activity Feed
+//         </Typography>
+//     </Box>
+//     {
+//         posts.map(post =>
+//             <Box key={post.post_content} sx={{width: '100%', height: '10%', border: 1, justifySelf: 'center', justifyContent: 'center', alignItems: 'flex-start', backgroundColor: '#714C7A'}}>
+//                 <Typography sx={{mt: '3%', marginLeft: '2%',fontFamily: "Jura, Arial", fontWeight: '400', fontSize: '20px', color:'#F8F0E3'}}>@{post.username} {post.post_content}</Typography>
+//             </Box>
+//         )
+//     }
+// </Grid>

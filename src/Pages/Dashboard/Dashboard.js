@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 const UsernameHeader = (props) => {
     return (
         <Container sx={{borderBottom: 1, height: 75, mt: 3, marginLeft: 1}}>
-            <Typography fontWeight='bold' fontSize='35px' sx={{fontFamily: 'Jura, Arial'}} color='#e7dedc'>
+            <Typography fontWeight='bold' fontSize='35px' sx={{fontFamily: 'Jura, Arial'}} color='#E7DECC'>
                 Welcome "username"!
             </Typography>
         </Container>
@@ -79,7 +79,7 @@ function UserDataEntry (props) {
 function ActivityFeed (props) {
     return (
         <Box sx={{height: 1300, mt: -7}}>
-            <Typography fontWeight='bold' fontSize='25px' sx={{textAlign: 'center', fontFamily: "Jura, Arial", mb: 2}} color='#e7dedc'>
+            <Typography fontWeight='bold' fontSize='25px' sx={{textAlign: 'center', fontFamily: "Jura, Arial", mb: 2}} color='#E7DECC'>
                 FOLLOWED USERS ACTIVITY
             </Typography>
             <Box sx={{
@@ -99,7 +99,7 @@ function UserHighScores (props) {
     return (
         <Box sx={{height: 400, width: 350, marginLeft: 1, mb: 4, border: 1, backgroundColor: '#946aa6', overflowY: 'scroll'}}>
             <Box display='flex' flexDirection='row' justifyContent='center' sx={{borderBottom: 1}}>
-                <Typography fontWeight='bold' fontSize='25px' sx={{mt: 0.5, mb: 0.5, textAlign: 'center', fontFamily: "Jura, Arial"}} color='#e7dedc'>
+                <Typography fontWeight='bold' fontSize='25px' sx={{mt: 0.5, mb: 0.5, textAlign: 'center', fontFamily: "Jura, Arial"}} color='#E7DECC'>
                     YOUR HIGH SCORES:
                 </Typography>
             </Box>
@@ -122,7 +122,7 @@ function OtherUsersHighScores (props) {
     return (
         <Box sx={{height: 400, width: 350, marginLeft: 1, mb: 4, border: 1, backgroundColor: '#946aa6', overflowY: 'scroll'}}>
             <Box display='flex' flexDirection='row' justifyContent='center' sx={{borderBottom: 1}}>
-                <Typography fontWeight='bold' fontSize='25px' sx={{mt: 0.5, mb: 0.5, textAlign: 'center', fontFamily: "Jura, Arial"}} color='#e7dedc'>
+                <Typography fontWeight='bold' fontSize='25px' sx={{mt: 0.5, mb: 0.5, textAlign: 'center', fontFamily: "Jura, Arial"}} color='#E7DECC'>
                     FRIENDS' HIGH SCORES:
                 </Typography>
             </Box>
