@@ -87,7 +87,7 @@ const UsernameHeader = (props) => {
     return (
         <Container sx={{borderBottom: 1, height: 75, mt: 3, marginLeft: 1}}>
             <Typography fontWeight='bold' fontSize='35px' sx={{fontFamily: 'Jura, Arial'}} color='#e7dedc'>
-                Welcome {window.currentUserLoggedIn}!
+                Welcome {window.currentUserLoggedIn}!   
             </Typography>
         </Container>
     );

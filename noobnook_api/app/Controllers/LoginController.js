@@ -56,12 +56,36 @@ class LoginController {
         console.log('userSignUpCalled.');
         return new Promise((resolve, reject) => {
             const query = `
-                       INSERT INTO users (username, user_email, user_password, dateJoined, user_rank)
-                       VALUES (?,?,?,?,'Little Noob')
+                       INSERT INTO users (username, user_email, user_password, dateJoined, user_rank, user_ProfilePic)
+                       VALUES (?,?,?,?,'Little Noob','default.jpg')
                         `;
             dbConnection.query({
                 sql: query,
                 values: [ctx.params.username, ctx.params.email, ctx.params.pw, ctx.params.date]
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in LoginController::userSignUp", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => console.log("Database connection error.", err));
+    }
+
+    async userHighScores(ctx) {
+        console.log('create HS row called.');
+        return new Promise((resolve, reject) => {
+            const query = `
+                       INSERT INTO user_highscores (username, HS_matching, HS_2048, HS_LightsOut, HS_Tetris, HS_Wordle, HS_Snake, HS_Checkers, HS_Connect4, HS_Pong, HS_Typing, HS_SpaceGame, HS_WordleMinInt, HS_WordleSecInt)
+                       VALUES (?,0,0,0,0,'0m0s',0,0,0,0,0,0,100,100)
+                        `;
+            dbConnection.query({
+                sql: query,
+                values: [ctx.params.username]
             }, (error, tuples) => {
                 if (error) {
                     console.log("Connection error in LoginController::userSignUp", error);

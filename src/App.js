@@ -28,10 +28,10 @@ function App() {
     const [user, setUser] = useState(undefined);
     //const [username, setUsername] = useState(undefined);
     if (user !== undefined){
-        console.log(user['username']);
+        console.log(`user is ${user['username']}`);
         username = user.username;
         window.currentUserLoggedIn = user.username;
-        console.log(window.currentUserLoggedIn);
+        console.log(`user logged in: ${window.currentUserLoggedIn}`);
     }
     console.log(user);
   return (
