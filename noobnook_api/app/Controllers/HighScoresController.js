@@ -82,7 +82,6 @@ class HighScoresController {
     }
 
     async getHighScoreSpace(ctx) {
-        console.log('highscore space called.');
         return new Promise((resolve, reject) => {
             const query = `
                        SELECT HS_SpaceGame FROM user_highscores
@@ -107,7 +106,6 @@ class HighScoresController {
     }
 
     async getHighScoreWordle(ctx) {
-        //console.log('allFollowings called.');
         return new Promise((resolve, reject) => {
             const query = `
                        SELECT HS_Wordle FROM user_highscores

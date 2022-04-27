@@ -84,7 +84,6 @@ const TopBar = (props) => {
 
     //get users for search bar
     useEffect(() => {
-        console.log('in useEffect search');
         const api = new API();
 
         async function getUsers() {
@@ -107,22 +106,15 @@ const TopBar = (props) => {
     //tests search bar, replace with array of all users
     function search() {
         setSuggestions([]);
-        console.log(searchInput.length);
         if (searchInput.length >= 0) {
             allUsers.filter((user) => {
                 let matches = [];
                 if (user.username.toLowerCase().match(searchInput.toLowerCase()) !== null) {
-                    console.log(user.username.toLowerCase().match(searchInput.toLowerCase()));
                     matches.push(user.username.toLowerCase().match(searchInput.toLowerCase()));
                     setSuggestions(matches);
                 }
-                console.log(JSON.stringify(suggestions));
-                //return user.username.match(searchInput);
             });
         }
-        // else{
-        //     setSuggestions([]);
-        // }
     }
 
     return (
@@ -189,6 +181,3 @@ const TopBar = (props) => {
 }
 
 export default TopBar;
-
-//need to add functionality for logout
-//need to add functionality for search
