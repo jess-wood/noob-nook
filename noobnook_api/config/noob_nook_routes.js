@@ -93,6 +93,15 @@ highScoresRouter.get('/:score/:username/score-tetris', HighScoresController.post
 highScoresRouter.get('/:score/:username/score-wordleMin', HighScoresController.postNewHighScoreWordleMin);
 highScoresRouter.get('/:score/:username/score-wordleSec', HighScoresController.postNewHighScoreWordleSec);
 
+const DashboardController = new (require('../app/Controllers/DashboardController.js'))();
+const dashboardRouter = require('koa-router')({
+    prefix: '/dashboard'
+});
+
+dashboardRouter.get('/:username/followed-users', DashboardController.followedUsers);
+dashboardRouter.get('/:username/user-highscores', DashboardController.currentUserHighScores);
+dashboardRouter.get('/:username/followed-posts', DashboardController.followedUsersPost);
+
 
 /**
  * Register all of the controllers into the default controller.
@@ -103,7 +112,8 @@ router.use(
     userProfileRouter.routes(),
     followRouter.routes(),
     highScoresRouter.routes(),
-    postsRouter.routes()
+    postsRouter.routes(),
+    dashboardRouter.routes()
 );
 
 module.exports = function (app) {

@@ -139,4 +139,16 @@ export default class APIInterface {
     async deleteUserPost(username, postContent){
         return axiosAgent.get(`posts/${username}/${postContent}/delete-post`);
     }
+
+    async followedUser(username){
+        return axiosAgent.get(`dashboard/${username}/followed-users`);
+    }
+
+    async userHighScores(username){
+        return axiosAgent.get(`dashboard/${username}/user-highscores`);
+    }
+
+    async usersFollowedPosts(username){
+        return axiosAgent.get(`dashboard/${username}/followed-posts`);
+    }
 }
