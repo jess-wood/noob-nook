@@ -108,18 +108,6 @@ const highScoresTableAttributes = [
     },
 ];
 
-const FollowButton = (props) => {
-    const classes = useStyles();
-    const {mainUser, userToFollow, followStatus, follow, unfollow} = props;
-    console.log(`in followButton ${followStatus}`);
-    if (followStatus){
-        return <Button key={'follow'} sx={{marginLeft: '33%', mt: 4, mb: 3, backgroundColor: '#FCB360', color: '#D6CBBF'}} onClick={() => props.unfollow}> Following </Button>
-    }
-    else {
-        return <Button className={classes.button} key={'follow'} sx={{marginLeft: '33%', mt: 4, mb: 3, backgroundColor: alpha('#5CAD31', 0.9), color: '#D4C3DB'}} onClick={() => props.follow}> Follow  <AddCircleOutlineOutlined style={{ color: '#D4C3DB' }}/></Button>
-    }
-}
-
 const UserHighScores = (props) => {
     const {userData} = props;
     return (
@@ -151,9 +139,14 @@ const UserProfile = (props) => {
     const [posts, setPosts] = useState([]);
     const [userFollowings, setUserFollowings] = useState([]);
     const [isFollowing, setIsFollowing] = useState(checkFollowStatus());
-    const [userPic, setUserPic] = useState(user);
-    console.log(mainUser);
-
+    const [userPic, setUserPic] = useState('default.jpg');
+    let pic = 'default.jpg';
+    console.log(userPic);
+    // if (userData.length > 0){
+    //     if (userData[0]['user_ProfilePic'] !== 'default.jpg' && userPic === 'default.jpg' ){
+    //         setUserPic(userData[0]['user_ProfilePic']);
+    //     }
+    // }
 
 
     useEffect(() => {
@@ -174,21 +167,15 @@ const UserProfile = (props) => {
         }
         async function deleteIsPlayingStatus(){
             const userDeleteWordleJSONString = await api.deleteUserPost(mainUser, "is playing Wordle!");
-            console.log(`routes from the DB ${JSON.stringify(userDeleteWordleJSONString)}`);
             const userDeleteLOJSONString = await api.deleteUserPost(mainUser, "is playing Lights Out!");
-            console.log(`routes from the DB ${JSON.stringify(userDeleteLOJSONString)}`);
             //const userDelete2048JSONString = await api.deleteUserPost(mainUser, "is playing 2048!");
             //console.log(`routes from the DB ${JSON.stringify(userDelete2048JSONString)}`);
             //const userDeletePongJSONString = await api.deleteUserPost(mainUser, "is playing Pong!");
             //console.log(`routes from the DB ${JSON.stringify(userDeletePongJSONString)}`);
             const userDeleteSnakeJSONString = await api.deleteUserPost(mainUser, "is playing Snake!");
-            console.log(`routes from the DB ${JSON.stringify(userDeleteSnakeJSONString)}`);
             const userDeleteSpaceJSONString = await api.deleteUserPost(mainUser, "is playing Meteor Killers!");
-            console.log(`routes from the DB ${JSON.stringify(userDeleteSpaceJSONString)}`);
             const userDeleteTetrisJSONString = await api.deleteUserPost(mainUser, "is playing Tetris!");
-            console.log(`routes from the DB ${JSON.stringify(userDeleteTetrisJSONString)}`);
             const userDeleteTMJSONString = await api.deleteUserPost(mainUser, "is playing Typing Master!");
-            console.log(`routes from the DB ${JSON.stringify(userDeleteTMJSONString)}`);
         }
         deleteIsPlayingStatus();
         createUserHS();
@@ -196,31 +183,35 @@ const UserProfile = (props) => {
     }, []);
 
     useEffect(() => {
-        //console.log('in useEffect');
         const api = new API();
 
         async function getUserData() {
             const userJSONString = await api.userInfo(user);
             console.log(`routes from the DB ${JSON.stringify(userJSONString)}`);
             setUserData(userJSONString.data);
+            if (userData[0]['user_ProfilePic'] !== undefined) {
+                console.log('setting profile pic');
+                setUserPic(userData[0]['user_ProfilePic']);
+            }
         }
 
         async function getUserPosts(){
             const userPostJSONString = await api.userPost(user);
-            //console.log(`routes from the DB ${JSON.stringify(userPostJSONString)}`);
-            //console.log(`time: ${posts[0]['DATE_FORMAT(date_created, \'%m/%d/%Y\')']} ${posts[0]['cast(date_created as time)']}`);
             setPosts(userPostJSONString.data);
         }
 
         async function getUserFollowing() {
             const userFollowJSONString = await api.allUserFollowings(mainUser);
-            //console.log(`routes from the DB ${JSON.stringify(userFollowJSONString.data)}`);
             setUserFollowings(userFollowJSONString.data);
 
         }
 
         getUserFollowing();
         getUserData();
+        if (userData.length > 0){
+            console.log(userData[0]['user_ProfilePic']);
+            setUserPic(userData[0]['user_ProfilePic']);
+        }
         getUserPosts();
     }, [user]);
 
@@ -284,7 +275,7 @@ const UserProfile = (props) => {
                 <Grid container style={{border: 2}} sx={{border: 5, display: 'flex', flexDirection: 'row', width:'100%', height: '50%'}}>
                     <Grid item key={"ProfilePic"} sx={{border: 0, width: '50%', mt: 0, mb: 3}}>
                         <Card key={"profilePic"} sx={{border: 4, borderRadius: '50%', height: '70%', marginLeft: 4, width: '80%', mt: 5}}>
-                            <CardMedia style={{width: '101%', height: '100%', justifySelf: 'center', marginLeft: 0}} image={require(`./UsersPictures/${userData[0]['user_ProfilePic']}`)} title={"profilePic"}/>
+                            <CardMedia style={{width: '101%', height: '100%', justifySelf: 'center', marginLeft: 0}} image={require(`./UsersPictures/${userData.length === 0 ? userPic : userData[0]['user_ProfilePic']}`)} title={"profilePic"}/>
                         </Card>
                         {isUserLoggedIn ? <br/> :
                             checkFollowStatus() || isFollowing ? <Button key={'unfollow'} sx={{marginLeft: '35%', mt: 3, mb: 3, backgroundColor: '#4fc3f7', color: '#000',borderColor: '#4fc3f7','&:hover': {backgroundColor: '#4fc3f7',opacity: [0.6, 0.6, 0.6],}}} onClick={() => handleUnfollow()}> <Typography sx={{fontFamily: "Jura, Arial", fontWeight:'bold'}}>Following</Typography> </Button> :
