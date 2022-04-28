@@ -62,15 +62,15 @@ class DashboardController {
 
     async followedUsersPost(ctx) {
         console.log("followedUserPost called");
-
+        console.log(`at the tom of followedUsersPost`, ctx.params.username, ctx.params.followed_username);
         return new Promise((resolve, reject) => {
-            const query = `select * 
-                            from user_post 
-                            where username = ?
+            const query = `select username_user_post, post_content, date_created 
+                            from user_post up, users_followers uf
+                            where uf.username = ? and up.username_user_post = ? and username_follower = up.username_user_post
                             `;
             dbConnection.query({
                 sql: query,
-                values: [ctx.params.username]
+                values: [ctx.params.username, ctx.params.followed_username]
             }, (error, tuples) => {
                 if (error) {
                     console.log("Connection error in DashboardController::followedUsersPosts", error);
@@ -79,6 +79,7 @@ class DashboardController {
                     return reject(error);
                 }
                 ctx.body = tuples;
+                console.log(`db return tuples ${JSON.stringify(tuples)}`);
                 ctx.status = 200;
                 return resolve();
             });
