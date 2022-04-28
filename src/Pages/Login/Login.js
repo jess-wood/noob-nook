@@ -70,7 +70,11 @@ const EntryPage = (props) => {
                     }
                 });
         }
-
+        async function createHS(){
+            console.log("calling create HS in Login.js");
+            await api.createHSRow(userInput);
+        }
+        createHS();
         getUserSignUp();
 
         setVerifyUser(true);

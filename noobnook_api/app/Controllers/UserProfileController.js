@@ -1,10 +1,6 @@
 const dbConnection = require('../../database/mySQLconnect');
 const dateFormat = require('dateformat');
-//const buildStudentViewFromCourses = require('../Schema/buildStudentViewFromCourses');
 
-function now() {
-    return dateFormat(new Date(), "yyyy-mm-dd HH:MM:ss");
-}
 
 class UserProfileController {
     constructor() {
@@ -12,7 +8,7 @@ class UserProfileController {
     }
 
     async userData(ctx) {
-        console.log('UP allUP called.');
+        console.log('userData called.');
         return new Promise((resolve, reject) => {
             const query = `
                        select *, DATE_FORMAT(dateJoined, '%m/%d/%Y') from users u, user_highscores h 
@@ -36,11 +32,11 @@ class UserProfileController {
     }
 
     async userPosts(ctx) {
-        console.log('.');
+        console.log('userPostsCalled');
         return new Promise((resolve, reject) => {
             const query = `
-                       select username, post_content, DATE_FORMAT(date_created, '%m/%d/%Y') from user_post
-                       where username = ?
+                       select username, post_content, DATE_FORMAT(date_created, '%m/%d/%Y'), cast(date_created as time) from user_post
+                       where username = ? ORDER BY date_created
                         `;
             dbConnection.query({
                 sql: query,
