@@ -64,9 +64,9 @@ class DashboardController {
         console.log("followedUserPost called");
         console.log(`at the tom of followedUsersPost`, ctx.params.username, ctx.params.followed_username);
         return new Promise((resolve, reject) => {
-            const query = `select username_user_post, post_content, date_created 
-                            from user_post up, users_followers uf
-                            where uf.username = ? and up.username_user_post = ? and username_follower = up.username_user_post
+            const query = `select username_user_post, post_content, DATE_FORMAT(date_created, '%m/%d/%Y'), cast(date_created as time), user_ProfilePic 
+                            from user_post up, users_followers uf, users u
+                            where uf.username = ? and up.username_user_post = ? and username_follower = up.username_user_post and u.username = uf.username_follower
                             `;
             dbConnection.query({
                 sql: query,

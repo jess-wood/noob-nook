@@ -11,6 +11,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import Button from "@mui/material/Button";
 import API from '../../API_Interface/API_Interface';
 import UserProfile from "../UserProfile/UserProfile";
+import Dashboard from "../Dashboard/Dashboard";
 import {alpha} from "@material-ui/core/styles/colorManipulator";
 
 //shows the screen of the component clicked (default: login)
@@ -37,13 +38,18 @@ const AppBar = styled(MuiAppBar, {shouldForwardProp: (prop) => prop !== 'open' }
     })
 );
 
-const findSelectedComponent = (selectedItem, user) => {
+const findSelectedComponent = (selectedItem, user, onClickCallback) => {
     const component = [...presentationComponents()].filter(comp => comp.title === selectedItem);
     if(component.length === 1) {
         if (component[0].title === "Profile"){
             return {
                 title: null,
                 component: <UserProfile user={user} mainUser={user} isUserLoggedIn={true}/>
+            }
+        } else if (component[0].title === "Home"){
+            return {
+                title: null,
+                component: <Dashboard clickCallback={onClickCallback}/>
             }
         }
         return component[0];
@@ -102,6 +108,11 @@ const TopBar = (props) => {
         setOtherUser(undefined);
         setSelectedItem(title);
     };
+
+    //onClick callback for dashboard followed users sidebar
+    function followedUserOnClickCallback (otherUser) {
+        setOtherUser(otherUser);
+    }
 
     //tests search bar, replace with array of all users
     function search() {
@@ -180,7 +191,7 @@ const TopBar = (props) => {
             </AppBar>
             <Main open={open}>
                 <DrawerHeader />
-                {otherUser === undefined ? findSelectedComponent(selectedItem, user).component : otherUserProfile(otherUser, user)}
+                {otherUser === undefined ? findSelectedComponent(selectedItem, user, followedUserOnClickCallback).component : otherUserProfile(otherUser, user)}
             </Main>
         </Fragment>
     )

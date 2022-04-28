@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Divider from '@mui/material/Divider'
 import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button'
 import '../Login/Login.css';
 import Container from '@mui/material/Container'
 import {Fragment} from "react";
@@ -250,13 +251,19 @@ const Dashboard = (props) => {
                             </Typography>
                         </Box> :
                             followedUsers.map(user =>
-                                <Box display='flex' flexDirection='row' justifyContent='center'
-                                     sx={{marginBlock: 3, mt: 3}}>
-                                    <Typography fontSize='20px' sx={{textAlign: 'center', fontFamily: "Jura, Arial"}}
-                                                color='#E6E6FA'>
-                                        {user['username_follower']}
-                                    </Typography>
-                                </Box>
+                                <Button onClick={(event) => {event.preventDefault(); props.clickFunc(user['username_follower'])}} sx={{'&:hover': {
+                                        backgroundColor: '#66468f',
+                                        opacity: [0.1, 0.1, 0.9],
+                                        borderColor: '#b186eb'
+                                    },}}>
+                                    <Box display='flex' flexDirection='row' justifyContent='center'
+                                         sx={{marginBlock: 3, mt: 3}}>
+                                        <Typography fontSize='20px' sx={{textAlign: 'center', fontFamily: "Jura, Arial"}}
+                                                    color='#E6E6FA'>
+                                            {user['username_follower']}
+                                        </Typography>
+                                    </Box>
+                                </Button>
                             )
                     }
                 </Stack>
@@ -268,7 +275,7 @@ const Dashboard = (props) => {
         return (
             <Stack>
                 <Box sx={{mb: 5}}>
-                    <FollowedUsers highScores={testHighScores}/>
+                    <FollowedUsers highScores={testHighScores} clickFunc={props.clickFunc}/>
                 </Box>
                 <Box>
                     <UserHighScores highScores={testHighScores}/>
@@ -293,7 +300,7 @@ const Dashboard = (props) => {
 
                 }}>
                     <Grid item className={classes.item}>
-                        <HighScoreSideBar/>
+                        <HighScoreSideBar clickFunc={props.clickCallback}/>
                     </Grid>
                     <Grid item className={classes.item}>
                         <ActivityFeed posts={followedUsersPosts}/>
