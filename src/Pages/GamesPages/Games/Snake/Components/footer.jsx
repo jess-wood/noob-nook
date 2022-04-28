@@ -5,7 +5,6 @@ export default class footer extends Component {
 
 
     start = ()=>{
-        document.body.style.backgroundColor = "#6190ab"
         const {startGame} = this.props
         startGame()
     }

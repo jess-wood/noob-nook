@@ -30,7 +30,7 @@ h7 {
     border-width: 1px;
     align-content: center;
     margin-top: 90px;
-    color: #E7DECC;
+    color: #d5d5f6;
     /*margin-left: 400px; /*need help aligning*/
 
 }
@@ -38,6 +38,7 @@ h7 {
 h8 {
     font-family: 'Press Start 2P', cursive;
     font-size: 30px;
+    color: #b3e5fc;
     text-align: center;
 }
 
@@ -48,9 +49,10 @@ h8 {
         grid-gap: 10px;
         margin: auto 0;
         padding: 20px;
-        background-color: rgb(120,120,120);
+        width: 400px;
+        background-color: rgba(193, 222, 221, 0.8);
         border-radius: 10px;
-        box-shadow: 0 32px 64px rgba(0,0,0,0.2);
+        box-shadow: 0 15px 64px rgba(193, 222, 221, 0.3);
         align-items: center;
         margin-top: 80px;
 
@@ -64,15 +66,17 @@ h8 {
         }
         fieldset {
             margin: 0;
-            background-color: #A0A0A0;
+            background-color: rgba(163, 206, 214, 0.8);
+            opacity: 1.0;
             border: none;
             border-radius: 5px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);}
+            box-shadow: 0 1px 3px rgba(163, 206, 214, 0.9);}
         legend {
             padding: 5px;
-            background-color: #A0A0A0;
+            background-color: rgba(163, 206, 214, 0.8);
             border-radius: 5px;
-            font-family: Jura, Arial
+            font-family: Jura, Arial;
+            font-weight: 100;
         }
         ul {
             margin: 0;
@@ -83,6 +87,9 @@ h8 {
             margin: 10px;}
         a {
             color: #02c;
+            text-align: left;
+            margin-left: 8px;
+            margin-top: 3px;
             font-family: Jura, Arial
         }
         em {
@@ -97,36 +104,43 @@ h8 {
         }
         input {
             padding: 5px;
-            border: 1px solid #989898;
-            background: 	#C8C8C8;
+            border: 1px solid rgba(0,0,0,0.5);
+            background: 	rgba(193, 222, 221, 0.5);
             border-radius: 5px;
             font-family: Jura, Arial}
         input:hover {
-             border: 1px solid #aaf;
+             border: 1px solid #37a2b8;
          }
         button {
             padding: 10px;
             border: 1px solid rgba(0, 0, 0, 0);
             border-radius: 5px;
-            background: #6190ab;
+            background: #4fc3f7;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
             margin-top: 10px;
-            margin-left: 45px;
+            width: 100%;
+            margin-left: 0px;
             font-family: Jura, Arial
         }
 .b1 {
     padding: 10px;
     border: 1px solid rgba(0, 0, 0, 0);
     border-radius: 5px;
-    background: #6bab63;
+    background: #03c04a;
+    width: 100%;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-    margin-right: 20px;
+    margin-right:0px;
     font-family: Jura, Arial
 }
 
 button:hover {
     /*background-color: #eef;*/
-    border: 1px solid #aaf;
+    border: 1px solid #37a2b8;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #4a4a70;
+    opacity: 1; /* Firefox */
 }
 
 
@@ -160,7 +174,7 @@ button:hover {
     height: 100vh;
     width: 100vh;
     spacing: 0;
-    direction: 'column'
+
 }
 
 @keyframes Gradient {

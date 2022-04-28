@@ -168,8 +168,9 @@ function Wordle() {
             let timeSecStr = Math.floor(((time*1.8183) / 1000) % 60);
             let timerSeconds = ("0" + Math.floor(((time*1.8183) / 1000) % 60)).slice(-2);
             setMSG(`You guessed the word in ${timeMinStr} minutes ${timerSeconds} seconds!`);
-            if (timeMinStr <= highscoreMin){
-                if (timeMinStr < highscoreMin) {
+            if (timeMinStr <= highscoreMin || highscoreMin === null){
+                console.log('beat score');
+                if (timeMinStr < highscoreMin || highscoreMin === null) {
                     const api = new API();
 
                     async function makeNewScore() {
@@ -231,8 +232,23 @@ function Wordle() {
                     makeNewScoreMin();
                     makeNewScoreSec();
                 }
+                else {
+                    console.log("did not beat score");
+                    const api = new API();
+                    async function deletePost() {
+                        const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Wordle!");
+                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                    }
+                    async function newPost() {
+                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `solved Wordle in ${timeMinStr}m${timerSeconds}s but didn't beat their high score :(`, dateTime);
+                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                    }
+                    newPost();
+                    deletePost();
+                }
             }
             else {
+                console.log("did not beat score");
                 const api = new API();
                 async function deletePost() {
                     const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Wordle!");
