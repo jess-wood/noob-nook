@@ -138,7 +138,7 @@ const TopBar = (props) => {
                 {
                     menu1Items.map(title =>
                         <Grid item onClick={() => handleSelectedItem(title)} key={title} sx={{marginLeft: '4%', marginRight: '8%' }}>
-                            <Button sx={{color:'white', marginRight:'4%'}}><Typography sx={{fontFamily: 'Jura, Arial'}}>{title}</Typography></Button>
+                            <Button sx={{color:'white', marginRight:'4%'}}><Typography sx={{fontFamily: 'Jura, Arial',color:'#E6E6FA'}}>{title}</Typography></Button>
                         </Grid>
                     )
                 }
@@ -155,7 +155,7 @@ const TopBar = (props) => {
                             {
                                 suggestions.map(r => (
                                 <Button sx={{backgroundColor: alpha('#232b2b', 0.95), '&:hover': {backgroundColor: alpha('#232b2b', 0.8)}, height: '25px', marginRight:4, width:'100%', textAlign:'center'}} onClick={(event) =>{ event.preventDefault(); setOtherUser(r.input); setSuggestions([]); setSearchInput('');}}><li key={r.input}>
-                                <Typography sx={{color: 'white', fontSize: '12px'}}>@{r.input}</Typography>
+                                <Typography sx={{color:'#E6E6FA', fontSize: '12px'}}>@{r.input}</Typography>
                                 </li></Button>
                                 ))
                             }
@@ -170,7 +170,7 @@ const TopBar = (props) => {
                     {
                         menu2Items.map(title =>
                             <Grid item onClick={() => handleSelectedItem(title)} key={title} sx={{marginRight: '7%'}}>
-                                <Button sx={{color:'white'}}><Typography sx={{fontFamily: 'Jura, Arial'}}>{title}</Typography></Button>
+                                <Button ><Typography sx={{fontFamily: 'Jura, Arial',color:'#E6E6FA'}}>{title}</Typography></Button>
                             </Grid>
                         )
                     }
