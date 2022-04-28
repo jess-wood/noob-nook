@@ -36,7 +36,6 @@ export default class Snake extends Component {
     }
 
     startGame = ()=>{
-        document.body.style.backgroundColor = "#6190ab"
         const api = new API();
         async function makeNewPost() {
             const gameHSJSONString = await api.postNewGameStatus(window.currentUserLoggedIn, "is playing Snake!", dateTime);

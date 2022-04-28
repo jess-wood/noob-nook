@@ -9,6 +9,7 @@ import {useState, useEffect} from "react";
 import API from '../../API_Interface/API_Interface';
 import {makeStyles} from "@material-ui/core/styles";
 import {alpha} from "@material-ui/core/styles/colorManipulator";
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 const useStyles = makeStyles({
     button: {
@@ -113,13 +114,13 @@ const UserHighScores = (props) => {
     return (
         <Grid container sx={{width: '100%', height: '100%', backgroundColor: '#714C7A', borderRight:0, borderLeft: 2, borderTop:2}}>
             <Grid item key={'highscores'} sx={{ width: '100%', height: '100%', justifyContent: 'center'}}>
-                <Typography fontWeight='bold' fontSize='30px' sx={{textDecoration: 'underline', border: 0, color:'#E7DECC', mt: 0.5, mb: 0.5, marginRight: '5%', textAlign: 'center', fontFamily: "Jura, Arial"}}>High Scores</Typography>
+                <Typography fontWeight='bold' fontSize='30px' sx={{textDecoration: 'underline', border: 0, color:'#FAE6FA', mt: 0.5, mb: 0.5, marginRight: '5%', textAlign: 'center', fontFamily: "Jura, Arial"}}>High Scores</Typography>
                 <Grid container item direction='row' sx={{width: '100%', height: '85%'}}>
 
                     {
                         highScoresTableAttributes.map(attr =>
                             <Grid item key={attr.attributeName} sx={{ mt: 0.5, mb: 0, width: '50%', height: '15%', border: 0, justifyContent: 'center'}}>
-                                <Typography fontWeight='bold' sx={{textAlign: 'left',marginLeft: '10%', mt: 0, mb: 0, fontFamily: "Jura, Arial", color:'#F8F0E3', fontSize: '20px'}}>{attr.attributeName}: {userData.length > 0 ? userData[0][attr.attributeDBName]: '0'}{attr.attributeDBName === "HS_Typing" ? " WPM":""}</Typography>
+                                <Typography fontWeight='bold' sx={{textAlign: 'left',marginLeft: '10%', mt: 0, mb: 0, fontFamily: "Jura, Arial", color:'#E6E6FA', fontSize: '20px'}}>{attr.attributeName}: {userData.length > 0 ? userData[0][attr.attributeDBName]: '0'}{attr.attributeDBName === "HS_Typing" ? " WPM":""}</Typography>
                             </Grid>
                         )
                     }
@@ -278,22 +279,22 @@ const UserProfile = (props) => {
                             <CardMedia style={{width: '101%', height: '100%', justifySelf: 'center', marginLeft: 0}} image={require(`./UsersPictures/${userData.length === 0 ? userPic : userData[0]['user_ProfilePic']}`)} title={"profilePic"}/>
                         </Card>
                         {isUserLoggedIn ? <br/> :
-                            checkFollowStatus() || isFollowing ? <Button key={'unfollow'} sx={{marginLeft: '35%', mt: 3, mb: 3, backgroundColor: '#4fc3f7', color: '#000',borderColor: '#4fc3f7','&:hover': {backgroundColor: '#4fc3f7',opacity: [0.6, 0.6, 0.6],}}} onClick={() => handleUnfollow()}> <Typography sx={{fontFamily: "Jura, Arial", fontWeight:'bold'}}>Following</Typography> </Button> :
+                            checkFollowStatus() || isFollowing ? <Button key={'unfollow'} sx={{marginLeft: '35%', height:'10%', mt: 3, mb: 3, backgroundColor: '#4fc3f7', color: '#000',borderColor: '#4fc3f7','&:hover': {backgroundColor: '#4fc3f7',opacity: [0.6, 0.6, 0.6],}}} onClick={() => handleUnfollow()}> <Typography sx={{fontFamily: "Jura, Arial", fontWeight:'bold',bottom: '9px'}}>Unfollow <RemoveCircleOutlineIcon style={{ color: '#000', marginLeft:1,verticalAlign:'middle'}}/></Typography> </Button> :
                                 <Button key={'follow'} sx={{marginLeft: '35%', mt: 3, mb: 3, backgroundColor: alpha('#5CAD31', 0.9), color: '#000', fontWeight: 'bold','&:hover': {backgroundColor: alpha('#5CAD31', 0.9)}}} onClick={() => handleFollow()}> <Typography sx={{fontFamily: "Jura, Arial", fontWeight:'bold'}}>Follow  </Typography>  <AddCircleOutlineOutlined style={{ color: '#000', marginLeft:1 }}/></Button>
                         }
                     </Grid>
                     <Grid item key={"UserInfo"} sx={{border: 0, width: '50%', alignItems: 'center', height: '50%'}}>
-                        <Box key='user_full_name' sx={{border: 0, mt: 10, width: 'fit-content', marginLeft: 3, color:'#E7DECC'}}>
+                        <Box key='user_full_name' sx={{border: 0, mt: 10, width: 'fit-content', marginLeft: 3, color:'#FAE6FA'}}>
                             <Typography sx={{fontFamily: "Jura, Arial", fontWeight: 'bold', fontSize: '40px'}}>{userData.length > 0 ? userData[0]['user_fName'] !== null ? userData[0]['user_fName'] : 'First' : "First"} {userData.length > 0 ? userData[0]['user_lName'] !== null ? userData[0]['user_lName'] : 'Last' : 'Last'}</Typography>
                         </Box>
                         <Box key='usernameProfile' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 3}}>
-                            <Typography sx={{fontFamily: "Jura, Arial", fontWeight: 'bold', fontSize: '20px', color:'#F8F0E3'}}>@{userData.length > 0 ? userData[0]['username'] : 'none'}</Typography>
+                            <Typography sx={{fontFamily: "Jura, Arial", fontWeight: 'bold', fontSize: '20px', color:'#E6E6FA'}}>@{userData.length > 0 ? userData[0]['username'] : 'none'}</Typography>
                         </Box>
                         <Box key='dateJoinedProfile' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 3}}>
-                            <Typography sx={{fontFamily: "Jura, Arial", fontWeight: 'bold', fontSize: '20px', color:'#F8F0E3'}}>A noob since {userData.length > 0 ? userData[0]['DATE_FORMAT(dateJoined, \'%m/%d/%Y\')'] : '03/19/22'}</Typography>
+                            <Typography sx={{fontFamily: "Jura, Arial", fontWeight: 'bold', fontSize: '20px', color:'#E6E6FA'}}>A noob since {userData.length > 0 ? userData[0]['DATE_FORMAT(dateJoined, \'%m/%d/%Y\')'] : '03/19/22'}</Typography>
                         </Box>
                         <Box key='rankProfile' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 3}}>
-                            <Typography sx={{fontFamily: "Jura, Arial", fontWeight: 'bold', fontSize: '20px', color:'#F8F0E3'}}>Rank: {userData.length > 0 ? userData[0]['user_rank'] : 'none'}</Typography>
+                            <Typography sx={{fontFamily: "Jura, Arial", fontWeight: 'bold', fontSize: '20px', color:'#E6E6FA'}}>Rank: {userData.length > 0 ? userData[0]['user_rank'] : 'none'}</Typography>
                         </Box>
                     </Grid>
                 </Grid>
@@ -308,14 +309,15 @@ const UserProfile = (props) => {
                 backgroundColor: '#714C7A',
                 padding: 1
             }} sx={{border: 1, display:'flex',flexDirection:'column' }}>
-                <Box sx={{width: '100%', height: '8%', alignItems: 'center', fontSize: 30, backgroundColor: '#714C7A', mb: 1}}>
-                    <Typography sx={{textDecoration: 'underline', fontWeight: 'bold', fontSize: '30px', textAlign: 'center', fontFamily: "Jura, Arial", color:'#E7DECC'}}>
+                <Box sx={{width: '54.5%', height: '7%', alignItems: 'center', fontSize: 30, backgroundColor: '#714C7A', position:'fixed', margin:'auto'}}>
+                    <Typography sx={{textDecoration: 'underline', fontWeight: 'bold', fontSize: '30px', textAlign: 'center', fontFamily: "Jura, Arial", color:'#FAE6FA'}}>
                         Activity Feed
                     </Typography>
                 </Box>
+                <Box sx={{height:'9%'}}></Box>
                 {
                     posts.map(post =>
-                        <Grid container direction='column' sx={{
+                        <Grid container item direction='column' sx={{
                             width: '95%',
                             height: '10%',
                             backgroundColor: '#b3e5fc',
@@ -328,10 +330,11 @@ const UserProfile = (props) => {
                             marginLeft:0,
                             alignItems: 'center',
                             alignSelf: 'center',
-                            mb: 1
+                            mt: 0,
+                            mb:1,
                         }}>
                             <Box display='flex' flexDirection='row' justifyContent='center' sx={{height: '100%', width: '30%', borderRight: 1.5, borderColor: '#4fc3f7', marginLeft:1, mb: 1}}>
-                                <Card key={"profilePicInProfile"} sx={{width: '35%', height: '90%', borderRadius: '50%',  border: 1, mt: 1, marginLeft: 1}}>
+                                <Card key={"profilePicInProfile"} sx={{width: '35%', height: '90%', borderRadius: '50%',  border: 1, mt: 1, marginLeft: 1, borderColor: '#4fc3f7'}}>
                                     <CardMedia style={{width: '100%', height: '100%', justifySelf: 'center'}} image={require(`../UserProfile/UsersPictures/${userData[0]['user_ProfilePic']}`)} title={"profilePic"}/>
                                 </Card>
                                 <Box key="userName" sx={{height:'30%', width:'80%', marginLeft: 1}}>
