@@ -94,7 +94,10 @@ const UsernameHeader = (props) => {
 }
 
 function UserDataEntry (props) {
-    console.log(`account in user data entry: ${props.account[0] !== undefined ? props.account[0]['username'] : 'none'}`);
+    // console.log(`user data enrty: ${JSON.stringify(props.account)}`);
+    // if (props.account.length === 0)
+    //     return null;
+    // console.log(`account in user data entry: ${props.account[0] !== undefined ? props.account[0]['username'] : 'none'}`);
     return (
         <Grid container sx={{
             width: 800,
@@ -114,7 +117,7 @@ function UserDataEntry (props) {
                     </Card>
                 <Box key="userName" sx={{height:'30%', width:'80%', marginLeft: 1}}>
                     <Typography fontSize='16px' sx={{fontFamily: "Jura, Arial", mt: 4}}>
-                        {props.account[0] !== undefined ? "@"+props.account[0]['username'] : 'none'}
+                        {props.account.length > 0 ? "@"+props.account[0]['username_user_post'] : 'none'}
                     </Typography>
                 </Box>
             </Box>
@@ -185,19 +188,20 @@ const Dashboard = (props) => {
 
     useEffect(() => {
         console.log("in useEffect for followed user posts");
-
+        if (followedUsers.length === 0)
+            return;
         const api = new API;
         async function getFollowedUserPosts() {
             let tempPosts = [];
-            if (followedUsers !== undefined) {
-                for (let i = 0; i < followedUsers.length; i++) {
-                    // console.log(`followedUsers length: ${followedUsers.length}`);
-                    // console.log(`username set to query: ${followedUsers[i]['username_follower']}`);
-                    const followedUserPostsJSONString = await api.usersFollowedPosts(followedUsers[i]['username_follower']);
-                    console.log(`routes from the DB ${JSON.stringify(followedUserPostsJSONString)}`);
-                    tempPosts.push(followedUserPostsJSONString.data);
-                    // console.log(`tempPosts[i]: ${tempPosts[i]}`);
-                }
+            for (let i = 0; i < followedUsers.length; i++) {
+                // console.log(`followedUsers length: ${followedUsers.length}`);
+                // console.log(`username set to query: ${followedUsers[i]['username_follower']}`);
+                const followedUserPostsJSONString = await api.usersFollowedPosts(window.currentUserLoggedIn, followedUsers[i]['username_follower']);
+                console.log(`routes from the DB ${JSON.stringify(followedUserPostsJSONString)}`);
+                if (followedUserPostsJSONString.data.length === 0)
+                    continue;
+                tempPosts.push(followedUserPostsJSONString.data);
+                // console.log(`tempPosts[i]: ${tempPosts[i]}`);
             }
             setFollowedUsersPosts(tempPosts);
         }
@@ -215,10 +219,11 @@ const Dashboard = (props) => {
                 </Box>
                 <Stack divider={<Divider orientation="horizontal" flexItem /> } style={{maxHeight: '100%', overflow: 'auto'}}>
                     {
+                        curUserHighScores.length > 0 &&
                         highScoresTableAttributes.map(attr =>
                             <Box display='flex' flexDirection='row' justifyContent='center' sx={{marginBlock: 3, mt: 3}}>
                                 <Typography fontSize='20px' sx={{textAlign: 'center', fontFamily: "Jura, Arial"}} color='#f8f0e3'>
-                                    {curUserHighScores[0][attr.attributeDBName] !== undefined ? attr.attributeName+": "+ curUserHighScores[0][attr.attributeDBName] : '0'}
+                                    { curUserHighScores[0][attr.attributeDBName] !== undefined ? attr.attributeName+": "+ curUserHighScores[0][attr.attributeDBName] : '0'}
                                 </Typography>
                             </Box>
                         )

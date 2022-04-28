@@ -100,7 +100,7 @@ const dashboardRouter = require('koa-router')({
 
 dashboardRouter.get('/:username/followed-users', DashboardController.followedUsers);
 dashboardRouter.get('/:username/user-highscores', DashboardController.currentUserHighScores);
-dashboardRouter.get('/:username/followed-posts', DashboardController.followedUsersPost);
+dashboardRouter.get('/:username/:followed_username/followed-posts', DashboardController.followedUsersPost);
 
 
 /**
