@@ -86,7 +86,7 @@ const highScoresTableAttributes = [
 const UsernameHeader = (props) => {
     return (
         <Container sx={{borderBottom: 1, height: 75, mt: 3, marginLeft: 1}}>
-            <Typography fontWeight='bold' fontSize='35px' sx={{fontFamily: 'Jura, Arial'}} color='#e7dedc'>
+            <Typography fontWeight='bold' fontSize='35px' sx={{fontFamily: 'Jura, Arial'}} color='#FAE6FA'>
                 Welcome {window.currentUserLoggedIn}!   
             </Typography>
         </Container>
@@ -94,10 +94,6 @@ const UsernameHeader = (props) => {
 }
 
 function UserDataEntry (props) {
-    // console.log(`user data enrty: ${JSON.stringify(props.account)}`);
-    // if (props.account.length === 0)
-    //     return null;
-    // console.log(`account in user data entry: ${props.account[0] !== undefined ? props.account[0]['username'] : 'none'}`);
     return (
         <Grid container sx={{
             width: 800,
@@ -111,19 +107,24 @@ function UserDataEntry (props) {
             borderColor: '#4fc3f7',
             mb: 1
         }}>
-            <Box display='flex' flexDirection='row' justifyContent='left' sx={{height: '100%', width: '30%', borderRight: 1.5, borderColor: '#4fc3f7'}}>
+            <Box display='flex' flexDirection='row' justifyContent='left' sx={{height: '100%', width: '32%', borderRight: 1.5, borderColor: '#4fc3f7'}}>
                     <Card key={"profilePic"} sx={{width: '40%', height: '80%', borderRadius: '50%',  border: 1, mt: 1, marginLeft: 1}}>
-                        <CardMedia style={{width: '100%', height: '100%', justifySelf: 'center'}} image={require('../UserProfile/UsersPictures/slick_doe.jpg')} title={"profilePic"}/>
+                        <CardMedia style={{width: '100%', height: '100%', justifySelf: 'center'}} image={require(`../UserProfile/UsersPictures/${props.account[0]['user_ProfilePic']}`)} title={"profilePic"}/>
                     </Card>
                 <Box key="userName" sx={{height:'30%', width:'80%', marginLeft: 1}}>
-                    <Typography fontSize='16px' sx={{fontFamily: "Jura, Arial", mt: 4}}>
+                    <Typography fontSize='20px' fontWeight='bold' sx={{fontFamily: "Jura, Arial", mt: 4}}>
                         {props.account.length > 0 ? "@"+props.account[0]['username_user_post'] : 'none'}
                     </Typography>
                 </Box>
             </Box>
-            <Box display='flex' flexDirection='row' justifyContent='center' sx={{marginLeft: 2}}>
-                <Typography fontSize='16px' sx={{fontFamily: "Jura, Arial", mt: 4}}>
+            <Box display='flex' flexDirection='row' justifyContent='left' sx={{width: '30%', marginLeft: 2}}>
+                <Typography fontSize='20px' fontWeight='bold' sx={{fontFamily: "Jura, Arial", mt: 4}}>
                     {props.account[0] !== undefined ? props.account[0]['post_content'] : 'none'}
+                </Typography>
+            </Box>
+            <Box display='flex' flexDirection='row' justifyContent='center' alignContent='center' sx={{height: '100%', width: '10%', borderLeft: 1.5, borderColor: '#4fc3f7', marginLeft: 20, paddingLeft: 7}}>
+                <Typography fontSize='12px' fontWeight='bold' sx={{fontFamily: "Jura, Arial", mt: 4, textAlign: 'center'}}>
+                    {props.account[0] !== undefined ? props.account[0]['DATE_FORMAT(date_created, \'%m/%d/%Y\')'] : ''} {props.account[0]['cast(date_created as time)']}
                 </Typography>
             </Box>
         </Grid>
@@ -134,7 +135,7 @@ function ActivityFeed (props) {
     console.log(`posts in activity feed: ${JSON.stringify(props.posts)}`);
     return (
         <Box sx={{width: '100%', height: 1300, mt: -7, overflowY: 'scroll'}}>
-            <Typography fontWeight='bold' fontSize='25px' sx={{textAlign: 'center', fontFamily: "Jura, Arial", mb: 2}} color='#e7dedc'>
+            <Typography fontWeight='bold' fontSize='25px' sx={{textAlign: 'center', fontFamily: "Jura, Arial", mb: 2}} color='#FAE6FA'>
                 FOLLOWED USERS ACTIVITY
             </Typography>
             <Box sx={{
@@ -213,7 +214,7 @@ const Dashboard = (props) => {
         return (
             <Box sx={{height: 400, width: 350, marginLeft: 1, mb: 4, border: 1, backgroundColor: '#946aa6', overflowY: 'scroll'}}>
                 <Box display='flex' flexDirection='row' justifyContent='center' sx={{borderBottom: 1}}>
-                    <Typography fontWeight='bold' fontSize='25px' sx={{mt: 0.5, mb: 0.5, textAlign: 'center', fontFamily: "Jura, Arial"}} color='#e7dedc'>
+                    <Typography fontWeight='bold' fontSize='25px' sx={{mt: 0.5, mb: 0.5, textAlign: 'center', fontFamily: "Jura, Arial"}} color='#FAE6FA'>
                         YOUR HIGH SCORES:
                     </Typography>
                 </Box>
@@ -222,7 +223,7 @@ const Dashboard = (props) => {
                         curUserHighScores.length > 0 &&
                         highScoresTableAttributes.map(attr =>
                             <Box display='flex' flexDirection='row' justifyContent='center' sx={{marginBlock: 3, mt: 3}}>
-                                <Typography fontSize='20px' sx={{textAlign: 'center', fontFamily: "Jura, Arial"}} color='#f8f0e3'>
+                                <Typography fontSize='20px' sx={{textAlign: 'center', fontFamily: "Jura, Arial"}} color='#E6E6FA'>
                                     { curUserHighScores[0][attr.attributeDBName] !== undefined ? attr.attributeName+": "+ curUserHighScores[0][attr.attributeDBName] : '0'}
                                 </Typography>
                             </Box>
@@ -237,7 +238,7 @@ const Dashboard = (props) => {
         return (
             <Box sx={{height: 400, width: 350, marginLeft: 1, mb: 4, border: 1, backgroundColor: '#946aa6', overflowY: 'scroll'}}>
                 <Box display='flex' flexDirection='row' justifyContent='center' sx={{borderBottom: 1}}>
-                    <Typography fontWeight='bold' fontSize='25px' sx={{mt: 0.5, mb: 0.5, textAlign: 'center', fontFamily: "Jura, Arial"}} color='#e7dedc'>
+                    <Typography fontWeight='bold' fontSize='25px' sx={{mt: 0.5, mb: 0.5, textAlign: 'center', fontFamily: "Jura, Arial"}} color='#FAE6FA'>
                         FOLLOWING:
                     </Typography>
                 </Box>
@@ -252,7 +253,7 @@ const Dashboard = (props) => {
                                 <Box display='flex' flexDirection='row' justifyContent='center'
                                      sx={{marginBlock: 3, mt: 3}}>
                                     <Typography fontSize='20px' sx={{textAlign: 'center', fontFamily: "Jura, Arial"}}
-                                                color='#f8f0e3'>
+                                                color='#E6E6FA'>
                                         {user['username_follower']}
                                     </Typography>
                                 </Box>
