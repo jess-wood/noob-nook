@@ -34,6 +34,13 @@ const words = ["ABOUT","ABOVE","AFTER","ALONE","BEACH","BEGIN","BLACK","BRING","
     "PRICE", "QUACK", "QUIET", "RIGHT", "RIVER", "ROBIN", "ROBOT", "ROUND", "SKUNK", "STAMP","STAND", "STICK", "STORE",
     "STORY", "STRAY", "TABLE", "THING", "TIGER", "TODAY", "TRAIN","TRUCK", "UNDER", "WATER", "WHITE", "WITCH", "WOMAN",
     "WOMEN", "WRITE", "ZEBRA"];
+const keyboardRows = [
+    ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
+    ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
+    ["enter", "z", "x", "c", "v", "b", "n", "m", "backspace"],
+];
+
+const theKeys = keyboardRows.flat();
 
 let numBoxesPerRow = 5;
 let numRowsRemaining = 5; //6 rows total minus 1 for active row
@@ -83,6 +90,19 @@ const checkGameOver = (activeRow) => {
 }
 
 function Wordle() {
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (allKeys.includes(e.key)) {
+                console.log(e.key);
+            }
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, []);
     //create keyboard
     const allKeys = 'QWERTYUIOPASDFGHJKLZXCVBNM';
     const initialKeyboard = () => {
