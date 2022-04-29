@@ -19,7 +19,7 @@ class PostsController {
                        UPDATE user_post
                         SET
                             post_content = ?, date_created = ?
-                        WHERE username = ? AND post_content = ?
+                        WHERE username_user_post = ? AND post_content = ?
                         `;
             dbConnection.query({
                 sql: query,
@@ -70,7 +70,7 @@ class PostsController {
             const query = `
                        DELETE FROM user_post
                         WHERE
-                            username = ? AND post_content = ?
+                            username_user_post = ? AND post_content = ?
                         `;
             dbConnection.query({
                 sql: query,
