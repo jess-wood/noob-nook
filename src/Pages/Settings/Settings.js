@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Fragment, useEffect, useState} from "react";
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
+import {Card, CardMedia, Grid} from '@mui/material';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import API from "../../API_Interface/API_Interface";
@@ -11,6 +11,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import '../Login/Login.css';
 
 import DropzoneDialogExample from "./DropZonePicture";
+import highScoresTableAttributes from '../Dashboard/Dashboard.js';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -123,7 +124,17 @@ const Settings = (props) => {
                 </Typography>
             </Container>
 
-            <Grid item key={"UserInfo"} sx={{border: 0, width: '50%', alignItems: 'center', height: '50%'}}>
+            <Grid item key={"UserInfo"} sx={{border: 0, width: '20%', alignItems: 'center', height: '50%'}}>
+                <DropzoneDialogExample/>
+                <Card key={"profilePic"} sx={{width: '80%', height: '50%', borderRadius: '50%',  border: 1, mt: 1, marginLeft: 1}}>
+                    <CardMedia style={{width: '100%',
+                                       height: '100%',
+                                       justifySelf: 'center'}}
+                               image={require('../UserProfile/UsersPictures/default.jpg')} title={"profilePic"}/>
+                </Card>
+            </Grid>
+
+            <Grid item key={"UserInfo"} sx={{border: 0, width: '30%', alignItems: 'center', height: '30%'}}>
                 <Box key='usernameProfile' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 3}}>
                     <Typography sx={{fontFamily: "Jura, Arial",
                                      fontWeight: 'bold',
@@ -155,7 +166,7 @@ const Settings = (props) => {
                 <TextField id="outlined-basic" label="New Password" variant="outlined" />
             </Grid>
 
-            <Grid item xs={4} sm={4} md={4}>
+            <Grid item sx={{border: 0, width: '30%', alignItems: 'center', height: '50%'}}>
                 <Button variant="outlined" color="success">
                     Save Changes
                 </Button>
