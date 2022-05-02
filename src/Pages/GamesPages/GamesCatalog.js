@@ -8,7 +8,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
 import snakeLogo from './images/snake logo.png';
-import logo2048 from './images/2048 logo.png';
+import logo2048 from './images/2048_logo.png';
 import tetrisLogo from './images/tetris logo.png';
 import wordlelogo from './images/wordle_banner.png';
 import pongLogo from './images/pongpicture.png';
@@ -153,7 +153,7 @@ export default function MainBoard () {
                                         width: '70%',
                                         marginLeft: '13.5%',
                                         mb: '4%'
-                                    }}><img style={{}} src={logo2048} height={'70%'} width={'70%'}/></button>
+                                    }}><img style={{}} src={logo2048} height={200} width={300}/></button>
                                     <Typography sx={{textAlign: 'center', mb: 2}}>2048</Typography>
                                 </Grid>
 
