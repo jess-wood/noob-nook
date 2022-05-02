@@ -74,7 +74,7 @@ const Settings = (props) => {
         const api = new API();
 
         async function getUserInfo() {
-            const userJSONString = await api.userInfo(user);
+            const userJSONString = await api.userInfo(window.currentUserLoggedIn);
             console.log(`routes from the DB ${JSON.stringify(userJSONString)}`);
             setUserData(userJSONString.data);
             api.getUserInfo(userName, userEmail, userPassword)

@@ -96,12 +96,20 @@ export default class APIInterface {
         return axiosAgent.get(`high-scores/${username}/get-snake`);
     }
 
+    async getMemoryHS(username){
+        return axiosAgent.get(`high-scores/${username}/get-match`);
+    }
+
     async postNewHighScoreWPM(score, username){
         return axiosAgent.get(`high-scores/${score}/${username}/score-wpm`);
     }
 
     async postNewHighScoreWordle(score, username){
         return axiosAgent.get(`high-scores/${score}/${username}/score-wordle`);
+    }
+
+    async postNewHighScoreMemory(score, username){
+        return axiosAgent.get(`high-scores/${score}/${username}/score-match`);
     }
 
     async postNewHighScoreSpace(score, username){

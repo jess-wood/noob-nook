@@ -18,15 +18,18 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import {gameComponents}  from './GameComponents';
-import snakeLogo from './images/snake logo.png';
+import snakeLogo from './images/snakepic.png';
 import logo2048 from './images/2048-circle.png';
 import tetrisLogo from './images/tetris logo.png';
 import wordlelogo from './images/wordle_banner.png';
-import pongLogo from './images/pongpicture.png';
+import pongLogo from './images/pongpic.png';
 import lightoutLogo from './images/lights.png';
 import spaceInvaders from './images/space invaders.png';
 import typeLogo from './images/TypeRacer_logo.svg.png';
 import logo_2048 from './images/2048test.png';
+import conect4Logo from './images/connect4.png';
+import memoryLogo from './images/memory.png';
+import Button from "@mui/material/Button";
 
 const GameListItems = (props) => {
     return <div>
@@ -63,7 +66,7 @@ const findSelectedComponent = (selectedItem) => {
 
 export default function MainBoard () {
 
-    const [selectedItem, setSelectedItem] = useState('Summary');
+    const [selectedItem, setSelectedItem] = useState('Catalog');
     const handleSelectedItem = (title) => {
         setSelectedItem(title)
     };
@@ -74,47 +77,59 @@ export default function MainBoard () {
         <Fragment>
             <Grid container sx={{backgroundColor: '#714C7A', width: '100%', height: '100%', border:5, mt: 0, marginLeft: 0}}>
                 <Grid item sx={{height: '25%', width: '100%', border:0, borderColor:'red'}}>
-                    <Box sx={{border:0, height: '100%', width: '100%'}}><Typography fontSize='40px' sx={{textAlign:'center', mt: 1}}>G A M E S</Typography></Box>
+                    <Box sx={{border:0, height: '100%', width: '100%'}}><Typography fontSize='40px' textDecoration='underline' sx={{textAlign:'center', mt: 1,color:'#FAE6FA', fontFamily: '\'Press Start 2P\', sans-serif', fontWeight:'bold'}}>GAMES</Typography></Box>
                 </Grid>
                 <Grid container  rowSpacing={5} columnSpacing={1} sx={{display: 'flex', flexDirection: 'row',marginLeft:0, backgroundColor: '#714C7A', height: '100%',width:'100%',mt: -1, padding: 5, paddingTop:0, justifyContent:'center', border: 0}}>
                     <Grid item justifyContent='center' xs={4} sx={{width: '30%', height: '25%', border: 0}}>
-                        <Box sx={{alignSelf: 'center', borderRadius: 2, border: 2, borderColor: '#4fc3f7', backgroundColor: '#b3e5fc', height: '90%' , width: '69.2%',marginLeft:'13.5%', mb:'4%'}}><img style={{marginLeft:2}} src={tetrisLogo} height={200} width={300}/></Box>
-                        <Typography sx={{textAlign:'center', mb: 2}}>Tetris</Typography>
+                        <Button sx={{width: '100%', height: '100%', border: 0}}><Box sx={{alignSelf: 'center', borderRadius: 2, border: 2, borderColor: '#4fc3f7', backgroundColor: '#b3e5fc', height: '90%' , width: '69.2%',marginLeft:'0', mb:'4%'}}><img style={{marginLeft:2}} src={tetrisLogo} height={200} width={300}/></Box>
+
+                        <Typography sx={{textAlign:'center', mb: 2, color:'#FAE6FA', fontFamily: 'Jura, Arial', fontWeight:'bold', fontSize:'30px'}}>Tetris</Typography>
+                        </Button>
                     </Grid>
 
-                    <Grid item xs={4} sx={{width: '30%', height: '25%',border: 0}}>
+                    <Grid item xs={4} sx={{width: '30%', height: '25%',border: 1}}>
                         <Box sx={{borderRadius: 2, border: 2,  borderColor: '#4fc3f7', backgroundColor: '#b3e5fc', height: '90%' , width: '69.2%',marginLeft:'13.5%', mb:'4%'}}><img style={{marginLeft:2}} src={wordlelogo} height={200} width={300}/></Box>
-                        <Typography sx={{textAlign:'center', mb: 2}}>Wordle</Typography>
+                        <Typography sx={{textAlign:'center', mb: 2, color:'#FAE6FA', fontFamily: 'Jura, Arial', fontWeight:'bold', fontSize:'30px'}}>Wordle</Typography>
                     </Grid>
 
                     <Grid item xs={4} sx={{width: '30%', height: '25%',border: 0}}>
                         <Box sx={{borderRadius: 2, border: 2,  borderColor: '#4fc3f7', backgroundColor: '#b3e5fc', height: '90%' , width: '69.2%',marginLeft:'13.5%', mb:'4%'}}><img style={{marginLeft:2}} src={lightoutLogo} height={200} width={300}/></Box>
-                        <Typography sx={{textAlign:'center', mb: 2}}>Lights Out</Typography>
+                        <Typography sx={{textAlign:'center', mb: 2, color:'#FAE6FA', fontFamily: 'Jura, Arial', fontWeight:'bold', fontSize:'30px'}}>Lights Out</Typography>
                     </Grid>
 
                     <Grid item xs={4} sx={{width: '30%', height: '25%',border: 0}}>
                         <Box sx={{borderRadius: 2, border: 2,  borderColor: '#4fc3f7', backgroundColor: '#b3e5fc', height: '90%' , width: '69.2%',marginLeft:'13.5%', mb:'4%'}}><img style={{marginLeft:2}} src={spaceInvaders} height={200} width={300}/></Box>
-                        <Typography sx={{textAlign:'center', mb: 2}}>Meteor Killers</Typography>
+                        <Typography sx={{textAlign:'center', mb: 2, color:'#FAE6FA', fontFamily: 'Jura, Arial', fontWeight:'bold', fontSize:'30px'}}>Meteor Killers</Typography>
                     </Grid>
 
                     <Grid item xs={4} sx={{width: '30%', height: '25%',border: 0}}>
-                        <Box sx={{borderRadius: 2, border: 2,  borderColor: '#4fc3f7', backgroundColor: '#b3e5fc', height: '90%' , width: '70%',marginLeft:'13.5%', mb:'4%'}}><img src={snakeLogo} height={200} width={300}/></Box>
-                        <Typography sx={{textAlign:'center', mb: 2}}>Snake</Typography>
+                        <Box sx={{borderRadius: 2, border: 2,  borderColor: '#4fc3f7', backgroundColor: '#b3e5fc', height: '90%' , width: '70%',marginLeft:'13.5%', mb:'4%'}}><img style={{marginLeft:2}} src={snakeLogo} height={200} width={300}/></Box>
+                        <Typography sx={{textAlign:'center', mb: 2, color:'#FAE6FA', fontFamily: 'Jura, Arial', fontWeight:'bold', fontSize:'30px'}}>Snake</Typography>
                     </Grid>
 
                     <Grid item xs={4} sx={{width: '30%', height: '25%',border: 0}}>
                         <Box sx={{borderRadius: 2, border: 2,  borderColor: '#4fc3f7', backgroundColor: '#b3e5fc', height: '90%' , width: '70%',marginLeft:'13.5%', mb:'4%'}}><img style={{marginLeft:'15%'}} src={logo2048} height={'70%'} width={'70%'}/></Box>
-                        <Typography sx={{textAlign:'center', mb: 2}}>2048</Typography>
+                        <Typography sx={{textAlign:'center', mb: 2, color:'#FAE6FA', fontFamily: 'Jura, Arial', fontWeight:'bold', fontSize:'30px'}}>2048</Typography>
                     </Grid>
 
                     <Grid item xs={4} sx={{width: '30%', height: '25%',border: 0}}>
                         <Box sx={{borderRadius: 2, border: 2,  borderColor: '#4fc3f7', backgroundColor: '#b3e5fc', height: '90%' , width: '69.2%',marginLeft:'13.5%', mb:'4%'}}><img style={{marginLeft:2}} src={typeLogo} height={200} width={300}/></Box>
-                        <Typography sx={{textAlign:'center', mb: 2}}>Typing Master</Typography>
+                        <Typography sx={{textAlign:'center', mb: 2, color:'#FAE6FA', fontFamily: 'Jura, Arial', fontWeight:'bold', fontSize:'30px'}}>Typing Master</Typography>
                     </Grid>
 
                     <Grid item xs={4} sx={{width: '30%', height: '25%',border: 0, alignItems:'center'}}>
-                        <Box sx={{ borderRadius: 2, border: 2,  borderColor: '#4fc3f7', backgroundColor: '#b3e5fc', height: '90%' , width: '69.2%',marginLeft:'13.5%', mb:'4%'}}><img src={pongLogo} height={200} width={300}/></Box>
-                        <Typography sx={{textAlign:'center', mb: 2}}>Pong</Typography>
+                        <Box sx={{ borderRadius: 2, border: 2,  borderColor: '#4fc3f7', backgroundColor: '#b3e5fc', height: '90%' , width: '69.2%',marginLeft:'13.5%', mb:'4%'}}><img style={{marginLeft:2}} src={pongLogo} height={200} width={300}/></Box>
+                        <Typography sx={{textAlign:'center', mb: 2, color:'#FAE6FA', fontFamily: 'Jura, Arial', fontWeight:'bold', fontSize:'30px'}}>Pong</Typography>
+                    </Grid>
+
+                    <Grid item xs={4} sx={{width: '30%', height: '25%',border: 0}}>
+                        <Box sx={{borderRadius: 2, border: 2,  borderColor: '#4fc3f7', backgroundColor: '#b3e5fc', height: '90%' , width: '69.2%',marginLeft:'13.5%', mb:'4%'}}><img style={{marginLeft:2}} src={conect4Logo} height={200} width={300}/></Box>
+                        <Typography sx={{textAlign:'center', mb: 2, color:'#FAE6FA', fontFamily: 'Jura, Arial', fontWeight:'bold', fontSize:'30px'}}>Connect4</Typography>
+                    </Grid>
+
+                    <Grid item xs={4} sx={{width: '30%', height: '25%',border: 0, alignItems:'center'}}>
+                        <Box sx={{ borderRadius: 2, border: 2,  borderColor: '#4fc3f7', backgroundColor: '#b3e5fc', height: '90%' , width: '69.2%',marginLeft:'13.5%', mb:'4%'}}><img style={{marginLeft:4}} src={memoryLogo} height={200} width={300}/></Box>
+                        <Typography sx={{textAlign:'center', mb: 2, color:'#FAE6FA', fontFamily: 'Jura, Arial', fontWeight:'bold', fontSize:'30px'}}>Memory Scramble</Typography>
                     </Grid>
                 </Grid>
             </Grid>

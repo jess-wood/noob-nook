@@ -81,7 +81,7 @@ class LoginController {
         return new Promise((resolve, reject) => {
             const query = `
                        INSERT INTO user_highscores (username, HS_matching, HS_2048, HS_LightsOut, HS_Tetris, HS_Wordle, HS_Snake, HS_Checkers, HS_Connect4, HS_Pong, HS_Typing, HS_SpaceGame, HS_WordleMinInt, HS_WordleSecInt)
-                       VALUES (?,0,0,0,0,'0m0s',0,0,0,0,0,0,100,100)
+                       VALUES (?,100,0,0,0,'0m0s',0,0,0,0,0,0,100,100)
                         `;
             dbConnection.query({
                 sql: query,
