@@ -17,7 +17,6 @@ import spaceInvaders from './images/space invaders.png';
 import typeLogo from './images/TypeRacer_logo.svg.png';
 
 
-
 import Wordle from  "../GamesPages/Games/Wordle/Wordle";
 import Tetris from "../GamesPages/Games/Tetris/TetrisGame";
 import LightsOut from "../GamesPages/Games/Lights-Out/LightsOut";
@@ -25,9 +24,6 @@ import SpaceGame from "../GamesPages/Games/SpaceGame/SpaceShooter";
 import Snake from "../GamesPages/Games/Snake/Snake";
 import Game_2048 from "../GamesPages/Games/_2048/src/components/mainBoard";
 import TypingMaster from "../GamesPages/Games/TypingMaster/TypingMaster";
-
-
-
 
 
 
@@ -153,7 +149,7 @@ export default function MainBoard () {
                                         width: '70%',
                                         marginLeft: '13.5%',
                                         mb: '4%'
-                                    }}><img style={{}} src={logo2048} height={200} width={300}/></button>
+                                    }}><img style={{}} src={logo2048} height={'70%'} width={'70%'}/></button>
                                     <Typography sx={{textAlign: 'center', mb: 2}}>2048</Typography>
                                 </Grid>
 
@@ -252,9 +248,4 @@ export default function MainBoard () {
     }
 
 
-
-
-
-
-
-
+//export default MainBoard;
