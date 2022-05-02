@@ -1,95 +1,186 @@
-//import * as React from 'react';
-/* eslint-disable */
-import React, {useCallback, useEffect, useState} from "react";
+import * as React from 'react';
+import {Fragment, useEffect, useState} from "react";
 import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import {Card, CardMedia, Grid} from '@mui/material';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import API from "../../API_Interface/API_Interface";
+import {TextField} from "@mui/material";
+import {makeStyles} from "@material-ui/core/styles";
 import '../Login/Login.css';
+
+import DropzoneDialogExample from "./DropZonePicture";
+import highScoresTableAttributes from '../Dashboard/Dashboard.js';
+
+const useStyles = makeStyles((theme) => ({
+    container: {
+        border: '4px solid green',
+        display: 'inline-flex',
+    },
+    item: {
+        border: '1px',
+        display: 'inline-flex',
+        borderRadius: '30px'
+    }
+}));
+
+/*
+function updateButton (props) {
+    console.log(`Button Access to update user profile`)
+
+    return (
+        <Button variant="outlined" color="success">
+            Save Changes
+        </Button>
+    );
+}
+
+function resetScoresButton (props) {
+    console.log(`Button Access to reset user's scores`)
+
+    return (
+        <Button variant="outline-danger">
+            Reset Scores
+        </Button>
+    );
+}
+
+function DeleteButton (props) {
+    console.log(`Button Access to delete profile`)
+
+    return (
+        <Button variant="danger">
+            Delete Profile
+        </Button>
+    );
+}
+*/
 
 const Settings = (props) => {
     console.log("in settings");
 
-    const [profilePic, setProfilePic] = useState();
+    const classes = useStyles();
+    const [userData, setUserData] = useState([]);
+    const {user, setUser, isUserLoggedIn} = props;
+    const {verifyUser, setVerifyUser} = useState(false);
+    const [userPic, setUserPic] = useState('default.jpg');
     const [userName, setUserName] = useState("");
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
     const [confirmUserPassword, setConfirmUserPassword] = useState("");
 
-    const dispatch = useDispatch();
-    const userRegister = useSelector((state) => state.currentUserLoggedIn);
-    const {loading, error, userInfo} = userUpdate;
-
     useEffect(() => {
-        if (!userInfo) {
-            history.push("/");
-        } else {
-            setUserName(userInfo.userName);
-            setUserEmail(userInfo.userEmail);
+        const api = new API();
+
+        async function getUserInfo() {
+            const userJSONString = await api.userInfo(user);
+            console.log(`routes from the DB ${JSON.stringify(userJSONString)}`);
+            setUserData(userJSONString.data);
+            api.getUserInfo(userName, userEmail, userPassword)
+                .then( userInfo => {
+                    console.log(`api returns user info and it is: ${JSON.stringify(userInfo)}`);
+                    const user = userInfo.user;
+                    if( userInfo.status === "OK" ) {
+                        setUser(user);
+                    }
+                });
         }
-    }, [history, userInfo]);
+
+        getUserInfo();
+    }, [user]);
 
     const submitHandler = (event) => {
         event.preventDefault();
 
-        dispatch(userRegister({userName, userEmail, userPassword}));
-    };
+        const api = new API();
+        async function updateUserInfo() {
+            api.getUserInfo(userName, userEmail, userPassword)
+                .then(userInfo => {
+                    console.log(`api returns user info and it is: ${JSON.stringify(userInfo)}`);
+                    const user = userInfo.user;
+                    if (userInfo.status === "OK") {
+                        setUser(user);
+                    }
+                });
+        }
+        updateUserInfo();
+    }
 
-    return (
-        <div className="settings-page">
-            <form onSubmit={submitHandler}>
-                <form.Group controlId="FormUserName">
-                    <form.Label>Username</form.Label>
-                        <form.Control
-                            type="userName"
-                            value={userName}
-                            placeholder="Enter new username"
-                            onChange={(event) => setUserName(event.target.value)}
-                            />
-                </form.Group>
+    return <Fragment>
+        <Grid container positions='fixed' style={{
+            minWidth: '100%',
+            minHeight: '100%',
+            height: 1000,
+            backgroundColor: '#714C7A',
+        }}>
+            <Container sx={{borderBottom: 1, height: 75, mt: 3, marginLeft: 1}}>
+                <Typography fontWeight='bold' sx={{mt: 0.25,
+                                                   mb: 0.25,
+                                                   textAlign: 'center',
+                                                   fontFamily: "Jura, Arial"}}
+                            variant="h3" className="edit-profile-title">
+                    Edit Your Profile
+                </Typography>
+            </Container>
 
-                <form.Group controlId="FormUserEmail">
-                    <form.Label>email</form.Label>
-                    <form.Control
-                        type="userEmail"
-                        value={userEmail}
-                        placeholder="Enter new email"
-                        onChange={(event) => setUserEmail(event.target.value)}
-                    />
-                </form.Group>
+            <Grid item key={"UserInfo"} sx={{border: 0, width: '20%', alignItems: 'center', height: '50%'}}>
+                <DropzoneDialogExample/>
+                <Card key={"profilePic"} sx={{width: '80%', height: '50%', borderRadius: '50%',  border: 1, mt: 1, marginLeft: 1}}>
+                    <CardMedia style={{width: '100%',
+                                       height: '100%',
+                                       justifySelf: 'center'}}
+                               image={require('../UserProfile/UsersPictures/default.jpg')} title={"profilePic"}/>
+                </Card>
+            </Grid>
 
-                <form.Group controlId="FormUserPassword">
-                    <form.Label>Password</form.Label>
-                    <form.Control
-                        type="userPassword"
-                        value={userPassword}
-                        placeholder="Enter new password"
-                        onChange={(event) => setUserPassword(event.target.value)}
-                    />
-                </form.Group>
+            <Grid item key={"UserInfo"} sx={{border: 0, width: '30%', alignItems: 'center', height: '30%'}}>
+                <Box key='usernameProfile' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 3}}>
+                    <Typography sx={{fontFamily: "Jura, Arial",
+                                     fontWeight: 'bold',
+                                     fontSize: '20px',
+                                     color:'#E6E6FA'}}>
+                        @{userData.length > 0 ? userData[0]['username'] : 'none'}
+                    </Typography>
+                </Box>
+                <TextField id="outlined-basic" label="New Username" variant="outlined" />
 
-                <form.Group controlId="confirmPassword">
-                    <form.Label>Confirm Password</form.Label>
-                    <form.Control
-                        type="confirmUserPassword"
-                        value={confirmUserPassword}
-                        placeholder="Please confirm your password"
-                        onChange={(event) => setConfirmUserPassword(event.target.value)}
-                    />
-                </form.Group>
+                <Box key='usernameEmail' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 3}}>
+                    <Typography sx={{fontFamily: "Jura, Arial",
+                                     fontWeight: 'bold',
+                                     fontSize: '20px',
+                                     color:'#E6E6FA'}}>
+                        {userData.length > 0 ? userData[0]['user_email'] : 'none'}
+                    </Typography>
+                </Box>
+                <TextField id="outlined-basic" label="New Email" variant="outlined" />
 
-                <Button type="submit" variant="primary">
-                    Update
+                <Box key='usernamePassword' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 3}}>
+                    <Typography sx={{fontFamily: "Jura, Arial",
+                                     fontWeight: 'bold',
+                                     fontSize: '20px',
+                                     color:'#E6E6FA'}}>
+                        {userData.length > 0 ? userData[0]['user_password'] : 'none'}
+                    </Typography>
+                </Box>
+                <TextField id="outlined-basic" label="New Password" variant="outlined" />
+            </Grid>
+
+            <Grid item sx={{border: 0, width: '30%', alignItems: 'center', height: '50%'}}>
+                <Button variant="outlined" color="success">
+                    Save Changes
                 </Button>
-                <Button variant="outline-danger">
+
+                <Button variant="outlined" color="error">
                     Reset Scores
                 </Button>
-                <Button variant="danger">
-                    Delete Account
-                </Button>
-            </form>
-        </div>
 
-    );
+                <Button variant="contained" color="error">
+                    Delete Profile
+                </Button>
+            </Grid>
+        </Grid>
+    </Fragment>
 };
 
 export default Settings;
