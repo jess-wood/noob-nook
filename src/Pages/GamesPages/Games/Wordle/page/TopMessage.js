@@ -44,7 +44,8 @@ const TopMessage = (props) => {
                     <Button
                         style={{
                             borderColor: 'white',
-                            color: 'white'
+                            color: 'white',
+                            width: '65%'
                         }}
                         variant="outlined" onClick={handleOpen}>Instructions</Button>
                         <Modal open={open}
@@ -131,7 +132,7 @@ const TopMessage = (props) => {
                         </Modal>
 
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={4} sx={{mb: 1}}>
 
                     <Typography variant='h5' sx={{fontFamily: ['Bangers', 'cursive'].join(','), fontWeight: 'bold', color: green[400], fontSize: 34}}>
                         W o r d l e
@@ -141,7 +142,8 @@ const TopMessage = (props) => {
                 <Grid item xs={4}>
                      <Button style={{
                          borderColor: alpha("#ff4c2e", 0.6),
-                         color: alpha("#ff4c2e", 0.6)
+                         color: alpha("#ff4c2e", 0.6),
+                         width: '50%'
                      }}
                              variant="outlined"
                              onClick={reset}>Reset</Button>

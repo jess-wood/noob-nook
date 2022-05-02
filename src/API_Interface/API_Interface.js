@@ -38,6 +38,11 @@ export default class APIInterface {
         return axiosAgent.get(`login/${username}/${password}/${email}/${date}/signUp`);
     }
 
+    async createHSRow(username){
+        console.log("in api interface about to get HSRow")
+        return axiosAgent.get(`login/${username}/add-highscores/add-row`);
+    }
+
     async userInfo(username){
         return axiosAgent.get(`userprofile/${username}/username`);
     }
@@ -133,5 +138,18 @@ export default class APIInterface {
 
     async deleteUserPost(username, postContent){
         return axiosAgent.get(`posts/${username}/${postContent}/delete-post`);
+    }
+
+    async followedUser(username){
+        return axiosAgent.get(`dashboard/${username}/followed-users`);
+    }
+
+    async userHighScores(username){
+        return axiosAgent.get(`dashboard/${username}/user-highscores`);
+    }
+
+    async usersFollowedPosts(username, followed_username){
+        console.log(`in API_Interface followed_username: ${followed_username}`);
+        return axiosAgent.get(`dashboard/${username}/${followed_username}/followed-posts`);
     }
 }

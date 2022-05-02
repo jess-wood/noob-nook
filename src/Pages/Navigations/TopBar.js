@@ -11,6 +11,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import Button from "@mui/material/Button";
 import API from '../../API_Interface/API_Interface';
 import UserProfile from "../UserProfile/UserProfile";
+import Dashboard from "../Dashboard/Dashboard";
+import {alpha} from "@material-ui/core/styles/colorManipulator";
 
 //shows the screen of the component clicked (default: login)
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -36,13 +38,18 @@ const AppBar = styled(MuiAppBar, {shouldForwardProp: (prop) => prop !== 'open' }
     })
 );
 
-const findSelectedComponent = (selectedItem, user) => {
+const findSelectedComponent = (selectedItem, user, onClickCallback) => {
     const component = [...presentationComponents()].filter(comp => comp.title === selectedItem);
     if(component.length === 1) {
         if (component[0].title === "Profile"){
             return {
                 title: null,
                 component: <UserProfile user={user} mainUser={user} isUserLoggedIn={true}/>
+            }
+        } else if (component[0].title === "Home"){
+            return {
+                title: null,
+                component: <Dashboard clickCallback={onClickCallback}/>
             }
         }
         return component[0];
@@ -84,7 +91,6 @@ const TopBar = (props) => {
 
     //get users for search bar
     useEffect(() => {
-        console.log('in useEffect search');
         const api = new API();
 
         async function getUsers() {
@@ -99,30 +105,33 @@ const TopBar = (props) => {
 
     //sets the component to be displayed
     const handleSelectedItem = (title) => {
-        console.log(`in handleSelected item ${title}`);
         setOtherUser(undefined);
         setSelectedItem(title);
     };
 
+    //onClick callback for dashboard followed users sidebar
+    function followedUserOnClickCallback (otherUser) {
+        setOtherUser(otherUser);
+    }
+
     //tests search bar, replace with array of all users
     function search() {
         setSuggestions([]);
-        console.log(searchInput.length);
+        console.log(searchInput);
         if (searchInput.length >= 0) {
+            let matches = [];
             allUsers.filter((user) => {
-                let matches = [];
+                // let matches = [];
                 if (user.username.toLowerCase().match(searchInput.toLowerCase()) !== null) {
-                    console.log(user.username.toLowerCase().match(searchInput.toLowerCase()));
                     matches.push(user.username.toLowerCase().match(searchInput.toLowerCase()));
-                    setSuggestions(matches);
+                    //setSuggestions(matches);
                 }
-                console.log(JSON.stringify(suggestions));
-                //return user.username.match(searchInput);
             });
+            setSuggestions(matches);
         }
-        // else{
-        //     setSuggestions([]);
-        // }
+        if (searchInput.length===1){
+            setSuggestions([]);
+        }
     }
 
     return (
@@ -136,16 +145,16 @@ const TopBar = (props) => {
                     width: '100%',
                     height: 64,
                 }}>
-                    <Grid container item key='left' columns={2} sx={{width: '35%', justifyContent: 'space-between'}}>
+                    <Grid container item key='left' columns={2} sx={{width: '35%',}}>
                 {
                     menu1Items.map(title =>
-                        <Grid item onClick={() => handleSelectedItem(title)} key={title} sx={{marginLeft: '4%', marginRight: '5%' }}>
-                            <Button sx={{color:'white'}}><Typography sx={{fontFamily: 'Jura, Arial'}}>{title}</Typography></Button>
+                        <Grid item onClick={() => handleSelectedItem(title)} key={title} sx={{marginLeft: '4%', marginRight: '8%' }}>
+                            <Button sx={{color:'white', marginRight:'4%'}}><Typography sx={{fontFamily: 'Jura, Arial',color:'#E6E6FA'}}>{title}</Typography></Button>
                         </Grid>
                     )
                 }
-                        <Grid item  key={'search'} sx={{marginLeft: '5%'}}>
-                            <input
+                        <Grid item  position='absolute' key={'search'} sx={{marginLeft: '21%', height: 20, width: '12%', mt:0.7, textAlign:'center' }}>
+                            <input style={{marginLeft: '6%', background: 'rgba(213, 213, 246, 0.8)'}}
                                 type="text"
                                 placeholder="Search Users"
                                 onChange={(e) =>{
@@ -156,8 +165,8 @@ const TopBar = (props) => {
                             <ul>
                             {
                                 suggestions.map(r => (
-                                <Button onClick={(event) =>{ event.preventDefault(); setOtherUser(r.input); setSuggestions([]); setSearchInput('');}}><li key={r.input}>
-                                <Typography sx={{color: 'white', fontSize: '10px'}}>{r.input}</Typography>
+                                <Button sx={{backgroundColor: alpha('#232b2b', 0.95), '&:hover': {backgroundColor: alpha('#232b2b', 0.8)}, height: '25px', marginRight:4, width:'100%', textAlign:'center'}} onClick={(event) =>{ event.preventDefault(); setOtherUser(r.input); setSuggestions([]); setSearchInput('');}}><li key={r.input}>
+                                <Typography sx={{color:'#E6E6FA', fontSize: '12px'}}>@{r.input}</Typography>
                                 </li></Button>
                                 ))
                             }
@@ -165,30 +174,27 @@ const TopBar = (props) => {
                         </Grid>
                     </Grid>
                 <Grid item key={"NookNook"} sx={{
-                    alignItems: 'center', mt: 0.5}}>
+                    alignItems: 'center', mt: 0.5, marginRight:8}}>
                     <h8>NoobNook</h8>
                 </Grid>
-                    <Grid container item key='right' columns={2} sx={{width: '25%', justifyContent: 'space-between'}}>
+                    <Grid container item key='right' columns={2} sx={{width: '27%', justifyContent: 'space-between'}}>
                     {
                         menu2Items.map(title =>
-                            <Grid item onClick={() => handleSelectedItem(title)} key={title} sx={{marginRight: '4%'}}>
-                                <Button sx={{color:'white'}}><Typography sx={{fontFamily: 'Jura, Arial'}}>{title}</Typography></Button>
+                            <Grid item onClick={() => handleSelectedItem(title)} key={title} sx={{marginRight: '7%'}}>
+                                <Button ><Typography sx={{fontFamily: 'Jura, Arial',color:'#E6E6FA'}}>{title}</Typography></Button>
                             </Grid>
                         )
                     }
-                    <Grid item key='logout' sx={{marginRight:'4%'}}><Button sx={{color: '#EB2D30'}} onClick={() => logout()}><LogoutIcon/></Button></Grid>
+                    <Grid item key='logout' sx={{marginRight:'4%'}}><Button sx={{color: '#EB2D30','&:hover': {borderColor: '#EB2D30'}}} onClick={() => logout()}><LogoutIcon/></Button></Grid>
                     </Grid>
                 </Grid>
             </AppBar>
             <Main open={open}>
                 <DrawerHeader />
-                {otherUser === undefined ? findSelectedComponent(selectedItem, user).component : otherUserProfile(otherUser, user)}
+                {otherUser === undefined ? findSelectedComponent(selectedItem, user, followedUserOnClickCallback).component : otherUserProfile(otherUser, user)}
             </Main>
         </Fragment>
     )
 }
 
 export default TopBar;
-
-//need to add functionality for logout
-//need to add functionality for search

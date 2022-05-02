@@ -8,14 +8,13 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
 import snakeLogo from './images/snake logo.png';
-import logo2048 from './images/2048 logo.png';
+import logo2048 from './images/2048_logo.png';
 import tetrisLogo from './images/tetris logo.png';
 import wordlelogo from './images/wordle_banner.png';
 import pongLogo from './images/pongpicture.png';
 import lightoutLogo from './images/LightsOut_Logo_.webp';
 import spaceInvaders from './images/space invaders.png';
 import typeLogo from './images/TypeRacer_logo.svg.png';
-
 
 
 import Wordle from  "../GamesPages/Games/Wordle/Wordle";
@@ -25,9 +24,6 @@ import SpaceGame from "../GamesPages/Games/SpaceGame/SpaceShooter";
 import Snake from "../GamesPages/Games/Snake/Snake";
 import Game_2048 from "../GamesPages/Games/_2048/src/components/mainBoard";
 import TypingMaster from "../GamesPages/Games/TypingMaster/TypingMaster";
-
-
-
 
 
 
@@ -253,213 +249,3 @@ export default function MainBoard () {
 
 
 //export default MainBoard;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//
-// const MainBoard = (props) => {
-//
-//     const [selectedItem, setSelectedItem] = useState("gameBoard");
-//
-//
-//
-//     const currentView = () => {
-//
-//         switch(selectedItem) {
-//
-//             case "gameBoard":
-//             return (
-//
-//                 <Fragment>
-//
-//                     <Grid container rowSpacing={5} columnSpacing={1} sx={{marginLeft:1.5}} style={{
-//                         minWidth: '100%',
-//                         minHeight: '100%',
-//                         height: 650,
-//                         backgroundColor: '#714C7A',
-//                     }}>
-//                         <Grid item xs={3}>
-//                             <button type="button" onClick={setSelectedItem("Tetris")} sx={{borderRadius: 2, border: 2, backgroundColor: 'inherit' , height: 200 , width: 300,}}>
-//                                 <img src={tetrisLogo} height={200} width={300}/></button>
-//                         </Grid>
-//
-//                         <Grid item xs={3}>
-//                             <button type="button" onClick={ () => setSelectedItem("Wordle")} sx={{borderRadius: 2, border: 2, backgroundColor: 'inherit', height: 200 , width: 300}}>
-//                                 <img src={wordlelogo} height={200} width={300}/>
-//                             </button>
-//                         </Grid>
-//
-//                         <Grid item xs={3}>
-//                             <button type="button" onClick={ () => setSelectedItem("lightsOut")} sx={{borderRadius: 2, border: 2, backgroundColor: 'inherit', height: 200 , width: 300}}>
-//                                 <img src={lightoutLogo} height={200} width={300}/>
-//                             </button>
-//                         </Grid>
-//
-//                         <Grid item xs={3}>
-//                             <button type="button" onClick={ () => setSelectedItem("spaceInvaders")} sx={{borderRadius: 2, border: 2, backgroundColor: 'inherit' , height: 200 , width: 300}}>
-//                                 <img src={spaceInvaders} height={200} width={300}/></button>
-//                         </Grid>
-//
-//                         <Grid item xs={3}>
-//                             <button type="button" onClick={ () => setSelectedItem("snake")} sx={{borderRadius: 2, border: 2, backgroundColor: 'gray' , height: 200 , width: 300}}>
-//                                 <img src={snakeLogo} height={200} width={300}/></button>
-//                         </Grid>
-//
-//                         <Grid item xs={3}>
-//                             <button type="button" onClick={ () => setSelectedItem("2048")} sx={{borderRadius: 2, border: 2, backgroundColor: 'gray' , height: 200 , width: 300}}>
-//                                 <img src={logo2048} height={200} width={300}/></button>
-//                         </Grid>
-//
-//                         <Grid item xs={3}>
-//                             <button type="button" onClick={ () => setSelectedItem("typeMaster")} sx={{borderRadius: 2, border: 2, backgroundColor: 'gray' , height: 200 , width: 300}}>
-//                                 <img src={typeLogo} height={200} width={300}/></button>
-//                         </Grid>
-//
-//                         <Grid item xs={3}>
-//                             <button  sx={{ borderRadius: 2, border: 2, backgroundColor: 'gray' , height: 200 , width: 300}}>
-//                                 <img src={pongLogo} height={200} width={300}/></button>
-//                         </Grid>
-//                     </Grid>
-//
-//                 </Fragment>
-//
-//
-//
-//             )
-//
-//
-//             case "Tetris":
-//                 return(
-//                     <Fragment>
-//                         <Tetris />
-//                     </Fragment>
-//                 )
-//             case "Wordle":
-//                 return(
-//                     <Fragment>
-//                         <Wordle />
-//                     </Fragment>
-//                 )
-//             case "lightsOut":
-//                 return(
-//                     <Fragment>
-//                         <LightsOut />
-//                     </Fragment>
-//                 )
-//             case "spaceInvaders":
-//                 return(
-//                     <Fragment>
-//                         <SpaceGame />
-//                     </Fragment>
-//                 )
-//             case "snake":
-//                 return(
-//                     <Fragment>
-//                         <Snake />
-//                     </Fragment>
-//                 )
-//             case "2048":
-//                 return(
-//                     <Fragment>
-//                         <Game_2048 />
-//                     </Fragment>
-//                 )
-//             case "typeMaster":
-//                 return(
-//                     <Fragment>
-//                         <TypingMaster />
-//                     </Fragment>
-//                 )
-//
-//             default:
-//                 break
-//         }
-//     }
-//
-//
-//     useEffect(() => {
-//         console.log(`effect for login view: ${selectedItem}`);
-//         currentView();
-//
-//     }, [selectedItem]);
-//
-//
-//     return (
-//         <section id="entry-page">
-//             {currentView()}
-//         </section>
-//     )
-// }
-//
-// export default MainBoard;
-//
-
-
-

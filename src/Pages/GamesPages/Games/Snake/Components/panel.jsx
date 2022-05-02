@@ -37,7 +37,6 @@ export default class Panel extends Component {
     }
 
     init = (timeinterval)=>{
-        document.body.style.backgroundColor = "#6190ab"
         clearInterval(this.timer)
         this.timer = setInterval(() => {
             this.changeSnakePosition()

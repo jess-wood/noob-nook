@@ -33,6 +33,7 @@ const loginRouter = require('koa-router')({
 });
 loginRouter.get('/:username/:password', LoginController.authorizeUser, (err) => console.log("routers.js: loginRouter error:", err));
 loginRouter.get('/:username/:pw/:email/:date/signUp', LoginController.userSignUp);
+loginRouter.get('/:username/add-highscores/add-row', LoginController.userHighScores);
 
 
 
@@ -67,7 +68,7 @@ const postsRouter = require('koa-router')({
 
 postsRouter.get('/:newContent/:date/:username/:oldContent/update-post', PostsController.updateUserPost);
 postsRouter.get('/:username/:postContent/:date/new-post', PostsController.userPost);
-postsRouter.get(':username/:postContent/delete-post', PostsController.deleteUserPost);
+postsRouter.get('/:username/:postContent/delete-post', PostsController.deleteUserPost);
 
 //High Scores Route
 const HighScoresController = new (require('../app/Controllers/HighScoresController.js'))();
@@ -92,6 +93,15 @@ highScoresRouter.get('/:score/:username/score-tetris', HighScoresController.post
 highScoresRouter.get('/:score/:username/score-wordleMin', HighScoresController.postNewHighScoreWordleMin);
 highScoresRouter.get('/:score/:username/score-wordleSec', HighScoresController.postNewHighScoreWordleSec);
 
+const DashboardController = new (require('../app/Controllers/DashboardController.js'))();
+const dashboardRouter = require('koa-router')({
+    prefix: '/dashboard'
+});
+
+dashboardRouter.get('/:username/followed-users', DashboardController.followedUsers);
+dashboardRouter.get('/:username/user-highscores', DashboardController.currentUserHighScores);
+dashboardRouter.get('/:username/:followed_username/followed-posts', DashboardController.followedUsersPost);
+
 
 /**
  * Register all of the controllers into the default controller.
@@ -102,7 +112,8 @@ router.use(
     userProfileRouter.routes(),
     followRouter.routes(),
     highScoresRouter.routes(),
-    postsRouter.routes()
+    postsRouter.routes(),
+    dashboardRouter.routes()
 );
 
 module.exports = function (app) {
