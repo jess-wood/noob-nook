@@ -175,6 +175,9 @@ export class Player{
     }
 
     draw = (ctx) => {
+        if (this.dead){
+            return;
+        }
         const image = new Image();
         image.src = img;
         ctx.drawImage(image,this.posX,this.posY,65,90);

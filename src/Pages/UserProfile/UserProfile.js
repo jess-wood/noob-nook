@@ -84,10 +84,6 @@ const highScoresTableAttributes = [
         attributeDBName: 'HS_Snake',
     },
     {
-        attributeName: 'Checkers',
-        attributeDBName: 'HS_Checkers',
-    },
-    {
         attributeName: 'Connect4',
         attributeDBName: 'HS_Connect4',
     },
@@ -169,14 +165,16 @@ const UserProfile = (props) => {
         async function deleteIsPlayingStatus(){
             const userDeleteWordleJSONString = await api.deleteUserPost(mainUser, "is playing Wordle!");
             const userDeleteLOJSONString = await api.deleteUserPost(mainUser, "is playing Lights Out!");
-            //const userDelete2048JSONString = await api.deleteUserPost(mainUser, "is playing 2048!");
+            const userDelete2048JSONString = await api.deleteUserPost(mainUser, "is playing 2048!");
             //console.log(`routes from the DB ${JSON.stringify(userDelete2048JSONString)}`);
-            //const userDeletePongJSONString = await api.deleteUserPost(mainUser, "is playing Pong!");
+            const userDeletePongJSONString = await api.deleteUserPost(mainUser, "is playing Pong!");
             //console.log(`routes from the DB ${JSON.stringify(userDeletePongJSONString)}`);
             const userDeleteSnakeJSONString = await api.deleteUserPost(mainUser, "is playing Snake!");
             const userDeleteSpaceJSONString = await api.deleteUserPost(mainUser, "is playing Meteor Killers!");
             const userDeleteTetrisJSONString = await api.deleteUserPost(mainUser, "is playing Tetris!");
             const userDeleteTMJSONString = await api.deleteUserPost(mainUser, "is playing Typing Master!");
+            const userDeleteMSJSONString = await api.deleteUserPost(mainUser, "is playing Memory Scramble!");
+            const userDeleteC4JSONString = await api.deleteUserPost(mainUser, "is playing Connect4!");
         }
         deleteIsPlayingStatus();
         createUserHS();
@@ -260,6 +258,7 @@ const UserProfile = (props) => {
             setIsFollowing(false);
         }
         unfollowUser();
+
     }
 
     return (
@@ -269,8 +268,9 @@ const UserProfile = (props) => {
             backgroundColor: '#714C7A'
         }} direction='row'  columns={2} sx={{display:'flex', border: 1,}}>
             <Grid item key={'left'} position='fixed' style={{
-                width: "45%",
+                width: "44%",
                 height: "100%",
+                mt: -0.2,
                 backgroundColor: '#714C7A',
             }} sx={{border: 2}}>
                 <Grid container style={{border: 2}} sx={{border: 5, display: 'flex', flexDirection: 'row', width:'100%', height: '50%'}}>
@@ -303,23 +303,23 @@ const UserProfile = (props) => {
                 </Grid>
             </Grid>
             <Grid item key={'ActivityFeed'} style={{
-                width: "55%",
-                height: "100vh",
-                marginLeft: '45%',
+                width: "56%",
+                height: "500vh",
+                marginLeft: '44%',
                 backgroundColor: '#714C7A',
                 padding: 1
             }} sx={{border: 1, display:'flex',flexDirection:'column' }}>
-                <Box sx={{width: '54.5%', height: '7%', alignItems: 'center', fontSize: 30, backgroundColor: '#714C7A', position:'fixed', margin:'auto'}}>
+                <Box sx={{width: '55.5%', height: '7%', alignItems: 'center', fontSize: 30, backgroundColor: '#714C7A', position:'fixed', margin:'auto', mt:-0.5}}>
                     <Typography sx={{textDecoration: 'underline', fontWeight: 'bold', fontSize: '30px', textAlign: 'center', fontFamily: "Jura, Arial", color:'#FAE6FA'}}>
                         Activity Feed
                     </Typography>
                 </Box>
-                <Box sx={{height:'9%'}}></Box>
+                <Box sx={{height:'1.4%', border:0, borderColor:'red'}}></Box>
                 {
                     posts.map(post =>
                         <Grid container item direction='column' sx={{
-                            width: '95%',
-                            height: '10%',
+                            width: '97%',
+                            height: '10vh',
                             backgroundColor: '#b3e5fc',
                             '&:hover': {
                                 backgroundColor: '#b3e5fc',

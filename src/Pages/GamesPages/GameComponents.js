@@ -6,6 +6,7 @@ import SpaceGame from "../GamesPages/Games/SpaceGame/SpaceShooter";
 import Snake from "../GamesPages/Games/Snake/Snake";
 import Game_2048 from "../GamesPages/Games/_2048/src/components/mainBoard";
 import TypingMaster from "../GamesPages/Games/TypingMaster/TypingMaster";
+import Memory from "./Games/Memory/Memory";
 
 
 const gameComponents = (props) => {
@@ -42,10 +43,18 @@ const gameComponents = (props) => {
             title:'Typing Master',
             component: <TypingMaster/>
         },
-        // {
-        //     title:'Pong',
-        //     component: <Pong/>
-        // }
+        {
+            title:'Connect4',
+            component: <TypingMaster/>
+        },
+        {
+            title:'Pong',
+            component: <TypingMaster/>
+        },
+        {
+            title:'Memory',
+            component: <Memory/>
+        }
     ];
 };
 

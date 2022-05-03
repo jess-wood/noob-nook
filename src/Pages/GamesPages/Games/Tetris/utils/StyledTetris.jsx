@@ -3,7 +3,7 @@ import bgImage from './stars.png'
 
 export const StyledTetrisWrapper = styled.div`
 width: 100vw;
-height: 100vh;
+height: 105vh;
 background: url(${bgImage}), linear-gradient(#003153, #B666D2);
 background-size: cover;
 overflow: auto;    
@@ -12,7 +12,7 @@ overflow: auto;
 export const StyledTetris = styled.div`
   display: flex;
   align-items: center;
-  padding: 15px;
+  padding: 10px;
   margin: 0 auto;
   max-width: 900px;
   aside {

@@ -118,7 +118,7 @@ export default function Memory() {
                 console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
             }
             deletePost();
-            if (moves < bestScore){
+            if (moves < bestScore || bestScore === 0){
                 makeNewHighScore();
             }
             else{
