@@ -224,7 +224,7 @@ const TypingMaster = (props) => {
 
     return (
         <Fragment>
-            <Box className="body1">
+            <Box className="body1" >
             <div className="container">
                 <div className="heading">
                     Typing Master
@@ -270,6 +270,9 @@ const TypingMaster = (props) => {
                     Restart
                 </button>
             </div>
+                <div></div>
+                <div></div>
+                <div></div>
             </Box>
         </Fragment>
     )

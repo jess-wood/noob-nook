@@ -49,9 +49,9 @@ export default class Snake extends Component {
     render() {
         return (
             <Fragment>
-                <Grid container position='fixed' className='back' direction='column' sx={{border: 0, backgroundColor:'#6190ab'}}>
-                <Typography className='snake' justifySelf='center' sx={{fontWeight: 'bold', fontFamily: 'DotGothic16, sans-serif', fontSize: '40px', mt: 2}}>S N A K E</Typography>
-                <div className="App">
+                <Grid container position='fixed' className='back' direction='column' sx={{border: 0, backgroundColor:'#6190ab', height: '100%', width:'100%'}}>
+                    <Typography className='snake' justifySelf='center' sx={{fontWeight: 'bold', fontFamily: 'DotGothic16, sans-serif', fontSize: '40px', color:'black', mt:2}}>S N A K E</Typography>
+                <div >
                     <Panel changeScore={this.changeScore} ref = {c=>this.panel = c} ></Panel>
                     <Footer ref={c=>this.footer = c} {...this.state} startGame={this.startGame} ></Footer>
                 </div>

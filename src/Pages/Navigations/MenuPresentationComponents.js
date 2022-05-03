@@ -17,7 +17,7 @@ const presentationComponents = (props) => {
         },
         {
             title: 'Games',
-            component: <GamesCatalog />
+            component: <GamesCatalog title={'Catalog'}/>
         },
         {
             title: 'Profile',

@@ -84,10 +84,12 @@ highScoresRouter.get('/:username/get-wpm', HighScoresController.getHighScoreTypi
 highScoresRouter.get('/:username/get-wordle', HighScoresController.getHighScoreWordle);
 highScoresRouter.get('/:username/get-wordleMinSec', HighScoresController.getHighScoreWordleMinSec);
 highScoresRouter.get('/:username/get-snake', HighScoresController.getHighScoreSnake);
+highScoresRouter.get('/:username/get-match', HighScoresController.getHighScoreMemory);
 highScoresRouter.get('/:score/:username/score-wordle', HighScoresController.postNewHighScoreWordle);
 highScoresRouter.get('/:score/:username/score-space', HighScoresController.postNewHighScoreSpace);
 highScoresRouter.get('/:score/:username/score-snake', HighScoresController.postNewHighScoreSnake);
 highScoresRouter.get('/:score/:username/score-wpm', HighScoresController.postNewHighScoreTyping);
+highScoresRouter.get('/:score/:username/score-match', HighScoresController.postNewHighScoreMatching)
 highScoresRouter.get('/:score/:username/score-lo', HighScoresController.postNewHighScoreLO);
 highScoresRouter.get('/:score/:username/score-tetris', HighScoresController.postNewHighScoreTetris);
 highScoresRouter.get('/:score/:username/score-wordleMin', HighScoresController.postNewHighScoreWordleMin);

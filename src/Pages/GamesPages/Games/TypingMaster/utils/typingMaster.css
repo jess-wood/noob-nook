@@ -8,6 +8,7 @@
 }
 .body1 {
     background-color: #fe9801;
+    height: 88vh;
     color: black;
     text-align: center;
 }
@@ -90,6 +91,7 @@
 
 .restart_btn {
     display: block;
+    width: 40%;
     background-color: #326765;
     font-size: 1.5rem;
     padding: 10px;
@@ -100,6 +102,7 @@
 .incorrect_char {
     color: red;
     text-decoration: underline;
+    width: 30vh;
 }
 
 .correct_char {

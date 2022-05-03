@@ -105,12 +105,12 @@ const Tetris = () => {
                 else {
                     const api = new API();
                     async function deletePost() {
-                        const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Lights Out!");
+                        const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Tetris!");
                         console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                     }
 
                     async function newGamePost() {
-                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Lights Out but didn't beat their high score :(`, dateTime);
+                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Tetris but didn't beat their high score :(`, dateTime);
                         console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                     }
                     deletePost();
@@ -165,7 +165,7 @@ const Tetris = () => {
                 onKeyDown={(e) => move(e)}
                 onKeyUp={keyUp}
             >
-                <Typography sx={{fontFamily: 'Pixel', fontSize: '40px', fontWeight: 'bold', textAlign: 'center', color: 'white', mt: 3}}>
+                <Typography sx={{fontFamily: 'Pixel', fontSize: '40px', fontWeight: 'bold', textAlign: 'center', color: 'white', mt: 1}}>
                     TETRIS
                 </Typography>
                 <StyledTetris>

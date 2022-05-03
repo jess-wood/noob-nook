@@ -109,6 +109,11 @@ const TopBar = (props) => {
         setSelectedItem(title);
     };
 
+    //to exit a game
+    const handleGameExit = () => {
+        setSelectedItem('Games');
+    }
+
     //onClick callback for dashboard followed users sidebar
     function followedUserOnClickCallback (otherUser) {
         setOtherUser(otherUser);
