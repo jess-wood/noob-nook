@@ -85,6 +85,7 @@ highScoresRouter.get('/:username/get-wordle', HighScoresController.getHighScoreW
 highScoresRouter.get('/:username/get-wordleMinSec', HighScoresController.getHighScoreWordleMinSec);
 highScoresRouter.get('/:username/get-snake', HighScoresController.getHighScoreSnake);
 highScoresRouter.get('/:username/get-match', HighScoresController.getHighScoreMemory);
+highScoresRouter.get('/:username/get-connect4', HighScoresController.getHighScoreConnect4);
 highScoresRouter.get('/:score/:username/score-wordle', HighScoresController.postNewHighScoreWordle);
 highScoresRouter.get('/:score/:username/score-space', HighScoresController.postNewHighScoreSpace);
 highScoresRouter.get('/:score/:username/score-snake', HighScoresController.postNewHighScoreSnake);
@@ -94,6 +95,7 @@ highScoresRouter.get('/:score/:username/score-lo', HighScoresController.postNewH
 highScoresRouter.get('/:score/:username/score-tetris', HighScoresController.postNewHighScoreTetris);
 highScoresRouter.get('/:score/:username/score-wordleMin', HighScoresController.postNewHighScoreWordleMin);
 highScoresRouter.get('/:score/:username/score-wordleSec', HighScoresController.postNewHighScoreWordleSec);
+highScoresRouter.get('/:score/:username/score-connect4', HighScoresController.postNewHighScoreConnect4);
 
 const DashboardController = new (require('../app/Controllers/DashboardController.js'))();
 const dashboardRouter = require('koa-router')({
