@@ -36,7 +36,7 @@ class UserProfileController {
         return new Promise((resolve, reject) => {
             const query = `
                        select username_user_post, post_content, DATE_FORMAT(date_created, '%m/%d/%Y'), cast(date_created as time) from user_post
-                       where username_user_post = ? ORDER BY date_created
+                       where username_user_post = ? ORDER BY date_created DESC
                         `;
             dbConnection.query({
                 sql: query,

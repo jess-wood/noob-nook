@@ -32,8 +32,10 @@ function SpaceShooter() {
 
     useEffect(() => {
         if (player.dead) {
+            clearInterval(interval)
             return;
         }
+
             // eslint-disable-next-line react-hooks/exhaustive-deps
             canvas = document.getElementById("myCanvas");
 
@@ -41,7 +43,7 @@ function SpaceShooter() {
             let bullets = []
             const fireBulletcb = (xpos, ypos) => bullets.push(new Bullet(xpos, ypos));
 
-            setInterval(() => {
+            let interval = setInterval(() => {
                 // eslint-disable-next-line react-hooks/exhaustive-deps
                 ctx = canvas.getContext("2d");
                 ctx.clearRect(0, 0, 950, 550);
@@ -70,7 +72,8 @@ function SpaceShooter() {
 
             }, 1000 / 30);
 
-    });
+    }, [player.dead]);
+
 
 
 

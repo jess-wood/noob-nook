@@ -157,7 +157,6 @@ export default class APIInterface {
     }
 
     async usersFollowedPosts(username, followed_username){
-        console.log(`in API_Interface followed_username: ${followed_username}`);
         return axiosAgent.get(`dashboard/${username}/${followed_username}/followed-posts`);
     }
 }

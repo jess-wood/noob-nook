@@ -51,7 +51,11 @@ const Tetris = () => {
     }, [])
 
     const makeHighScore = () => {
-        console.log('got new high score');
+        let today = new Date();
+        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        let dateTime = date+' '+time;
+
         const api = new API();
 
         async function makeNewScore() {

@@ -16,7 +16,8 @@ export default class Panel extends Component {
         snakePositions : [{top:"0px", left:'0px'}, {top:"0px", left:"10px"}],
         direction:'ArrowRight',
         score:0,
-        highScore: 1
+        highScore: 1,
+        gameOver: false
     }
 
     getCurrHS = () => {
@@ -28,7 +29,7 @@ export default class Panel extends Component {
             console.log(gameHSJSONString.data[0]['HS_Snake']);
             hs = gameHSJSONString.data[0]['HS_Snake'];
             console.log(`hs=${hs}`);
-            this.setState({highScore:gameHSJSONString.data[0]['HS_Snake']});
+            //this.setState({highScore:gameHSJSONString.data[0]['HS_Snake']});
 
             //return gameHSJSONString.data[0]['HS_Snake'];
 
@@ -104,6 +105,10 @@ export default class Panel extends Component {
         const {getHS} = this.state.highScore;
 
         if(parseInt(headTop) < 0 || parseInt(headTop) > 290 || parseInt(headLeft) < 0 || parseInt(headLeft) > 290){
+            let today = new Date();
+            let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            let dateTime = date+' '+time;
             const api = new API();
             async function deletePost() {
                 const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Snake!");
@@ -133,13 +138,27 @@ export default class Panel extends Component {
                 }
                 newGamePost();
             }
+            if (this.state.gameOver){
+                return
+            }
             alert("Game Over")
             clearInterval(this.timer)
+            this.setState({gameOver: true})
             return
         }
 
         for(let i = 0; i <= snakePositions.length-2; i ++){
+            if (this.state.gameOver){
+                return
+            }
+            else{
+                console.log('game not over')
+            }
             if(snakePositions[i].top === headTop && snakePositions[i].left === headLeft){
+                let today = new Date();
+                let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                let dateTime = date+' '+time;
                 const api = new API();
                 async function deletePost() {
                     const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Snake!");
@@ -167,10 +186,12 @@ export default class Panel extends Component {
                         const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Snake but didn't beat their high score :(`, dateTime);
                         console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                     }
-                    newGamePost();
+                    if (score !== 0)
+                        newGamePost();
                 }
                 alert("Game Over")
                 clearInterval(this.timer)
+                this.setState({gameOver: true})
                 return
             }
         }
@@ -218,6 +239,12 @@ export default class Panel extends Component {
 
 
     snakeControl = ()=>{
+        if (this.state.gameOver){
+            return;
+        }
+        else{
+            console.log('game is not over')
+        }
         window.onkeydown = (e)=>{
             switch(e.key){
                 case "ArrowUp":

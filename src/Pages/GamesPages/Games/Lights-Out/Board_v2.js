@@ -166,6 +166,10 @@ const Board_v2 = (props) => {
     }, [currHighScore]);
 
     const makeNewHighScore = () => {
+        let today = new Date();
+        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        let dateTime = date+' '+time;
         const api = new API();
 
         async function makeNewScore() {
@@ -339,6 +343,10 @@ const Board_v2 = (props) => {
         numMoves+=1;
         //check for winner
         if (checkBoard(newBoard)){
+            let today = new Date();
+            let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            let dateTime = date+' '+time;
             setWinner(true);
             const api = new API();
             async function deletePost() {

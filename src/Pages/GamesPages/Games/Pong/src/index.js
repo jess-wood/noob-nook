@@ -21,3 +21,4 @@ const GatherComp = () => {
 }
 
 ReactDOM.render(<GatherComp />, document.getElementById("root"));
+export default GatherComp;

@@ -1,5 +1,6 @@
 import img from './utils/rocket.png';
 import API from "../../../../API_Interface/API_Interface";
+import bg from './utils/space.jpg';
 
 let hs=0;
 let today = new Date();
@@ -74,7 +75,6 @@ export class Player{
 
             }
             getUserHS();
-            console.log(`hs=${hs}`);
             this.dead = true;
             let currScore= this.score;
             if (this.score > hs){
@@ -109,6 +109,7 @@ export class Player{
                 deletePost();
                 newHSPost();
             }
+            //gameOver(this.score);
             alert("GameOver");
         }
         if (this.health <= 0) {
@@ -116,19 +117,18 @@ export class Player{
             const api = new API();
 
             async function getUserHS() {
-                console.log("in get HS");
                 const gameHSJSONString = await api.getSpaceHS(window.currentUserLoggedIn);
-                console.log("got game HS")
-                console.log(`routes from the DB ${gameHSJSONString[0]['HS_SpaceGame']}`);
                 hs = gameHSJSONString.data[0]['HS_SpaceGame'];
                 //return gameHSJSONString.data[0]['HS_SpaceGame'];
 
             }
             getUserHS();
-            console.log(`hs=${hs}`);
             this.dead = true;
             let currScore= this.score;
-            console.log(hs);
+            let today = new Date();
+            let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            let dateTime = date+' '+time;
             if (this.score > hs){
                 const api = new API();
 
@@ -162,9 +162,11 @@ export class Player{
                     console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                 }
                 deletePost();
-                newHSPost();
+                if (currScore !== 0)
+                    newHSPost();
             }
             alert("GameOver");
+            //gameOver(this.score);
             this.dead = true;
             this.health = 100;
             this.ammo = 100;
@@ -196,10 +198,15 @@ export class Player{
 function gameOver(score) {
     document.body.innerHTML = `
     <center>
+        <div style={{
+            backgroundImage: \`url(${bg})\`, display:'flex',justifyContent:'center',alignItems:'center',height:'100vh',flexDirection:'column'
+        }}>
+            <Typography sx={{fontFamily: "Orbitron", fontWeight: 'bold', fontSize: '40px', color: 'lightgreen'}}>Meteror Killers</Typography>
     <br/>
     <h2>Game Over!</h2>
     <p>Your Score: ${score}</p>
     <button class="btn btn-danger mt-2" onClick="location.reload()">Again</button>
+    </div>
     </center>
     `
 }

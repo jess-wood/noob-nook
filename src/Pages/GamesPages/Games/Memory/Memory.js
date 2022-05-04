@@ -94,6 +94,10 @@ export default function Memory() {
     }, []);
 
     const makeNewHighScore = () => {
+        let today = new Date();
+        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        let dateTime = date+' '+time;
         const api = new API();
 
         async function makeNewScore() {
@@ -111,6 +115,10 @@ export default function Memory() {
 
     const checkCompletion = () => {
         if (Object.keys(clearedCards).length === uniqueElementsArray.length) {
+            let today = new Date();
+            let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            let dateTime = date+' '+time;
             //check high score
             const api = new API();
             async function deletePost() {

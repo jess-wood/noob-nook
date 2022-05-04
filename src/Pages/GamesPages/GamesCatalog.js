@@ -131,10 +131,9 @@ const Catalog = (props) => {
 const findSelectedComponent = (selectedItem) => {
     const component = [...gameComponents()
         ].filter(comp => comp.title === selectedItem);
-    if(component.length === 1)
+    if(component.length === 1) {
         return component[0];
-
-    //console.log("In findSelectedComponent of MakeEligible. Didn't find the component that corresponds to the menu item.")
+    }
     return {
         title: 'Catalog',
         component: <Catalog/>
