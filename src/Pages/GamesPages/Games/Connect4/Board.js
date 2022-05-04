@@ -183,7 +183,7 @@ export default function Board(props) {
         }
 
         async function newHSPost() {
-            const gameHSJSONString = await api.postNewGameStatus(window.currentUserLoggedIn, `beat the AI in ${moves+1} moves in Connect 4 and beat their high score`, dateTime);
+            const gameHSJSONString = await api.postNewGameStatus(window.currentUserLoggedIn, `beat the AI in ${moves+1} moves in Connect 4 and beat their high score  ( ﾉ^ω^)ﾉﾟ`, dateTime);
             console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
         }
         makeNewScore();
@@ -484,7 +484,7 @@ export default function Board(props) {
                     makeNewHighScore();
                 } else {
                     async function newGamePost() {
-                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `beat the AI in ${moves+1} moves in Connect4 but didn't beat their high score :(`, dateTime);
+                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `beat the AI in ${moves+1} moves in Connect4 but didn't beat their high score  (⌯˃̶᷄ ﹏ ˂̶᷄⌯)`, dateTime);
                         console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                     }
                     newGamePost();

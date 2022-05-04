@@ -140,7 +140,7 @@ export class Player{
                 }
 
                 async function newHSPost() {
-                    const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${currScore} points in Meteor Killers and beat their high score!`, dateTime);
+                    const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${currScore} points in Meteor Killers and beat their high score  (¬‿¬)`, dateTime);
                     console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                 }
                 async function deletePost() {
@@ -154,7 +154,7 @@ export class Player{
             else {
                 const api = new API();
                 async function newHSPost() {
-                    const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${currScore} points in Meteor Killers but didn't beat their high score :(`, dateTime);
+                    const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${currScore} points in Meteor Killers but didn't beat their high score  (⊙︿⊙)`, dateTime);
                     console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                 }
                 async function deletePost() {

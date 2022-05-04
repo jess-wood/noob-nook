@@ -175,7 +175,7 @@ export default class Panel extends Component {
 
                     }
                     async function newHSPost() {
-                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Snake and beat their high score!`, dateTime);
+                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Snake and beat their high score  °˖✧◝(⁰▿⁰)◜✧˖°`, dateTime);
                         console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                     }
                     newHSPost();
@@ -183,7 +183,7 @@ export default class Panel extends Component {
                 }
                 else {
                     async function newGamePost() {
-                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Snake but didn't beat their high score :(`, dateTime);
+                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Snake but didn't beat their high score  ‧º·(˚ ˃̣̣̥⌓˂̣̣̥ )‧º·˚`, dateTime);
                         console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                     }
                     if (score !== 0)
