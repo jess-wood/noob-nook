@@ -171,10 +171,13 @@ export default function Board(props) {
     }, [currHighScore]);
 
     const makeNewHighScore = () => {
+        let today = new Date();
+        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        let dateTime = date+' '+time;
         const api = new API();
 
         async function makeNewScore() {
-            console.log("AHHHH");
             const gameHSJSONString = await api.postNewHighScoreConnect4(moves, window.currentUserLoggedIn);
             console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
         }
@@ -464,6 +467,11 @@ export default function Board(props) {
             setNextColor(advanceColor(nextColor));
 
             if (doWeHaveAWinner(rowIdx, colIdx, nextColor, newBoard)) {
+                let today = new Date();
+                let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                let dateTime = date+' '+time;
+
                 setHaveAWinner(true);
                 setWinnerColor(nextColor);
                 const api = new API();
