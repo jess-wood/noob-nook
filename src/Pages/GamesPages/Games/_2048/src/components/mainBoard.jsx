@@ -3,8 +3,6 @@ import '../styles/styles.css';
 import TileView from './tileView';
 import Cell from './cell';
 import {EndGame} from './endGame';
-import { Helmet } from "react-helmet";
-import {Grid} from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 
