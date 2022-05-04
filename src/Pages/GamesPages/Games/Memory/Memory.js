@@ -106,7 +106,7 @@ export default function Memory() {
         }
         //update post here
         async function newHSPost() {
-            const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `beat Memory Scramble in ${moves} moves and set a new high score!`, dateTime);
+            const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `beat Memory Scramble in ${moves} moves and set a new high score  ( ᐛ )و`, dateTime);
             console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
         }
         makeNewScore();
@@ -131,7 +131,7 @@ export default function Memory() {
             }
             else{
                 async function newGamePost() {
-                    const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `beat Memory Scramble in ${moves} moves, but can do better :(`, dateTime);
+                    const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `beat Memory Scramble in ${moves} moves, but can do better  .·´¯\`(>▂<)´¯\`·.`, dateTime);
                     console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                 }
                 newGamePost();

@@ -179,7 +179,7 @@ const Board_v2 = (props) => {
         }
         //update post here
         async function newHSPost() {
-            const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Lights Out and beat their high score!`, dateTime);
+            const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Lights Out and beat their high score  ⊂( ・ ̫・)⊃`, dateTime);
             console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
         }
         makeNewScore();
@@ -360,7 +360,7 @@ const Board_v2 = (props) => {
             }
             else {
                 async function newGamePost() {
-                    const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Lights Out but didn't beat their high score :(`, dateTime);
+                    const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Lights Out but didn't beat their high score  ಥ_ಥ`, dateTime);
                     console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                 }
                 newGamePost();

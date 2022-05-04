@@ -212,7 +212,7 @@ function Wordle() {
                         await api.deleteUserPost( window.currentUserLoggedIn, "is playing Wordle!");
                     }
                     async function newHSPost() {
-                        await api.postNewGameStatus( window.currentUserLoggedIn, `solved Wordle in ${timeMinStr}m${timerSeconds}s and beat their high score!`, dateTime);
+                        await api.postNewGameStatus( window.currentUserLoggedIn, `solved Wordle in ${timeMinStr}m${timerSeconds}s and beat their high score  ☜(˚▽˚)☞`, dateTime);
                     }
                     newHSPost();
                     deletePost();
@@ -242,7 +242,7 @@ function Wordle() {
                         console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                     }
                     async function newHSPost() {
-                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `solved Wordle in ${timeMinStr}m${timerSeconds}s and beat their high score!`, dateTime);
+                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `solved Wordle in ${timeMinStr}m${timerSeconds}s and beat their high score  ☜(˚▽˚)☞`, dateTime);
                         console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                     }
                     newHSPost()
@@ -259,7 +259,7 @@ function Wordle() {
                         console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                     }
                     async function newPost() {
-                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `solved Wordle in ${timeMinStr}m${timerSeconds}s but didn't beat their high score :(`, dateTime);
+                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `solved Wordle in ${timeMinStr}m${timerSeconds}s but didn't beat their high score  (っ˘̩╭╮˘̩)っ`, dateTime);
                         console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                     }
                     newPost();
@@ -274,7 +274,7 @@ function Wordle() {
                     console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                 }
                 async function newPost() {
-                    const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `solved Wordle in ${timeMinStr}m${timerSeconds}s but didn't beat their high score :(`, dateTime);
+                    const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `solved Wordle in ${timeMinStr}m${timerSeconds}s but didn't beat their high score  (っ˘̩╭╮˘̩)っ`, dateTime);
                     console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                 }
                 newPost();

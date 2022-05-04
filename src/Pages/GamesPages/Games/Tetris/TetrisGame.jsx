@@ -64,7 +64,7 @@ const Tetris = () => {
 
         }
         async function newHSPost() {
-            const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Tetris and beat their high score!`, dateTime);
+            const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Tetris and beat their high score  ᕕ( ᐛ )ᕗ`, dateTime);
             console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
         }
         async function deletePost() {
@@ -114,7 +114,7 @@ const Tetris = () => {
                     }
 
                     async function newGamePost() {
-                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Tetris but didn't beat their high score :(`, dateTime);
+                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Tetris but didn't beat their high score  ( ಠ╭╮ಠ )`, dateTime);
                         console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                     }
                     deletePost();
