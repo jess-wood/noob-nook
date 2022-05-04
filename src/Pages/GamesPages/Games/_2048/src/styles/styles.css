@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Neonderthaw&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rampart+One&display=swap');
+
 .game body {
   display: flex;
   flex-direction: column;
@@ -7,6 +10,14 @@
   font-family: "Arial", sans-serif;
   font-size: 21px;
   height: 100vh;
+  background-color: #ccda46;
+
+}
+.center {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  padding: 10px;
 }
 .text {
   order: 2;
@@ -18,11 +29,14 @@
   order: 1;
   width: 440px;
   height: 440px;
-  padding: 5px;
-  background-color: #baa;
+  background-color: #A99A83;
   border-radius: 7px;
   outline: none;
-  position: relative;
+  position: absolute;
+  left: 50%;
+  top: 60%;
+  transform: translate(-50%, -50%);
+  padding: 5px;
 }
 .board .cell,
 .tile {
@@ -36,63 +50,63 @@
   margin: 5px;
   line-height: 90px;
   display: inline-block;
-  font-size: 55px;
+  font-size: 65px;
   font-weight: bold;
   text-align: center;
   vertical-align: middle;
   border-radius: 7px;
-  font-family: "Arial";
+  font-family: "Rampart One";
   color: #766;
-  background-color: #dcb;
+  background-color: #b2bfc2;
 }
 .tile0 {
   background-color: #dcb;
 }
 .tile2 {
-  background-color: #eee;
+  background-color: #C8E0F9;
 }
 .tile4 {
-  background-color: #eec;
+  background-color: #A7C8F1;
 }
 .tile8 {
-  color: #ffe;
-  background-color: #fb8;
+  color: #766;
+  background-color: #93B1E8;
 }
 .tile16 {
-  color: #ffe;
-  background-color: #f96;
+  color: #F0F0F0;
+  background-color: #6D8CD9;
 }
 .tile32 {
-  color: #ffe;
-  background-color: #f75;
+  color: #F7F7F7;
+  background-color: #5170CD;
 }
 .tile64 {
-  color: #ffe;
-  background-color: #f53;
+  color: #fdfdfd;
+  background-color: #3547C0;
 }
 .tile128 {
-  color: #ffe;
-  background-color: #ec7;
+  color: #f7f7f7;
+  background-color: #3041B0;
   font-size: 45px;
 }
 .tile256 {
-  color: #ffe;
-  background-color: #ec6;
+  color: #fdfdfd;
+  background-color: #2332A9;
   font-size: 45px;
 }
 .tile512 {
-  color: #ffe;
-  background-color: #ec5;
+  color: #fdfdfd;
+  background-color: #202D9A;
   font-size: 45px;
 }
 .tile1024 {
-  color: #fff;
-  background-color: #ec3;
+  color: #fdfdfd;
+  background-color: #293BC6;
   font-size: 35px;
 }
 .tile2048 {
-  color: #fff;
-  background-color: #ec2;
+  color: #fdfdfd;
+  background-color: #1D298C;
   font-size: 35px;
 }
 .tile {
