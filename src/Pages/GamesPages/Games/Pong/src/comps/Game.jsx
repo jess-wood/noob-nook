@@ -31,7 +31,7 @@ class Game extends React.Component {
 
       // ---------------------- FUNCTIONS ------------------------
       const makeRectangleShape = (cX, cY, width, height, color ) => { canvasContext.fillStyle = color ; canvasContext.fillRect( cX, cY,width, height); }
-      const makeCircleShape = (cX, cY, radius, angle, color ) => { canvasContext.fillStyle = color; canvasContext.beginPath(); canvasContext.arc(cX, cY, radious, angle, Math.PI*2, true ); canvasContext.fill(); }
+      const makeCircleShape = (cX, cY, radius, angle, color ) => { canvasContext.fillStyle = color; canvasContext.beginPath(); canvasContext.arc(cX, cY, radius, angle, Math.PI*2, true ); canvasContext.fill(); }
 
 
       const draw = () => {  // CALL to make all the shapes.

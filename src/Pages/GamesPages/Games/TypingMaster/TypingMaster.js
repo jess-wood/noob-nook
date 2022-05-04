@@ -116,6 +116,10 @@ const TypingMaster = (props) => {
 
     //function to finish game
     function finishGame() {
+        let today = new Date();
+        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        let dateTime = date+' '+time;
         // stop the timer
         clearInterval(timeRemaining);
         setIsPaused(true);

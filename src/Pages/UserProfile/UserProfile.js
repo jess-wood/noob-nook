@@ -130,33 +130,22 @@ const UserHighScores = (props) => {
 
 
 const UserProfile = (props) => {
-    const classes = useStyles();
     const {user, mainUser, isUserLoggedIn} = props;
     const [userData, setUserData] = useState([]);
     const [posts, setPosts] = useState([]);
     const [userFollowings, setUserFollowings] = useState([]);
-    const [isFollowing, setIsFollowing] = useState(checkFollowStatus());
+    const [isFollowing, setIsFollowing] = useState(false);
     const [userPic, setUserPic] = useState('default.jpg');
-    let pic = 'default.jpg';
-    console.log(userPic);
-    // if (userData.length > 0){
-    //     if (userData[0]['user_ProfilePic'] !== 'default.jpg' && userPic === 'default.jpg' ){
-    //         setUserPic(userData[0]['user_ProfilePic']);
-    //     }
-    // }
 
 
     useEffect(() => {
-        console.log('in useEffect for user following');
         const api = new API();
 
         async function getUserFollowing() {
             const userFollowJSONString = await api.allUserFollowings(mainUser);
             console.log(`routes from the DB ${JSON.stringify(userFollowJSONString)}`);
             setUserFollowings(userFollowJSONString.data);
-            if (userFollowings.length > 0)
-                setIsFollowing(checkFollowStatus());
-        }
+         }
         async function createUserHS() {
             console.log(`main user in UserProfile.js: ${mainUser}`);
             const userHSJSONString = await api.createHSRow(mainUser);
@@ -166,9 +155,7 @@ const UserProfile = (props) => {
             const userDeleteWordleJSONString = await api.deleteUserPost(mainUser, "is playing Wordle!");
             const userDeleteLOJSONString = await api.deleteUserPost(mainUser, "is playing Lights Out!");
             const userDelete2048JSONString = await api.deleteUserPost(mainUser, "is playing 2048!");
-            //console.log(`routes from the DB ${JSON.stringify(userDelete2048JSONString)}`);
             const userDeletePongJSONString = await api.deleteUserPost(mainUser, "is playing Pong!");
-            //console.log(`routes from the DB ${JSON.stringify(userDeletePongJSONString)}`);
             const userDeleteSnakeJSONString = await api.deleteUserPost(mainUser, "is playing Snake!");
             const userDeleteSpaceJSONString = await api.deleteUserPost(mainUser, "is playing Meteor Killers!");
             const userDeleteTetrisJSONString = await api.deleteUserPost(mainUser, "is playing Tetris!");
@@ -177,8 +164,10 @@ const UserProfile = (props) => {
             const userDeleteC4JSONString = await api.deleteUserPost(mainUser, "is playing Connect4!");
         }
         deleteIsPlayingStatus();
-        createUserHS();
-        getUserFollowing();
+        //createUserHS();
+        //getUserFollowing();
+        //checkFollowStatus()
+
     }, []);
 
     useEffect(() => {
@@ -189,7 +178,6 @@ const UserProfile = (props) => {
             console.log(`routes from the DB ${JSON.stringify(userJSONString)}`);
             setUserData(userJSONString.data);
             if (userData[0]['user_ProfilePic'] !== undefined) {
-                console.log('setting profile pic');
                 setUserPic(userData[0]['user_ProfilePic']);
             }
         }
@@ -201,6 +189,8 @@ const UserProfile = (props) => {
 
         async function getUserFollowing() {
             const userFollowJSONString = await api.allUserFollowings(mainUser);
+            api.allUserFollowings(mainUser).then(userInfo => checkFollowStatus(userInfo.data));
+            console.log(`routes from the DB ${JSON.stringify(userFollowJSONString.data)}`);
             setUserFollowings(userFollowJSONString.data);
 
         }
@@ -208,7 +198,6 @@ const UserProfile = (props) => {
         getUserFollowing();
         getUserData();
         if (userData.length > 0){
-            console.log(userData[0]['user_ProfilePic']);
             setUserPic(userData[0]['user_ProfilePic']);
         }
         getUserPosts();
@@ -218,7 +207,6 @@ const UserProfile = (props) => {
         const api = new API();
         async function getUserFollowing() {
             const userFollowJSONString = await api.allUserFollowings(mainUser);
-            //console.log(`routes from the DB ${JSON.stringify(userFollowJSONString.data)}`);
             setUserFollowings(userFollowJSONString.data);
 
         }
@@ -226,15 +214,18 @@ const UserProfile = (props) => {
         getUserFollowing();
     }, [isFollowing]);
 
-    function checkFollowStatus(){
-        if(userFollowings.length === 0){
+    function checkFollowStatus(followList){
+        if(followList.length === 0){
+            setIsFollowing(false);
             return false;
         }
-        for (let i=0; i < userFollowings.length; i ++){
-            if (userFollowings[i].username_follower === user){
+        for (let i=0; i < followList.length; i ++){
+            if (followList[i].username_follower === user){
+                setIsFollowing(true);
                 return true;
             }
         }
+        setIsFollowing(false);
         return false;
     }
 
@@ -279,7 +270,7 @@ const UserProfile = (props) => {
                             <CardMedia style={{width: '101%', height: '100%', justifySelf: 'center', marginLeft: 0}} image={require(`./UsersPictures/${userData.length === 0 ? userPic : userData[0]['user_ProfilePic']}`)} title={"profilePic"}/>
                         </Card>
                         {isUserLoggedIn ? <br/> :
-                            checkFollowStatus() || isFollowing ? <Button key={'unfollow'} sx={{marginLeft: '35%', height:'10%', mt: 3, mb: 3, backgroundColor: '#4fc3f7', color: '#000',borderColor: '#4fc3f7','&:hover': {backgroundColor: '#4fc3f7',opacity: [0.6, 0.6, 0.6],}}} onClick={() => handleUnfollow()}> <Typography sx={{fontFamily: "Jura, Arial", fontWeight:'bold',bottom: '9px'}}>Unfollow <RemoveCircleOutlineIcon style={{ color: '#000', marginLeft:1,verticalAlign:'middle'}}/></Typography> </Button> :
+                            isFollowing ? <Button key={'unfollow'} sx={{marginLeft: '35%', height:'10%', mt: 3, mb: 3, backgroundColor: '#4fc3f7', color: '#000',borderColor: '#4fc3f7','&:hover': {backgroundColor: '#4fc3f7',opacity: [0.6, 0.6, 0.6],}}} onClick={() => handleUnfollow()}> <Typography sx={{fontFamily: "Jura, Arial", fontWeight:'bold',bottom: '9px'}}>Unfollow <RemoveCircleOutlineIcon style={{ color: '#000', marginLeft:1,verticalAlign:'middle'}}/></Typography> </Button> :
                                 <Button key={'follow'} sx={{marginLeft: '35%', mt: 3, mb: 3, backgroundColor: alpha('#5CAD31', 0.9), color: '#000', fontWeight: 'bold','&:hover': {backgroundColor: alpha('#5CAD31', 0.9)}}} onClick={() => handleFollow()}> <Typography sx={{fontFamily: "Jura, Arial", fontWeight:'bold'}}>Follow  </Typography>  <AddCircleOutlineOutlined style={{ color: '#000', marginLeft:1 }}/></Button>
                         }
                     </Grid>

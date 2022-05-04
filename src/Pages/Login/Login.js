@@ -71,11 +71,16 @@ const EntryPage = (props) => {
                 });
         }
         async function createHS(){
-            console.log("calling create HS in Login.js");
             await api.createHSRow(userInput);
         }
+
+        async function firstPost(){
+            await api.postNewGameStatus(userInput, "just joined NoobNook!   (╯°□°）╯", date);
+        }
+
         createHS();
         getUserSignUp();
+        firstPost();
 
         setVerifyUser(true);
 

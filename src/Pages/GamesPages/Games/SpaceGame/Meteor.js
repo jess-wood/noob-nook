@@ -20,9 +20,10 @@ export class Meteor {
 
         if(!this.dead && this.isDead()){
             this.dead = true;
+            return;
         }
 
-        if(!this.dead){
+        if(!this.dead && !this.isDead()){
             bullets.forEach(bullet => {
                 if(Math.abs(bullet.xPos - this.xPos) < 75 && Math.abs(bullet.yPos - this.yPos) < 100){
                     player.increaseScore();
@@ -31,7 +32,7 @@ export class Meteor {
                 }
             });
 
-            if(!this.dead){
+            if(!this.dead && !this.isDead()){
                 if(Math.abs(player.posX - this.xPos) < 65 && Math.abs(player.posY - this.yPos) < 90){
                     this.dead = true;
                     player.deductHealth();
@@ -42,6 +43,9 @@ export class Meteor {
     }
 
     draw = (ctx) =>{
+        if (this.dead || this.isDead()){
+            return
+        }
         const image = new Image();
         image.src = img1;
         ctx.drawImage(image,this.xPos,this.yPos,75,100);

@@ -3,6 +3,10 @@ import '../styles/styles.css';
 import TileView from './tileView';
 import Cell from './cell';
 import {EndGame} from './endGame';
+import { Helmet } from "react-helmet";
+import {Grid} from "@mui/material";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 
 var rotateLeft = function (matrix) {
     var rows = matrix.length;
@@ -240,8 +244,10 @@ export default class MainBoard extends Component {
     render() {
         var cells = this.state.board.cells.map((row, rowIndex) => {
             return (
-                <div key={rowIndex}>
-                    {row.map((_, columnIndex) => <Cell key={rowIndex * Board.size + columnIndex} />)}
+                <div className={'game'}>
+                    <div key={rowIndex}>
+                        {row.map((_, columnIndex) => <Cell key={rowIndex * Board.size + columnIndex} />)}
+                    </div>
                 </div>
             );
         });
@@ -249,10 +255,17 @@ export default class MainBoard extends Component {
             .filter(tile => tile.value !== 0)
             .map(tile => <TileView tile={tile} key={tile.id} />);
         return (
-            <div className='board' onTouchStart={this.handleTouchStart.bind(this)} onTouchEnd={this.handleTouchEnd.bind(this)} tabIndex="1">
-                {cells}
-                {tiles}
-                <EndGame board={this.state.board} onRestart={this.restartGame.bind(this)} />
+            <div className={'game'} style={{backgroundColor: '#446F95', height: '100vh', marginTop: -7}}>
+                <Typography sx={{textAlign:'center', mt: '0.5%', fontFamily: 'Rampart One', fontSize: '80px', color: '#fc6a03'}}>2 0 4 8</Typography>
+                <div className='board' onTouchStart={this.handleTouchStart.bind(this)} onTouchEnd={this.handleTouchEnd.bind(this)} tabIndex="1">
+                    {cells}
+                    {tiles}
+                    <EndGame board={this.state.board} onRestart={this.restartGame.bind(this)} />
+                </div>
+                <Button style={{marginTop: '35%', width: '10%', marginLeft:'45.4%', backgroundColor:'#446F95', color:'#fc6a03', fontFamily:'Arial', fontWeight:'bold',}} sx={{'&:hover': {
+                        borderColor: '#fc6a03',
+                    },}} onClick={() => this.restartGame.bind(this)}>
+                    RESTART</Button>
             </div>
         );
     }

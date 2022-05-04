@@ -182,6 +182,10 @@ function Wordle() {
             setMSG("Your word is not valid!")
         }
         if (countCorrectLetters === 5){
+            let today = new Date();
+            let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+            let time1 = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+            let dateTime = date+' '+time1;
             //call game over function
             //msg = "You got it!";
             let timeMinStr = Math.floor(((time*1.8184) / 60000) % 60);
@@ -194,26 +198,21 @@ function Wordle() {
                     const api = new API();
 
                     async function makeNewScore() {
-                        const gameHSJSONString = await api.postNewHighScoreWordle(`${timeMinStr}m${timerSeconds}s`, window.currentUserLoggedIn);
-                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                        await api.postNewHighScoreWordle(`${timeMinStr}m${timerSeconds}s`, window.currentUserLoggedIn);
                     }
 
                     async function makeNewScoreMin() {
-                        const gameHSJSONString = await api.postNewHighScoreWordleMin(timeMinStr, window.currentUserLoggedIn);
-                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                        await api.postNewHighScoreWordleMin(timeMinStr, window.currentUserLoggedIn);
                     }
 
                     async function makeNewScoreSec() {
-                        const gameHSJSONString = await api.postNewHighScoreWordleSec(timeSecStr, window.currentUserLoggedIn);
-                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                        await api.postNewHighScoreWordleSec(timeSecStr, window.currentUserLoggedIn);
                     }
                     async function deletePost() {
-                        const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Wordle!");
-                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                        await api.deleteUserPost( window.currentUserLoggedIn, "is playing Wordle!");
                     }
                     async function newHSPost() {
-                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `solved Wordle in ${timeMinStr}m${timerSeconds}s and beat their high score!`, dateTime);
-                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                        await api.postNewGameStatus( window.currentUserLoggedIn, `solved Wordle in ${timeMinStr}m${timerSeconds}s and beat their high score!`, dateTime);
                     }
                     newHSPost();
                     deletePost();
