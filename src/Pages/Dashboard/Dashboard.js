@@ -95,9 +95,9 @@ const UsernameHeader = (props) => {
 }
 
 function UserDataEntry (props) {
-
+    //console.log(`userdata: ${JSON.stringify(props.account)}`);
     return (
-        props.account.map(account =>
+        //props.account.map(account =>
             <Grid container sx={{
                 width: 800,
                 height: 100,
@@ -112,32 +112,32 @@ function UserDataEntry (props) {
             }}>
                 <Box display='flex' flexDirection='row' justifyContent='left' sx={{height: '100%', width: '32%', borderRight: 1.5, borderColor: '#4fc3f7'}}>
                     <Card key={"profilePic"} sx={{width: '40%', height: '80%', borderRadius: '50%',  border: 1, mt: 1, marginLeft: 1}}>
-                        <CardMedia style={{width: '100%', height: '100%', justifySelf: 'center'}} image={require(`../UserProfile/UsersPictures/${account['user_ProfilePic']}`)} title={"profilePic"}/>
+                        <CardMedia style={{width: '100%', height: '100%', justifySelf: 'center'}} image={require(`../UserProfile/UsersPictures/${props.account['user_ProfilePic']}`)} title={"profilePic"}/>
                     </Card>
                     <Box key="userName" sx={{height:'30%', width:'80%', marginLeft: 1}}>
                         <Typography fontSize='auto' fontWeight='bold' sx={{fontFamily: "Jura, Arial", mt: 4}}>
-                            {account !== undefined ? "@"+account['username_user_post'] : 'none'}
+                            {props.account !== undefined ? "@"+props.account['username_user_post'] : 'none'}
                         </Typography>
                     </Box>
                 </Box>
                 <Box display='flex' flexDirection='row' justifyContent='left' sx={{width: 400, marginLeft: 2}}>
                     <Typography display='inline' fontSize='auto' fontWeight='bold' sx={{fontFamily: "Jura, Arial", mt: 4, textAlign: 'left'}}>
-                        {account !== undefined ? account['post_content'] : 'none'}
+                        {props.account !== undefined ? props.account['post_content'] : 'none'}
                     </Typography>
                 </Box>
                 <Box display='flex' flexDirection='row' justifyContent='center' alignContent='center' sx={{height: '100%', width: '10%', borderLeft: 1.5, borderColor: '#4fc3f7', paddingLeft: 7}}>
                     <Typography fontSize='12px' fontWeight='bold' sx={{fontFamily: "Jura, Arial", mt: 4, textAlign: 'center'}}>
-                        {account !== undefined ? account['DATE_FORMAT(date_created, \'%m/%d/%Y\')'] : ''} {account['cast(date_created as time)']}
+                        {props.account !== undefined ? props.account['DATE_FORMAT(date_created, \'%m/%d/%Y\')'] : ''} {props.account['cast(date_created as time)']}
                     </Typography>
                 </Box>
             </Grid>
-        )
+        //)
     );
 }
 
 function ActivityFeed (props) {
+    //props.posts.sort((d1, d2) => d1['date_created'] - d2['date_created']);
     console.log(`posts in activity feed: ${JSON.stringify(props.posts)}`);
-    console.log(`posts length: ${props.posts.length}`);
     return (
         <Box sx={{width: '100%', height: 1300, mt: -7, overflowY: 'scroll'}}>
             <Typography fontWeight='bold' fontSize='25px' sx={{textAlign: 'center', fontFamily: "Jura, Arial", mb: 2}} color='#FAE6FA'>
@@ -209,7 +209,15 @@ const Dashboard = (props) => {
                 tempPosts.push(followedUserPostsJSONString.data);
                 // console.log(`tempPosts[i]: ${tempPosts[i]}`);
             }
-            setFollowedUsersPosts(tempPosts);
+            let newTemp = [].concat(...tempPosts);
+            for (let elem of newTemp){
+                elem['date_created'] = new Date(elem['date_created']);
+            }
+            newTemp.sort((d1, d2) => d1['date_created'] - d2['date_created']);
+            console.log(`date type: ${typeof newTemp[0]['date_created']}`)
+            console.log(`newTemp: ${JSON.stringify(newTemp)}`);
+            //setFollowedUsersPosts(tempPosts);
+            setFollowedUsersPosts(newTemp)
         }
         getFollowedUserPosts();
     }, [followedUsers]);
