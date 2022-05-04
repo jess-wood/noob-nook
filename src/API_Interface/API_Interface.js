@@ -100,6 +100,10 @@ export default class APIInterface {
         return axiosAgent.get(`high-scores/${username}/get-match`);
     }
 
+    async getConnect4HS(username){
+        return axiosAgent.get(`high-scores/${username}/get-connect4`);
+    }
+
     async postNewHighScoreWPM(score, username){
         return axiosAgent.get(`high-scores/${score}/${username}/score-wpm`);
     }
@@ -134,6 +138,10 @@ export default class APIInterface {
 
     async postNewHighScoreWordleSec(score, username){
         return axiosAgent.get(`high-scores/${score}/${username}/score-wordleSec`);
+    }
+
+    async postNewHighScoreConnect4(score, username){
+        return axiosAgent.get(`high-scores/${score+1}/${username}/score-connect4`);
     }
 
     async postNewGameStatus(username, content, date){

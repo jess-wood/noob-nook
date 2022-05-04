@@ -95,44 +95,48 @@ const UsernameHeader = (props) => {
 }
 
 function UserDataEntry (props) {
+    //console.log(`userdata: ${JSON.stringify(props.account)}`);
     return (
-        <Grid container sx={{
-            width: 800,
-            height: 100,
-            backgroundColor: '#b3e5fc',
-            '&:hover': {
+        //props.account.map(account =>
+            <Grid container sx={{
+                width: 800,
+                height: 100,
                 backgroundColor: '#b3e5fc',
-                opacity: [0.9, 0.8, 0.7],
-            },
-            border: 2,
-            borderColor: '#4fc3f7',
-            mb: 1
-        }}>
-            <Box display='flex' flexDirection='row' justifyContent='left' sx={{height: '100%', width: '32%', borderRight: 1.5, borderColor: '#4fc3f7'}}>
+                '&:hover': {
+                    backgroundColor: '#b3e5fc',
+                    opacity: [0.9, 0.8, 0.7],
+                },
+                border: 2,
+                borderColor: '#4fc3f7',
+                mb: 1
+            }}>
+                <Box display='flex' flexDirection='row' justifyContent='left' sx={{height: '100%', width: '32%', borderRight: 1.5, borderColor: '#4fc3f7'}}>
                     <Card key={"profilePic"} sx={{width: '40%', height: '80%', borderRadius: '50%',  border: 1, mt: 1, marginLeft: 1}}>
-                        <CardMedia style={{width: '100%', height: '100%', justifySelf: 'center'}} image={require(`../UserProfile/UsersPictures/${props.account[0]['user_ProfilePic']}`)} title={"profilePic"}/>
+                        <CardMedia style={{width: '100%', height: '100%', justifySelf: 'center'}} image={require(`../UserProfile/UsersPictures/${props.account['user_ProfilePic']}`)} title={"profilePic"}/>
                     </Card>
-                <Box key="userName" sx={{height:'30%', width:'80%', marginLeft: 1}}>
-                    <Typography fontSize='20px' fontWeight='bold' sx={{fontFamily: "Jura, Arial", mt: 4}}>
-                        {props.account.length > 0 ? "@"+props.account[0]['username_user_post'] : 'none'}
+                    <Box key="userName" sx={{height:'30%', width:'80%', marginLeft: 1}}>
+                        <Typography fontSize='auto' fontWeight='bold' sx={{fontFamily: "Jura, Arial", mt: 4}}>
+                            {props.account !== undefined ? "@"+props.account['username_user_post'] : 'none'}
+                        </Typography>
+                    </Box>
+                </Box>
+                <Box display='flex' flexDirection='row' justifyContent='left' sx={{width: 400, marginLeft: 2}}>
+                    <Typography display='inline' fontSize='auto' fontWeight='bold' sx={{fontFamily: "Jura, Arial", mt: 4, textAlign: 'left'}}>
+                        {props.account !== undefined ? props.account['post_content'] : 'none'}
                     </Typography>
                 </Box>
-            </Box>
-            <Box display='flex' flexDirection='row' justifyContent='left' sx={{width: '30%', marginLeft: 2}}>
-                <Typography fontSize='20px' fontWeight='bold' sx={{fontFamily: "Jura, Arial", mt: 4}}>
-                    {props.account[0] !== undefined ? props.account[0]['post_content'] : 'none'}
-                </Typography>
-            </Box>
-            <Box display='flex' flexDirection='row' justifyContent='center' alignContent='center' sx={{height: '100%', width: '10%', borderLeft: 1.5, borderColor: '#4fc3f7', marginLeft: 20, paddingLeft: 7}}>
-                <Typography fontSize='12px' fontWeight='bold' sx={{fontFamily: "Jura, Arial", mt: 4, textAlign: 'center'}}>
-                    {props.account[0] !== undefined ? props.account[0]['DATE_FORMAT(date_created, \'%m/%d/%Y\')'] : ''} {props.account[0]['cast(date_created as time)']}
-                </Typography>
-            </Box>
-        </Grid>
+                <Box display='flex' flexDirection='row' justifyContent='center' alignContent='center' sx={{height: '100%', width: '10%', borderLeft: 1.5, borderColor: '#4fc3f7', paddingLeft: 7}}>
+                    <Typography fontSize='12px' fontWeight='bold' sx={{fontFamily: "Jura, Arial", mt: 4, textAlign: 'center'}}>
+                        {props.account !== undefined ? props.account['DATE_FORMAT(date_created, \'%m/%d/%Y\')'] : ''} {props.account['cast(date_created as time)']}
+                    </Typography>
+                </Box>
+            </Grid>
+        //)
     );
 }
 
 function ActivityFeed (props) {
+    //props.posts.sort((d1, d2) => d1['date_created'] - d2['date_created']);
     console.log(`posts in activity feed: ${JSON.stringify(props.posts)}`);
     return (
         <Box sx={{width: '100%', height: 1300, mt: -7, overflowY: 'scroll'}}>
@@ -205,7 +209,15 @@ const Dashboard = (props) => {
                 tempPosts.push(followedUserPostsJSONString.data);
                 // console.log(`tempPosts[i]: ${tempPosts[i]}`);
             }
-            setFollowedUsersPosts(tempPosts);
+            let newTemp = [].concat(...tempPosts);
+            for (let elem of newTemp){
+                elem['date_created'] = new Date(elem['date_created']);
+            }
+            newTemp.sort((d1, d2) => d1['date_created'] - d2['date_created']);
+            console.log(`date type: ${typeof newTemp[0]['date_created']}`)
+            console.log(`newTemp: ${JSON.stringify(newTemp)}`);
+            //setFollowedUsersPosts(tempPosts);
+            setFollowedUsersPosts(newTemp)
         }
         getFollowedUserPosts();
     }, [followedUsers]);
@@ -213,7 +225,7 @@ const Dashboard = (props) => {
     function UserHighScores (props) {
         console.log(JSON.stringify(curUserHighScores));
         return (
-            <Box sx={{height: 400, width: 350, marginLeft: 1, mb: 4, border: 1, backgroundColor: '#946aa6', overflowY: 'scroll'}}>
+            <Box sx={{height: 400, width: 350, mb: 4, border: 1, backgroundColor: '#946aa6', overflowY: 'scroll', marginLeft: 6}}>
                 <Box display='flex' flexDirection='row' justifyContent='center' sx={{borderBottom: 1}}>
                     <Typography fontWeight='bold' fontSize='25px' sx={{mt: 0.5, mb: 0.5, textAlign: 'center', fontFamily: "Jura, Arial"}} color='#FAE6FA'>
                         YOUR HIGH SCORES:
@@ -237,7 +249,7 @@ const Dashboard = (props) => {
 
     function FollowedUsers (props) {
         return (
-            <Box sx={{height: 400, width: 350, marginLeft: 1, mb: 4, border: 1, backgroundColor: '#946aa6', overflowY: 'scroll'}}>
+            <Box sx={{height: 400, width: 350, mb: 4, border: 1, backgroundColor: '#946aa6', overflowY: 'scroll', marginLeft: 6}}>
                 <Box display='flex' flexDirection='row' justifyContent='center' sx={{borderBottom: 1}}>
                     <Typography fontWeight='bold' fontSize='25px' sx={{mt: 0.5, mb: 0.5, textAlign: 'center', fontFamily: "Jura, Arial"}} color='#FAE6FA'>
                         FOLLOWING:
