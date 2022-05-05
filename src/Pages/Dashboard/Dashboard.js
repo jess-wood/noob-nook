@@ -16,13 +16,13 @@ import {useState, useEffect} from "react";
 import API from '../../API_Interface/API_Interface';
 
 
-const testUser = [
+const noPostsPost =
     {
-        username: 'slick_doe',
-        post_content: ['@slick_doe beat their high score in Lights Out!']
-
+        username_user_post: 'NoobNook',
+        post_content: 'FOLLOW USERS TO VIEW THEIR POSTS',
+        user_ProfilePic: 'NoobNook.jpg'
     }
-];
+;
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -95,7 +95,7 @@ const UsernameHeader = (props) => {
 }
 
 function UserDataEntry (props) {
-    //console.log(`userdata: ${JSON.stringify(props.account)}`);
+    console.log(`userdata: ${JSON.stringify(props.account)}`);
     return (
         //props.account.map(account =>
             <Grid container sx={{
@@ -112,17 +112,17 @@ function UserDataEntry (props) {
             }}>
                 <Box display='flex' flexDirection='row' justifyContent='left' sx={{height: '100%', width: '32%', borderRight: 1.5, borderColor: '#4fc3f7'}}>
                     <Card key={"profilePic"} sx={{width: '40%', height: '80%', borderRadius: '50%',  border: 1, mt: 1, marginLeft: 1}}>
-                        <CardMedia style={{width: '100%', height: '100%', justifySelf: 'center'}} image={require(`../UserProfile/UsersPictures/${props.account['user_ProfilePic']}`)} title={"profilePic"}/>
+                        <CardMedia style={{width: '100%', height: '100%', justifySelf: 'center'}} image={require(`../UserProfile/UsersPictures/${props.account['user_ProfilePic'] !== undefined ? props.account['user_ProfilePic'] : props.account[0]['user_ProfilePic']}`)} title={"profilePic"}/>
                     </Card>
                     <Box key="userName" sx={{height:'30%', width:'80%', marginLeft: 1}}>
                         <Typography fontSize='auto' fontWeight='bold' sx={{fontFamily: "Jura, Arial", mt: 4}}>
-                            {props.account !== undefined ? "@"+props.account['username_user_post'] : 'none'}
+                            {props.account !== undefined ? "@"+props.account['username_user_post'] : '@'+props.account[0]['username_user_post']}
                         </Typography>
                     </Box>
                 </Box>
                 <Box display='flex' flexDirection='row' justifyContent='left' sx={{width: 400, marginLeft: 2}}>
                     <Typography display='inline' fontSize='auto' fontWeight='bold' sx={{fontFamily: "Jura, Arial", mt: 4, textAlign: 'left'}}>
-                        {props.account !== undefined ? props.account['post_content'] : 'none'}
+                        {props.account !== undefined ? props.account['post_content'] : props.account[0]['post_content']}
                     </Typography>
                 </Box>
                 <Box display='flex' flexDirection='row' justifyContent='center' alignContent='center' sx={{height: '100%', width: '10%', borderLeft: 1.5, borderColor: '#4fc3f7', paddingLeft: 7}}>
@@ -138,6 +138,8 @@ function UserDataEntry (props) {
 function ActivityFeed (props) {
     //props.posts.sort((d1, d2) => d1['date_created'] - d2['date_created']);
     console.log(`posts in activity feed: ${JSON.stringify(props.posts)}`);
+    if (props.posts.length === 0)
+        console.log(`posts is empty`);
     return (
         <Box sx={{width: '100%', height: 1300, mt: -7, overflowY: 'scroll'}}>
             <Typography fontWeight='bold' fontSize='25px' sx={{textAlign: 'center', fontFamily: "Jura, Arial", mb: 2}} color='#FAE6FA'>
@@ -150,10 +152,10 @@ function ActivityFeed (props) {
                 padding: 1,
                 backgroundColor: '#946aa6'
             }}>
-                {props.posts !== undefined ?
+                {props.posts.length !== 0 ?
                     props.posts.map(post =>
-                        <UserDataEntry account={post}/>
-                    ) : <UserDataEntry account={testUser}/>
+                        <UserDataEntry account={post} key={post}/>
+                    ) : <UserDataEntry account={noPostsPost}/>
                 }
             </Box>
         </Box>
