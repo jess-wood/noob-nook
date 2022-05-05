@@ -65,6 +65,8 @@ const Settings = (props) => {
     const {user, setUser, isUserLoggedIn} = props;
     const {verifyUser, setVerifyUser} = useState(false);
     const [userPic, setUserPic] = useState('default.jpg');
+    const [firstName, setFirstName] = useState ("");
+    const [lastName, setLastName] = useState("");
     const [userName, setUserName] = useState("");
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
@@ -134,36 +136,86 @@ const Settings = (props) => {
                 </Card>
             </Grid>
 
-            <Grid item key={"UserInfo"} sx={{border: 0, width: '30%', alignItems: 'center', height: '30%'}}>
-                <Box key='usernameProfile' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 3}}>
+            <Grid item key={"UserInfo"} sx={{border: 0, width: '30%', alignItems: 'center', height: '50%'}}>
+                <Box key='userFirstName' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 1}}>
                     <Typography sx={{fontFamily: "Jura, Arial",
-                                     fontWeight: 'bold',
-                                     fontSize: '20px',
-                                     color:'#E6E6FA'}}>
-                        @{userData.length > 0 ? userData[0]['username'] : 'none'}
+                        fontWeight: 'bold',
+                        fontSize: '20px',
+                        color:'#E6E6FA'}}>
+                        Current:&nbsp;
+                        <Typography sx={{textDecoration: 'underline',
+                            fontFamily: "Jura, Arial",
+                            fontWeight: 'bold',
+                            fontSize: '20px',
+                            color:'#E6E6FA'}} display="inline">
+                            {userData.length > 0 ? userData[0]['user_fName'] : 'none'}</Typography>
                     </Typography>
                 </Box>
-                <TextField id="outlined-basic" label="New Username" variant="outlined" />
+                <TextField id="standard-basic" label="New First Name" variant="standard" />
 
-                <Box key='usernameEmail' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 3}}>
+                <Box key='userLastName' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 1}}>
                     <Typography sx={{fontFamily: "Jura, Arial",
-                                     fontWeight: 'bold',
-                                     fontSize: '20px',
-                                     color:'#E6E6FA'}}>
-                        {userData.length > 0 ? userData[0]['user_email'] : 'none'}
+                        fontWeight: 'bold',
+                        fontSize: '20px',
+                        color:'#E6E6FA'}}>
+                        Current:&nbsp;
+                        <Typography sx={{textDecoration: 'underline',
+                            fontFamily: "Jura, Arial",
+                            fontWeight: 'bold',
+                            fontSize: '20px',
+                            color:'#E6E6FA'}} display="inline">
+                            {userData.length > 0 ? userData[0]['user_lName'] : 'none'}</Typography>
                     </Typography>
                 </Box>
-                <TextField id="outlined-basic" label="New Email" variant="outlined" />
+                <TextField id="standard-basic" label="New Last Name" variant="standard" />
 
-                <Box key='usernamePassword' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 3}}>
+                <Box key='usernameProfile' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 1}}>
                     <Typography sx={{fontFamily: "Jura, Arial",
                                      fontWeight: 'bold',
                                      fontSize: '20px',
                                      color:'#E6E6FA'}}>
-                        {userData.length > 0 ? userData[0]['user_password'] : 'none'}
+                        Current:&nbsp;
+                        <Typography sx={{textDecoration: 'underline',
+                            fontFamily: "Jura, Arial",
+                            fontWeight: 'bold',
+                            fontSize: '20px',
+                            color:'#E6E6FA'}} display="inline">
+                            @{userData.length > 0 ? userData[0]['username'] : 'none'}</Typography>
                     </Typography>
                 </Box>
-                <TextField id="outlined-basic" label="New Password" variant="outlined" />
+                <TextField id="standard-basic" label="New Username" variant="standard" />
+
+                <Box key='usernameEmail' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 1}}>
+                    <Typography sx={{fontFamily: "Jura, Arial",
+                                     fontWeight: 'bold',
+                                     fontSize: '20px',
+                                     color:'#E6E6FA'}}>
+                        Current:&nbsp;
+                        <Typography sx={{textDecoration: 'underline',
+                            fontFamily: "Jura, Arial",
+                            fontWeight: 'bold',
+                            fontSize: '20px',
+                            color:'#E6E6FA'}} display="inline">
+                            {userData.length > 0 ? userData[0]['user_email'] : 'none'} </Typography>
+                    </Typography>
+                </Box>
+                <TextField id="standard-basic" label="New Email" variant="standard" />
+
+                <Box key='usernamePassword' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 1}}>
+                    <Typography sx={{fontFamily: "Jura, Arial",
+                                     fontWeight: 'bold',
+                                     fontSize: '20px',
+                                     color:'#E6E6FA'}}>
+                        Current:&nbsp;
+                        <Typography sx={{textDecoration: 'underline',
+                                         fontFamily: "Jura, Arial",
+                                         fontWeight: 'bold',
+                                         fontSize: '20px',
+                                         color:'#E6E6FA'}} display="inline">
+                                         {userData.length > 0 ? userData[0]['user_password'] : 'none'} </Typography>
+                    </Typography>
+                </Box>
+                <TextField id="standard-basic" label="New Password" variant="standard" />
             </Grid>
 
             <Grid item sx={{border: 0, width: '30%', alignItems: 'center', height: '50%'}}>
