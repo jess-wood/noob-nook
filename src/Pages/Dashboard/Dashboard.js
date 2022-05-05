@@ -225,7 +225,6 @@ const Dashboard = (props) => {
     }, [followedUsers]);
 
     function UserHighScores (props) {
-        console.log(JSON.stringify(curUserHighScores));
         return (
             <Box sx={{height: 400, width: 350, mb: 4, border: 1, backgroundColor: '#946aa6', overflowY: 'scroll', marginLeft: 6}}>
                 <Box display='flex' flexDirection='row' justifyContent='center' sx={{borderBottom: 1}}>
@@ -239,7 +238,7 @@ const Dashboard = (props) => {
                         highScoresTableAttributes.map(attr =>
                             <Box display='flex' flexDirection='row' justifyContent='center' sx={{marginBlock: 3, mt: 3}}>
                                 <Typography fontSize='20px' sx={{textAlign: 'center', fontFamily: "Jura, Arial"}} color='#E6E6FA'>
-                                    { curUserHighScores[0][attr.attributeDBName] !== undefined ? attr.attributeName+": "+ curUserHighScores[0][attr.attributeDBName] : '0'}
+                                    { curUserHighScores[0][attr.attributeDBName] !== undefined ? attr.attributeName+": " +(attr.attributeName === 'Connect4' ? curUserHighScores[0][attr.attributeDBName]+" moves" : (attr.attributeName === 'Typing Master' ? curUserHighScores[0][attr.attributeDBName]+" WPM" : curUserHighScores[0][attr.attributeDBName])) : 'none'}
                                 </Typography>
                             </Box>
                         )
