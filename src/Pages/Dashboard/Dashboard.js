@@ -95,7 +95,7 @@ const UsernameHeader = (props) => {
 }
 
 function UserDataEntry (props) {
-    console.log(`userdata: ${JSON.stringify(props.account)}`);
+    //console.log(`userdata: ${JSON.stringify(props.account)}`);
     return (
         //props.account.map(account =>
             <Grid container sx={{
@@ -137,9 +137,7 @@ function UserDataEntry (props) {
 
 function ActivityFeed (props) {
     //props.posts.sort((d1, d2) => d1['date_created'] - d2['date_created']);
-    console.log(`posts in activity feed: ${JSON.stringify(props.posts)}`);
-    if (props.posts.length === 0)
-        console.log(`posts is empty`);
+   // console.log(`posts in activity feed: ${JSON.stringify(props.posts)}`);
     return (
         <Box sx={{width: '100%', height: 1300, mt: -7, overflowY: 'scroll'}}>
             <Typography fontWeight='bold' fontSize='25px' sx={{textAlign: 'center', fontFamily: "Jura, Arial", mb: 2}} color='#FAE6FA'>
@@ -216,8 +214,8 @@ const Dashboard = (props) => {
                 elem['date_created'] = new Date(elem['date_created']);
             }
             newTemp.sort((d1, d2) => d1['date_created'] - d2['date_created']);
-            console.log(`date type: ${typeof newTemp[0]['date_created']}`)
-            console.log(`newTemp: ${JSON.stringify(newTemp)}`);
+            // console.log(`date type: ${typeof newTemp[0]['date_created']}`)
+            // console.log(`newTemp: ${JSON.stringify(newTemp)}`);
             //setFollowedUsersPosts(tempPosts);
             setFollowedUsersPosts(newTemp)
         }
