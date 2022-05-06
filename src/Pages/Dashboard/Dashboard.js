@@ -20,7 +20,7 @@ const noPostsPost =
     {
         username_user_post: 'NoobNook',
         post_content: 'FOLLOW USERS TO VIEW THEIR POSTS',
-        user_ProfilePic: 'NoobNook.jpg'
+        user_ProfilePic: 'noobnookLogooDashboard.jpeg'
     }
 ;
 
