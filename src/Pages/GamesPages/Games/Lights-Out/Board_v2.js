@@ -45,8 +45,6 @@ function Row(props) {
               sx={{
                   display: 'flex',
                   flexDirection: 'row',
-                  //mb: 0.5,
-                  //marginLeft: 3
               }}
         >
             {
@@ -83,7 +81,7 @@ function createInitialBoard(){
     let attrNL = {color: notLit,isLit: false};
     let attrL = {color: lit,isLit: true};
     let board = [];
-    //fix this to create board
+    //create board with no lights
     for (let i=0; i < NUM_ROWS; i++){
         let row = [];
         for (let j=0; j<NUM_COLS; j++){
@@ -92,19 +90,6 @@ function createInitialBoard(){
         board.push(row);
     }
     //randomize lights on
-    let numLit = 0;
-    // for (let i=0; i < board.length; i++){
-    //     for (let j=0; j < board[i].length; j++){
-    //         if(Math.random() < 0.6 && numLit < 9){
-    //             console.log(board[i][j]);
-    //             board[i][j] = attrL;
-    //             numLit++;
-    //         }
-    //         else {
-    //             board[i][j] = attrNL;
-    //         }
-    //     }
-    // }
     if (Math.random() < 0.5){
         for (let i=0; i < board.length; i++){
             for (let j=0; j < board[i].length; j++){
@@ -149,17 +134,14 @@ const Board_v2 = (props) => {
 
 
     useEffect(() => {
-        console.log('in useEffect for user high score lights out');
         const api = new API();
 
         async function getUserHS() {
             const gameHSJSONString = await api.getLOHS( window.currentUserLoggedIn);
-            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
             setCurrHighScore(gameHSJSONString.data[0]['HS_LightsOut']);
         }
         async function makeNewPost() {
             const gameHSJSONString = await api.postNewGameStatus(window.currentUserLoggedIn, "is playing Lights Out!", dateTime);
-            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
         }
         getUserHS();
         makeNewPost();
@@ -351,7 +333,6 @@ const Board_v2 = (props) => {
             const api = new API();
             async function deletePost() {
                 const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Lights Out!");
-                console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
             }
             deletePost();
 
@@ -361,7 +342,6 @@ const Board_v2 = (props) => {
             else {
                 async function newGamePost() {
                     const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${score} points in Lights Out but didn't beat their high score  ಥ_ಥ`, dateTime);
-                    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                 }
                 newGamePost();
             }
@@ -371,8 +351,8 @@ const Board_v2 = (props) => {
 
     return (
         <Fragment>
-            <Box className='body2' sx={{height: '100%', width: '100%'}}>
-            <Stack>
+            <Box className='body2' sx={{height: '96vh', width: '100%'}}>
+            <Stack sx={{height:'96vh', backgroundColor:'black'}}>
                 {haveAwinner ?
                     <div className='winner'>
                         <div className='neon-orange'>you</div>
@@ -394,7 +374,7 @@ const Board_v2 = (props) => {
                     )
                 }
             </Grid>
-            <Button sx={{width: '10%', alignSelf: 'center', mt: '3.5%', color: '#FED128'}} onClick={() => reset()}>Reset</Button>
+            <Button sx={{width: '10%', alignSelf: 'center', mt: '2%', color: '#FED128'}} onClick={() => reset()}>Reset</Button>
             </Stack>
             </Box>
         </Fragment>

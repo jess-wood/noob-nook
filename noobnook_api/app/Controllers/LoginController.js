@@ -57,7 +57,7 @@ class LoginController {
         return new Promise((resolve, reject) => {
             const query = `
                        INSERT INTO users (username, user_email, user_password, dateJoined, user_rank, user_ProfilePic)
-                       VALUES (?,?,?,?,'Little Noob','default.jpg')
+                       VALUES (?,?,?,?,'N00blet','default.jpg')
                         `;
             dbConnection.query({
                 sql: query,

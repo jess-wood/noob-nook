@@ -154,7 +154,7 @@ const TopBar = (props) => {
                 {
                     menu1Items.map(title =>
                         <Grid item onClick={() => handleSelectedItem(title)} key={title} sx={{marginLeft: '4%', marginRight: '8%' }}>
-                            <Button sx={{color:'white', marginRight:'4%'}}><Typography sx={{fontFamily: 'Jura, Arial',color:'#E6E6FA'}}>{title}</Typography></Button>
+                            <Button sx={{color:'white', marginRight:'4%'}}><Typography sx={{fontFamily: 'Jura, Arial',color:'#b3e5fc'}}>{title}</Typography></Button>
                         </Grid>
                     )
                 }
@@ -179,14 +179,14 @@ const TopBar = (props) => {
                         </Grid>
                     </Grid>
                 <Grid item key={"NookNook"} sx={{
-                    alignItems: 'center', mt: 0.5, marginRight:8}}>
+                    alignItems: 'center', mt: 0.5, marginRight:13}}>
                     <h8>NoobNook</h8>
                 </Grid>
                     <Grid container item key='right' columns={2} sx={{width: '27%', justifyContent: 'space-between'}}>
                     {
                         menu2Items.map(title =>
                             <Grid item onClick={() => handleSelectedItem(title)} key={title} sx={{marginRight: '7%'}}>
-                                <Button ><Typography sx={{fontFamily: 'Jura, Arial',color:'#E6E6FA'}}>{title}</Typography></Button>
+                                <Button ><Typography sx={{fontFamily: 'Jura, Arial',color:'#b3e5fc'}}>{title}</Typography></Button>
                             </Grid>
                         )
                     }

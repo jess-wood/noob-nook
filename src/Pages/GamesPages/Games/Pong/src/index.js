@@ -7,11 +7,10 @@ import logo from './comps/img/logo.svg';
 import './App.css';
 
 const GatherComp = () => {
-  const GatherStl = { paddingTop: "15px", textAlign: "center", marginRight: "20%", marginLeft: "20%", marginTop: "1%", backgroundColor: "#ffffff", border: "1px solid black", opacity: "0.8" }
+  const GatherStl = { paddingTop: "15px", textAlign: "center", marginRight: "20%", marginLeft: "20%", marginTop: "0%", backgroundColor: '#003366', opacity: "0.8" }
   return (
-    <div>
+    <div style={{backgroundColor: '#003366', height: '93vh'}}>
       <div style={GatherStl} >
-        <img src={logo} className="App-logo" alt="logo" />
         <Header />
         <Game />
         <Footer />

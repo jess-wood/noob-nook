@@ -77,6 +77,31 @@ class UserProfileController {
             });
         }).catch(err => console.log("Database connection error.", err));
     }
+
+    async changeRank(ctx) {
+        console.log("changeRank called");
+        return new Promise((resolve, reject) => {
+            const query = `UPDATE users
+                            SET user_rank = ?
+                            where username = ?
+                            `;
+            dbConnection.query({
+                sql: query,
+                values: [ctx.params.newRank, ctx.params.username]
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in SettingsController::changeRank", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                console.log(`db return tuples ${JSON.stringify(tuples)}`);
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => console.log("Database connection error.", err));
+    }
 }
 
 module.exports = UserProfileController;

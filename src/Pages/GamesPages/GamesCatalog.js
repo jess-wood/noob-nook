@@ -22,6 +22,7 @@ import conect4Logo from './images/connect4.png';
 import memoryLogo from './images/memory.png';
 import Button from "@mui/material/Button";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Stack from "@mui/material/Stack";
 
 
 
@@ -156,12 +157,12 @@ export default function MainBoard (props) {
 
     return (
         <Fragment>
-                {selectedItem !== 'Catalog' && <Button onClick={() => handleGameExit()} sx={{textAlign:'left', height: 1, width: '100%', borderRadius:0, backgroundColor:'black', mt:0,'&:hover': {
+                {selectedItem !== 'Catalog' && <Button onClick={() => handleGameExit()} sx={{textAlign:'left', height: 1, width: '100%', borderRadius:0, alignItems:'center', backgroundColor:'black', mt:0,'&:hover': {
                         backgroundColor: 'black',
-                    }}}><Typography sx={{fontFamily:'Jura, Arial', color: 'red', textAlign:'left'}}><ArrowBackIcon sx={{alignSelf:'left', color:'red'}}/></Typography></Button>}
+                    }}}><Stack direction="row" alignItems="center" gap={1}><Typography sx={{fontFamily:'Jura, Arial', color: 'red',  mb: 0.5, display:'inline-flex'}}><ArrowBackIcon sx={{ color: 'red', opacity: 0.8, justifySelf:'center'}}/> </Typography> <Typography sx={{fontFamily:'Jura, Arial', color: '#b3e5fc',  mb: 0.5, display:'inline-flex'}}>  Back to Games</Typography></Stack></Button>}
             {selectedItem === 'Catalog' ?
                 <Grid container
-                      sx={{backgroundColor: '#714C7A', width: '100%', height: '100%', border: 5, mb: 5, marginLeft: 0, padding: 1}}>
+                      sx={{backgroundColor: '#714C7A', width: '100%', height: '90%', border: 5, mb: 5, marginLeft: 0, padding: 1}}>
                     <Grid item sx={{height: '25%', width: '100%', border: 0, borderColor: 'red', }}>
                         <Box sx={{border: 0, height: '100%', width: '100%'}}><Typography fontSize='40px'
                                                                                          textDecoration='underline'
@@ -198,11 +199,12 @@ export default function MainBoard (props) {
                                     height: '90%',
                                     width: '69.2%',
                                     marginLeft: '0',
-                                    mb: '4%'
+                                    mb: '4%',
+                                    mt: '3%'
                                 }}><img style={{marginLeft: 0}} src={tetrisLogo} height={200} width={300}/></Box>
                                 <Typography sx={{
                                     textAlign: 'center',
-                                    mb: 2,
+                                    mb: 0,
                                     color: '#FAE6FA',
                                     fontFamily: 'Jura, Arial',
                                     fontWeight: 'bold',
@@ -221,11 +223,12 @@ export default function MainBoard (props) {
                                     height: '90%',
                                     width: '70.2%',
                                     marginLeft: '0',
-                                    mb: '4%'
+                                    mb: '4%',
+                                    mt:  '3%'
                                 }}><img style={{marginLeft: 0}} src={wordlelogo} height={200} width={300}/></Box>
                                 <Typography sx={{
                                     textAlign: 'center',
-                                    mb: 2,
+                                    mb: 0,
                                     color: '#FAE6FA',
                                     fontFamily: 'Jura, Arial',
                                     fontWeight: 'bold',
@@ -244,11 +247,12 @@ export default function MainBoard (props) {
                                     height: '90%',
                                     width: '69.2%',
                                     marginLeft: '0',
-                                    mb: '4%'
+                                    mb: '4%',
+                                    mt:  '3%'
                                 }}><img style={{marginLeft: 0}} src={lightoutLogo} height={200} width={300}/></Box>
                                 <Typography sx={{
                                     textAlign: 'center',
-                                    mb: 2,
+                                    mb: 0,
                                     color: '#FAE6FA',
                                     fontFamily: 'Jura, Arial',
                                     fontWeight: 'bold',
@@ -267,11 +271,12 @@ export default function MainBoard (props) {
                                     height: '90%',
                                     width: '72.2%',
                                     marginLeft: '0',
-                                    mb: '4%'
+                                    mb: '4%',
+                                    mt:  '3%'
                                 }}><img style={{marginLeft: 0}} src={spaceInvaders} height={200} width={300}/></Box>
                                 <Typography sx={{
                                     textAlign: 'center',
-                                    mb: 2,
+                                    mb: 0,
                                     color: '#FAE6FA',
                                     fontFamily: 'Jura, Arial',
                                     fontWeight: 'bold',
@@ -290,11 +295,12 @@ export default function MainBoard (props) {
                                     height: '90%',
                                     width: '70%',
                                     marginLeft: '0',
-                                    mb: '4%'
+                                    mb: '4%',
+                                    mt:  '3%'
                                 }}><img style={{marginLeft: 0}} src={snakeLogo} height={200} width={300}/></Box>
                                 <Typography sx={{
                                     textAlign: 'center',
-                                    mb: 2,
+                                    mb: 0,
                                     color: '#FAE6FA',
                                     fontFamily: 'Jura, Arial',
                                     fontWeight: 'bold',
@@ -313,11 +319,12 @@ export default function MainBoard (props) {
                                     height: '72%',
                                     width: '70%',
                                     marginLeft: '0',
-                                    mb: '4%'
+                                    mb: '4%',
+                                    mt:  '3%'
                                 }}><img style={{marginLeft: '0'}} src={logo2048} height={'70%'} width={'70%'}/></Box>
                                 <Typography sx={{
                                     textAlign: 'center',
-                                    mb: 2,
+                                    mb: 0,
                                     color: '#FAE6FA',
                                     fontFamily: 'Jura, Arial',
                                     fontWeight: 'bold',
@@ -336,11 +343,12 @@ export default function MainBoard (props) {
                                     height: '90%',
                                     width: '72.2%',
                                     marginLeft: '0',
-                                    mb: '4%'
+                                    mb: '4%',
+                                    mt:  '3%'
                                 }}><img style={{marginLeft: 2}} src={typeLogo} height={200} width={300}/></Box>
                                 <Typography sx={{
                                     textAlign: 'center',
-                                    mb: 2,
+                                    mb: 0,
                                     color: '#FAE6FA',
                                     fontFamily: 'Jura, Arial',
                                     fontWeight: 'bold',
@@ -359,11 +367,12 @@ export default function MainBoard (props) {
                                     height: '90%',
                                     width: '72.2%',
                                     marginLeft: '0',
-                                    mb: '4%'
+                                    mb: '4%',
+                                    mt:  '3%'
                                 }}><img style={{marginLeft: 1}} src={pongLogo} height={200} width={300}/></Box>
                                 <Typography sx={{
                                     textAlign: 'center',
-                                    mb: 2,
+                                    mb: 0,
                                     color: '#FAE6FA',
                                     fontFamily: 'Jura, Arial',
                                     fontWeight: 'bold',
@@ -382,11 +391,12 @@ export default function MainBoard (props) {
                                     height: '90%',
                                     width: '69.2%',
                                     marginLeft: '0',
-                                    mb: '4%'
+                                    mb: '4%',
+                                    mt:  '3%'
                                 }}><img style={{marginLeft: 0}} src={conect4Logo} height={200} width={300}/></Box>
                                 <Typography sx={{
                                     textAlign: 'center',
-                                    mb: 2,
+                                    mb: 0,
                                     color: '#FAE6FA',
                                     fontFamily: 'Jura, Arial',
                                     fontWeight: 'bold',
@@ -405,12 +415,13 @@ export default function MainBoard (props) {
                                     height: '90%',
                                     width: '72.2%',
                                     marginLeft: '0',
-                                    mb: '4%'
+                                    mb: '4%',
+                                    mt:  '3%'
                                 }}><img style={{marginLeft: 4, marginTop: 3}} src={memoryLogo} height={200}
                                         width={300}/></Box>
                                 <Typography sx={{
                                     textAlign: 'center',
-                                    mb: 2,
+                                    mb: 0,
                                     color: '#FAE6FA',
                                     fontFamily: 'Jura, Arial',
                                     fontWeight: 'bold',
@@ -418,7 +429,7 @@ export default function MainBoard (props) {
                                 }}>Memory Scramble</Typography>
                             </Button>
                         </Grid>
-                        <Box sx={{height: 80}}></Box>
+                        <Box sx={{height: 90}}></Box>
                     </Grid>
                 </Grid>
             : findSelectedComponent(selectedItem).component}
