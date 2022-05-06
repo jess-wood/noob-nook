@@ -1,4 +1,4 @@
-import {Fragment, useState, useEffect} from 'react';
+import {Fragment, useState} from 'react';
 import doWeHaveAWinner from './doWeHaveAWinner'
 import { NUM_ROWS, NUM_COLUMNS, PLAYER_COLOR, AI_COLOR } from './constants'
 import Stack from "@mui/material/Stack";
@@ -7,14 +7,9 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import './Connect4.css';
-import API from "../../../../API_Interface/API_Interface";
-
-let today = new Date();
-let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-let dateTime = date+' '+time;
 
 let moves;
+let invalidMoves =[]
 
 function advanceColor(color) {
     if( color === 'white' )
@@ -35,11 +30,11 @@ function ResetButton (props) {
 function TopBanner (props) {
     return (
         <Box display='flex' flexDirection='column'>
-          <Box>
-              <Typography className='head' sx={{fontFamily: 'Fredoka One, cursive', fontWeight: 'bold', fontSize: '65px', textAlign: 'center', color: '#077826'}}>
-                  CONNECT 4
-              </Typography>
-          </Box>
+            <Box>
+                <Typography className='head' sx={{fontFamily: 'Fredoka One, cursive', fontWeight: 'bold', fontSize: '65px', textAlign: 'center', color: '#077826'}}>
+                    CONNECT 4
+                </Typography>
+            </Box>
         </Box>
     );
 }
@@ -150,45 +145,8 @@ export default function Board(props) {
     const [winnerColor, setWinnerColor] = useState(undefined);
     const [numMovesToWin, setNumMovesToWin] = useState(0);
     const [firstAvailableIndex, setFirstAvailableIndex] = useState(Array(NUM_COLUMNS).fill(NUM_ROWS - 1));
-    const [currHighScore, setCurrHighScore] = useState(0);
+    const [winMove, setWinMove] = useState({isWin: false, row: -1, col: -1})
 
-    useEffect(() => {
-        console.log('in useEffect for user high score connect4');
-        const api = new API();
-
-        async function getUserHS() {
-            const gameHSJSONString = await api.getConnect4HS(window.currentUserLoggedIn);
-            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
-            setCurrHighScore(gameHSJSONString.data[0]['HS_Connect4']);
-        }
-
-        async function makeNewPost() {
-            const gameHSJSONString = await api.postNewGameStatus(window.currentUserLoggedIn, "is playing Connect4", dateTime);
-            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
-        }
-        getUserHS();
-        makeNewPost();
-    }, [currHighScore]);
-
-    const makeNewHighScore = () => {
-        let today = new Date();
-        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        let dateTime = date+' '+time;
-        const api = new API();
-
-        async function makeNewScore() {
-            const gameHSJSONString = await api.postNewHighScoreConnect4(moves, window.currentUserLoggedIn);
-            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
-        }
-
-        async function newHSPost() {
-            const gameHSJSONString = await api.postNewGameStatus(window.currentUserLoggedIn, `beat the AI in ${moves+1} moves in Connect 4 and beat their high score  ( ﾉ^ω^)ﾉﾟ`, dateTime);
-            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
-        }
-        makeNewScore();
-        newHSPost();
-    }
 
     const reset = () => {
         setBoard(createInitialBoard());
@@ -206,231 +164,99 @@ export default function Board(props) {
         );
     };
 
-    function isWinningMove(pieceColor) {
+    function isWinMove (row, col, piece){
         // horizontal check
-        for (let c = 0; c < NUM_COLUMNS-3; c++){
-            //console.log(`horizontal check`);
-            for (let r = 0; r < NUM_ROWS; r++){
-                //console.log(`row: ${r}, col: ${c}, color: ${board[r][c].color}`);
-                if (board[r][c].color === pieceColor && board[r][c+1] === pieceColor && board[r][c+2] === pieceColor && board[r][c+3] === pieceColor)
-                    return true;
-            }
-        }
+        if (col+3 < NUM_COLUMNS && board[row][col+1].color === piece && board[row][col+2].color === piece && board[row][col+3].color === piece && row === firstAvailableIndex[col])
+            return true;
+        else if (col-3 >= 0 && board[row][col-1].color === piece && board[row][col-2].color === piece && board[row][col-3].color === piece && row === firstAvailableIndex[col])
+            return true;
+        else if (col+2 < NUM_COLUMNS && col-1 >= 0 && board[row][col-1].color === piece && board[row][col+1].color === piece && board[row][col+2].color === piece && row === firstAvailableIndex[col])
+            return true;
+        else if (col+1 < NUM_COLUMNS && col-2 >= 0 && board[row][col-2].color === piece && board[row][col-1].color === piece && board[row][col-2].color === piece && row === firstAvailableIndex[col])
+            return true;
+
         // vertical check
-        for (let c = 0; c < NUM_COLUMNS; c++){
-            //console.log(`vertical check`);
-            for (let r = 0; r < NUM_ROWS-3; r++){
-                if (board[r][c].color === pieceColor && board[r+1][c] === pieceColor && board[r+2][c] === pieceColor && board[r+3][c] === pieceColor)
-                    return true;
-            }
-        }
+        else if (row+3 < NUM_ROWS && board[row+1][col].color === piece && board[row+2][col].color === piece && board[row+3][col].color === piece && row === firstAvailableIndex[col])
+            return true;
+        else if (row+2 < NUM_ROWS && row-1 >= 0 && board[row+2][col].color === piece && board[row+1][col].color === piece && board[row-1][col].color === piece && row === firstAvailableIndex[col])
+            return true;
+        else if (row+1 < NUM_ROWS && row-2 >= 0 && board[row+1][col].color === piece && board[row-1][col].color === piece && board[row-2][col].color === piece && row === firstAvailableIndex[col])
+            return true;
+        else if (row-3 > 0 && board[row-3][col].color === piece && board[row-2][col].color === piece && board[row-1][col].color === piece && row === firstAvailableIndex[col])
+            return true;
+
         // right diagonal check
-        for (let c = 0; c < NUM_COLUMNS-3; c++){
-            //console.log(`right diagonal check`);
-            for (let r = 0; r < NUM_ROWS-3; r++){
-                if (board[r][c].color === pieceColor && board[r+1][c+1] === pieceColor && board[r+2][c+2] === pieceColor && board[r+3][c+3] === pieceColor)
-                    return true;
-            }
-        }
+        else if (row+3 < NUM_ROWS && col+3 < NUM_COLUMNS && board[row+1][col+1].color === piece && board[row+2][col+2].color === piece && board[row+3][col+3].color === piece && row === firstAvailableIndex[col])
+            return true;
+        else if (row+2 < NUM_ROWS && row-1 > 0 && col+2 < NUM_COLUMNS && col-1 > 0 && board[row-1][col-1].color === piece && board[row+1][col+1].color === piece && board[row+2][col+2].color === piece && row === firstAvailableIndex[col])
+            return true;
+        else if (row+1 < NUM_ROWS && row-2 > 0 && col+1 < NUM_COLUMNS && col-2 > 0 && board[row+1][col+1].color === piece && board[row-1][col-1].color === piece && board[row-2][col-2].color === piece && row === firstAvailableIndex[col])
+            return true;
+        else if (row-3 > 0 && col-3 > 0 && board[row-1][col-1].color === piece && board[row-2][col-2].color === piece && board[row-3][col-3].color === piece && row === firstAvailableIndex[col])
+            return true;
+
         // left diagonal check
-        for (let c = 0; c < NUM_COLUMNS-3; c++){
-            //console.log(`left diagonal check`);
-            for (let r = 3; r < NUM_ROWS; r++){
-                if (board[r][c].color === pieceColor && board[r-1][c+1] === pieceColor && board[r-2][c+2] === pieceColor && board[r-3][c+3] === pieceColor)
-                    return true;
-            }
-        }
+        else if (row+3 < NUM_ROWS && col-3 > 0 && board[row+1][col-1].color === piece && board[row+2][col-2].color === piece && board[row+3][col-3].color === piece && row === firstAvailableIndex[col])
+            return true;
+        else if (row+2 < NUM_ROWS && row-1 > 0 && col-2 > 0 && col+1 < NUM_COLUMNS && board[row+1][col-1].color === piece && board[row+2][col-2].color === piece && board[row-1][col+1].color === piece && row === firstAvailableIndex[col])
+            return true;
+        else if (row+1 < NUM_ROWS && row-2 > 0 && col-1 > 0 && col+2 < NUM_COLUMNS && board[row+1][col-1].color === piece && board[row-1][col+1].color === piece && board[row-2][col+2].color === piece && row === firstAvailableIndex[col])
+            return true;
+        else if (row-3 > 0 && col+3 < NUM_COLUMNS && board[row-1][col+1].color === piece && board[row-2][col+2].color === piece && board[row-3][col+3].color === piece && row === firstAvailableIndex[col])
+            return true;
 
         return false;
     }
 
-    function isTerminalNode() {
-        return isWinningMove(board, PLAYER_COLOR) || isWinningMove(board, AI_COLOR);
-    }
-
-    // function isValidMove(c) {
-    //     // console.log(`column passed to isValidMove: ${col}`);
-    //     // console.log(JSON.stringify(board[NUM_ROWS-1][col]));
-    //     // return !board[NUM_ROWS-1][col].isOccupied;
-    //     return firstAvailableIndex[c];
-    // }
-
-    function getValidMoves() {
-        //let validMoves = [];
-        let validRowIdxs = new Array(NUM_COLUMNS).fill(0);
-        //console.log(`before for loop in getValidMoves`);
-        for (let c = 0; c < validRowIdxs.length; c++){
-            //console.log(`in getValidMoves c is: ${c}`);
-            // if (isValidMove(c))
-            //     validRowIdxs.push(c);
-            validRowIdxs[c] = (NUM_ROWS - 1) - firstAvailableIndex[c];
-        }
-        //console.log(`before getValidMoves returns`);
-        //console.log(`validRowIdxs: ${validRowIdxs}`);
-        return validRowIdxs;
-    }
-
-    function evaluate_row(row, piece) {
-        let opp_piece = PLAYER_COLOR;
-        if (piece === PLAYER_COLOR)
-            opp_piece = AI_COLOR;
-        let score = 0;
-        let pieceCount = 0;
-        let oppPieceCount = 0;
-        let emptyCount = 0;
-        for (let i = 0; i < row.length; i++){
-            if (row[i].color === piece)
-                pieceCount += 1
-            else if (row[i].color === opp_piece)
-                oppPieceCount += 1;
-            else
-                emptyCount += 1;
-        }
-        if (pieceCount === 4)
-            score += 100;
-        else if (pieceCount === 3 && emptyCount === 1)
-            score += 5;
-        else if (pieceCount === 2 && emptyCount === 2)
-            score += 2;
-        if (oppPieceCount === 3 && emptyCount === 1)
-            score -= 90;
-        return score;
-    }
-
-    function score_position (_board, piece) {
-        let score = 0;
-
-        // horizontal
-        for (let r = 0; r < NUM_ROWS; r++){
-            let row = _board[r];
-            for (let c = 0; c < NUM_COLUMNS-3; c++){
-                let window = row.slice(c, c+4);
-                //console.log(`horizonal window: ${JSON.stringify(window)}`);
-                score += evaluate_row(window, piece);
-            }
-        }
-
-        // vertical
-        //let vertWindow = [{row: 0, col: 0}]
-        for (let c = 0; c < NUM_COLUMNS; c++){
-            let col = _board.slice(c, c+4);
-            console.log(`vert col: ${JSON.stringify(col)}`)
-            for (let r = 0; r < NUM_ROWS-3; r++){
-                let window = [_board[r][c], _board[r+1][c],_board[r+2][c], _board[r+3][c]]
-                //vertWindow.push({row: r, col: c});
-                //console.log(`vertical window: ${JSON.stringify(window)}`);
-                score += evaluate_row(window, piece);
-            }
-        }
-
-        return score;
-    }
-
-    function miniMax(depth, alpha, beta, maxingPlayer){
-        let validMoves = getValidMoves();
-        let isTerminal = isTerminalNode();
-        let value;
-        let column;
-        if (depth === 0 || isTerminal){
-            if (isTerminal) {
-                if (isWinningMove(AI_COLOR))
-                    return {column: null, value: 1000000000};
-                if (isWinningMove(PLAYER_COLOR))
-                    return {column: null, value: -1000000000};
-                else
-                    return {column: null, value: 0};
-            } else {
-                return {column: null, value: score_position(board, AI_COLOR)};
-            }
-        }
-        if (maxingPlayer) {
-            //column = validMoves[Math.floor(Math.random()*validMoves.length)];
-
-            value = -Infinity;
-            for (let c of validMoves){
-                //row = getNextOpenRow(board, c);
-                let rowIdx = firstAvailableIndex[c];
-                console.log(`rowIdx = ${rowIdx}, colIdx = ${c}`);
-                if (rowIdx < 0)
-                    return;
-
-                const availableIndex = firstAvailableIndex.slice();
-                availableIndex[c] -= 1;
-                setFirstAvailableIndex(availableIndex);
-
-
-                let affectedRow = board[rowIdx].slice();
-                affectedRow[c] = {
-                    ...affectedRow[c],
-                    color: nextColor,
-                    isOccupied: true
-                };
-
-                let newBoard = board.slice();
-                newBoard[rowIdx] = affectedRow;
-
-                setBoard(newBoard);
-                setNextColor(advanceColor(nextColor));
-
-                if (doWeHaveAWinner(rowIdx, c, nextColor, newBoard)) {
-                    setHaveAWinner(true);
-                    setWinnerColor(nextColor);
-                }
-                let newScore = miniMax(depth-1, alpha, beta, false).value;
-                if (newScore > value){
-                    value = newScore;
-                    column = c;
-                }
-                console.log(`max newscore: ${newScore}`);
-                alpha = alpha > value ? alpha : value;
-                if (alpha >= beta)
+    function randomOppMove () {
+        let colIdx = Math.floor(Math.random() * firstAvailableIndex.length)
+        let rowIdx = firstAvailableIndex[colIdx];
+        for (let i = 0; i < NUM_ROWS; i++){
+            for (let j = 0; j < NUM_COLUMNS; j++){
+                if (isWinMove(i, j, AI_COLOR)){
+                    rowIdx = i;
+                    colIdx = j;
                     break;
-            }
-            return [{column: column, value: value}];
-        } else {
-            value = Infinity;
-            // column = validMoves[Math.floor(Math.random()*validMoves.length)];
-            console.log(`min validmoves length: ${validMoves.length}`);
-            for (let c of validMoves) {
-                console.log(`iterator in min: ${c}`);
-                //row = getNextOpenRow(board, c);
-                let rowIdx = firstAvailableIndex[c];
-                if (rowIdx < 0)
-                    return;
-
-                const availableIndex = firstAvailableIndex.slice();
-                availableIndex[c] -= 1;
-                setFirstAvailableIndex(availableIndex);
-
-
-                let affectedRow = board[rowIdx].slice();
-                affectedRow[c] = {
-                    ...affectedRow[c],
-                    color: nextColor,
-                    isOccupied: true
-                };
-
-                let newBoard = board.slice();
-                newBoard[rowIdx] = affectedRow;
-
-                setBoard(newBoard);
-                setNextColor(advanceColor(nextColor));
-
-                if (doWeHaveAWinner(rowIdx, c, nextColor, newBoard)) {
-                    setHaveAWinner(true);
-                    setWinnerColor(nextColor);
                 }
-                let newScore = miniMax(depth-1, alpha, beta, true).value;
-                if (newScore < value){
-                    value = newScore;
-                    column = c;
-                }
-                console.log(`min newscore: ${newScore}`);
-                beta = beta < value ? beta : value;
-                if (alpha >= beta)
+                if (isWinMove(i, j, PLAYER_COLOR)){
+                    rowIdx = i;
+                    colIdx = j;
                     break;
+                }
             }
-            return [{column: column, value: value}];
+        }
+        if (firstAvailableIndex[colIdx] === -1){
+            let temp = Math.floor(Math.random() * firstAvailableIndex.length);
+            while (temp === colIdx){
+                temp = Math.floor(Math.random() * firstAvailableIndex.length);
+            }
+            colIdx = temp;
+        }
+
+        if (invalidMoves.some(elem => JSON.stringify(elem) === JSON.stringify([rowIdx, colIdx]))){
+            rowIdx = firstAvailableIndex[colIdx];
+        }
+        invalidMoves.push([rowIdx, colIdx]);
+        const availableIndex = firstAvailableIndex.slice();
+        availableIndex[colIdx] -= 1;
+        setFirstAvailableIndex(availableIndex);
+
+        let affectedRow = board[rowIdx].slice();
+        affectedRow[colIdx] = {
+            ...affectedRow[colIdx],
+            color: nextColor,
+            isOccupied: true
+        };
+        let newBoard = board.slice();
+        newBoard[rowIdx] = affectedRow;
+
+        setBoard(newBoard);
+        setNextColor(advanceColor(nextColor));
+
+        if (doWeHaveAWinner(rowIdx, colIdx, nextColor, newBoard)) {
+            setHaveAWinner(true);
+            setWinnerColor(nextColor);
+
         }
     }
 
@@ -467,31 +293,13 @@ export default function Board(props) {
             setNextColor(advanceColor(nextColor));
 
             if (doWeHaveAWinner(rowIdx, colIdx, nextColor, newBoard)) {
-                let today = new Date();
-                let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-                let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                let dateTime = date+' '+time;
-
                 setHaveAWinner(true);
                 setWinnerColor(nextColor);
-                const api = new API();
-                async function deletePost() {
-                    const gameHSJSONString = await api.deleteUserPost(window.currentUserLoggedIn, "is playing Connect4");
-                    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
-                }
-                deletePost();
-                if (currHighScore === 0 || moves < currHighScore) {
-                    makeNewHighScore();
-                } else {
-                    async function newGamePost() {
-                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `beat the AI in ${moves+1} moves in Connect4 but didn't beat their high score  (⌯˃̶᷄ ﹏ ˂̶᷄⌯)`, dateTime);
-                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
-                    }
-                    newGamePost();
-                }
             }
+            invalidMoves.push([rowIdx, colIdx]);
         } else {
-            miniMax(3, -Infinity, Infinity, true);
+            randomOppMove();
+            //miniMax(3, -Infinity, Infinity, true);
         }
     }
 
