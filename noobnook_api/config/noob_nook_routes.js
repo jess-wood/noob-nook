@@ -45,6 +45,7 @@ const userProfileRouter = require('koa-router')({
 userProfileRouter.get('/:username/username', UserProfileController.userData);
 userProfileRouter.get('/:username/posts', UserProfileController.userPosts);
 userProfileRouter.get('/all-users', UserProfileController.allUsernames);
+userProfileRouter.get('/:newRank/:username/change-rank', UserProfileController.changeRank);
 
 
 

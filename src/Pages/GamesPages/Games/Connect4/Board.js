@@ -21,7 +21,7 @@ function advanceColor(color) {
 
 function ResetButton (props) {
     return (
-        <Box display='flex' justifyContent='center' sx={{mb: 5, mt: 5, align: 'center'}}>
+        <Box display='flex' justifyContent='center' sx={{mb: 0, mt: 2, align: 'center'}}>
             <Button size="large" variant="contained" align="center" onClick={() => props.reset()} color='error'>RESET</Button>
         </Box>
     );
@@ -307,14 +307,14 @@ export default function Board(props) {
         <Fragment>
             <Grid container columns={2} sx={{justifySelf: 'center', justifyContent: 'center', justifyItems: 'center', backgroundColor: '#c2f6ff', width: 2000}}>
                 <Grid item>
-                    <Stack sx={{width: 7 * 50 + 6 * 7, m: 'auto', mt: 15, mb: 20}}
+                    <Stack sx={{width: 7 * 50 + 6 * 7, m: 'auto', mt: 0, mb: 2}}
                     >
                         <TopBanner reset={reset}/>
                         <TopMessage nextColor={nextColor}
                                     winnerColor={winnerColor}
                                     haveAWinner={haveAWinner}
                                     reset={reset} />
-                        <Box sx={{borderRadius: '10px', border: 1, backgroundColor: '#ffd500', mb: 5, padding: 0.5}}>
+                        <Box sx={{borderRadius: '10px', border: 1, backgroundColor: '#ffd500', mb: 2, padding: 0.5}}>
                             {
                                 board.map((row, rowIdx) =>
                                     <Row key={rowIdx}

@@ -68,6 +68,10 @@ export default class APIInterface {
         return axiosAgent.get(`follow/${username}/allFollowings`);
     }
 
+    async changeUserRank(newRank, username){
+        return axiosAgent(`userprofile/${newRank}/${username}/change-rank`);
+    }
+
     async getHighScoreByGame(game, username){ //does not work, must manually make for each game
         return axiosAgent.get(`high-scores/${game}/${username}/get-score`);
     }

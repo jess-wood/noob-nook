@@ -191,7 +191,7 @@ function Wordle() {
             let timeMinStr = Math.floor(((time*1.8184) / 60000) % 60);
             let timeSecStr = Math.floor(((time*1.8183) / 1000) % 60);
             let timerSeconds = ("0" + Math.floor(((time*1.8183) / 1000) % 60)).slice(-2);
-            setMSG(`You guessed the word in ${timeMinStr} minutes ${timerSeconds} seconds!`);
+            setMSG(`GAME OVER! You guessed the word in ${timeMinStr} minutes and ${timerSeconds} seconds!\nPress any key to restart.`);
             if (timeMinStr <= highscoreMin || highscoreMin === null){
                 console.log('beat score');
                 if (timeMinStr < highscoreMin || highscoreMin === null) {
@@ -225,25 +225,20 @@ function Wordle() {
 
                     async function makeNewScore() {
                         const gameHSJSONString = await api.postNewHighScoreWordle(`${timeMinStr}m${timerSeconds}s`, window.currentUserLoggedIn);
-                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                     }
 
                     async function makeNewScoreMin() {
                         const gameHSJSONString = await api.postNewHighScoreWordleMin(timeMinStr, window.currentUserLoggedIn);
-                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                     }
 
                     async function makeNewScoreSec() {
                         const gameHSJSONString = await api.postNewHighScoreWordleSec(timeSecStr, window.currentUserLoggedIn);
-                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                     }
                     async function deletePost() {
                         const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Wordle!");
-                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                     }
                     async function newHSPost() {
                         const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `solved Wordle in ${timeMinStr}m${timerSeconds}s and beat their high score  ☜(˚▽˚)☞`, dateTime);
-                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                     }
                     newHSPost()
                     deletePost();
@@ -252,15 +247,12 @@ function Wordle() {
                     makeNewScoreSec();
                 }
                 else {
-                    console.log("did not beat score");
                     const api = new API();
                     async function deletePost() {
                         const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Wordle!");
-                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                     }
                     async function newPost() {
                         const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `solved Wordle in ${timeMinStr}m${timerSeconds}s but didn't beat their high score  (っ˘̩╭╮˘̩)っ`, dateTime);
-                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                     }
                     newPost();
                     deletePost();
@@ -271,11 +263,9 @@ function Wordle() {
                 const api = new API();
                 async function deletePost() {
                     const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Wordle!");
-                    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                 }
                 async function newPost() {
                     const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `solved Wordle in ${timeMinStr}m${timerSeconds}s but didn't beat their high score  (っ˘̩╭╮˘̩)っ`, dateTime);
-                    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
                 }
                 newPost();
                 deletePost();
@@ -374,7 +364,7 @@ function Wordle() {
     const keyboardPressedCallback = (attrsOfKeyClicked) => {
         //this is to remove previous gameOver banner
         if (gameOver && numRowsRemaining === 5){
-            setMSG(`Too Bad! The word was ${chosenWord}`);
+            setMSG(`Too Bad, GAME OVER! The word was ${chosenWord}`);
             gameOver = false;
             gameWon = false;
         }
@@ -422,9 +412,6 @@ function Wordle() {
             }
             setActiveRowIdx(0); //set index back to 0 for next row
             if (gameOver){
-                //do something with timer
-                //game over
-
                 resetGame();
                 return;
             }
@@ -459,8 +446,8 @@ function Wordle() {
                          display: 'flex',
                          flexDirection: 'column',
                          justifyContent: 'center',
-                         mb: 10,
-                         mt: 6
+                         mt: 2,
+                         mb:2
                      }}
                 >
                     <Box sx={{
@@ -468,10 +455,6 @@ function Wordle() {
                         mb: 1
                     }}>
                         <TopMessage reset={resetGame}/></Box>
-                    <Box sx={{
-                        mb: 1
-                    }}>
-                        <GameOver gameOver={gameOver} gameWon={gameWon} /></Box>
                     <GuessArea allBoxes={allBoxes}/>
                     <MessageCenter msg={msg}/>
                     <Keyboard keyboard={keyboard} onClickCallback={keyboardPressedCallback} />

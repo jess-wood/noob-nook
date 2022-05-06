@@ -17,7 +17,7 @@ class Game extends React.Component {
       let ballSpeedX = 10;
       let ballSpeedY = 4;
       const winningScore = 10;
-      const paddleColorX2 = "yellow";
+      const paddleColorX2 = "green";
       let player1Score = 0;
       let player2Score = 0;
       let showWinScreen = true;
@@ -61,11 +61,11 @@ class Game extends React.Component {
             if(player1Score >= winningScore){
               canvasContext.fillStyle = 'white';
               canvasContext.font = "30px Verdana";
-              canvasContext.fillText("YOU WIN .... Click to Play Again", canvas.width / 4 , 50) }
+              canvasContext.fillText("YOU WIN ... Click to Play Again", canvas.width / 4 , 50) }
             if(player2Score >= winningScore){
               canvasContext.fillStyle = 'white';
               canvasContext.font = "30px Verdana";
-              canvasContext.fillText("YOU LOSE .... Click to Play Again", canvas.width / 4 , 50) }
+              canvasContext.fillText("YOU LOSE ... Click to Play Again", canvas.width / 4 , 50) }
             return;
           }
 
@@ -121,7 +121,7 @@ class Game extends React.Component {
 
       canvas.addEventListener('mousemove', (evt) => {  // Controlling the User Paddle by calculating the position of the mouse.
         let mousePos = CalculateMousePosition(evt);
-        paddle1Y = mousePos.y - (paddleHeight / 2);
+        paddle1Y = mousePos.y ;
       })
 
       const ballReset = () => {   // this will remove the ball from whatever position is and drop it in the center.

@@ -6,10 +6,11 @@ import {
     DialogContentText,
     Button,
     DialogTitle
-} from "@material-ui/core";
+} from "@mui/material";
 import Card from "./card";
 import "./app.scss";
 import API from '../../../../API_Interface/API_Interface';
+import Typography from "@mui/material/Typography";
 
 
 let today = new Date();
@@ -67,6 +68,7 @@ export default function Memory() {
     const [showModal, setShowModal] = useState(false);
     const [bestScore, setBestScore] = useState(100);
     const timeout = useRef(null);
+    let didPost = false;
 
     const disable = () => {
         setShouldDisableAllCards(true);
@@ -131,8 +133,11 @@ export default function Memory() {
             }
             else{
                 async function newGamePost() {
-                    const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `beat Memory Scramble in ${moves} moves, but can do better  .·´¯\`(>▂<)´¯\`·.`, dateTime);
-                    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                    if (!didPost) {
+                        const gameHSJSONString = await api.postNewGameStatus(window.currentUserLoggedIn, `beat Memory Scramble in ${moves} moves, but can do better  .·´¯\`(>▂<)´¯\`·.`, dateTime);
+                        console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                        didPost = true;
+                    }
                 }
                 newGamePost();
             }
@@ -202,7 +207,7 @@ export default function Memory() {
             <header>
                 <h9>Memory Scramble</h9>
                 <div>
-                    Select two cards with same content consequtively to make them vanish
+                    Select two cards with same content consecutively to make them vanish
                 </div>
             </header>
             <div className="container">
@@ -232,8 +237,8 @@ export default function Memory() {
                     )}
                 </div>
                 <div className="restart">
-                    <Button onClick={handleRestart} color="primary" variant="contained">
-                        Restart
+                    <Button style={{backgroundColor: 'red'}} onClick={handleRestart} color="primary" variant="contained">
+                        <Typography sx={{fontFamily:'Jura, Arial'}}>Restart</Typography>
                     </Button>
                 </div>
             </footer>
@@ -244,18 +249,18 @@ export default function Memory() {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-title">
+                <DialogTitle id="alert-dialog-title" style={{backgroundColor: '#3a3b3c', color:'#fe9801', fontFamily: 'Jura, Arial'}}>
                     Hurray!!! You completed the challenge
                 </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
+                <DialogContent style={{backgroundColor: '#3a3b3c'}}>
+                    <DialogContentText id="alert-dialog-description" style={{backgroundColor: '#3a3b3c', color:'#fe9801', fontFamily: 'Jura, Arial'}}>
                         You completed the game in {moves} moves. Your best score is{" "}
                         {bestScore} moves.
                     </DialogContentText>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleRestart} color="primary">
-                        Restart
+                <DialogActions style={{backgroundColor: '#3a3b3c'}}>
+                    <Button style={{backgroundColor: '#565656'}} onClick={handleRestart} color="primary">
+                        <Typography sx={{fontFamily: 'Jura, Arial', color: '#f7f7f7'}}>Restart</Typography>
                     </Button>
                 </DialogActions>
             </Dialog>

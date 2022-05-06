@@ -136,16 +136,12 @@ const UserProfile = (props) => {
     const [userFollowings, setUserFollowings] = useState([]);
     const [isFollowing, setIsFollowing] = useState(false);
     const [userPic, setUserPic] = useState('default.jpg');
+    const [rankChanged, setRankChanged] = useState(false);
 
 
     useEffect(() => {
         const api = new API();
 
-        async function getUserFollowing() {
-            const userFollowJSONString = await api.allUserFollowings(mainUser);
-            console.log(`routes from the DB ${JSON.stringify(userFollowJSONString)}`);
-            setUserFollowings(userFollowJSONString.data);
-         }
         async function createUserHS() {
             console.log(`main user in UserProfile.js: ${mainUser}`);
             const userHSJSONString = await api.createHSRow(mainUser);
@@ -165,8 +161,6 @@ const UserProfile = (props) => {
         }
         deleteIsPlayingStatus();
         //createUserHS();
-        //getUserFollowing();
-        //checkFollowStatus()
 
     }, []);
 
@@ -175,10 +169,12 @@ const UserProfile = (props) => {
 
         async function getUserData() {
             const userJSONString = await api.userInfo(user);
-            console.log(`routes from the DB ${JSON.stringify(userJSONString)}`);
             setUserData(userJSONString.data);
             if (userData[0]['user_ProfilePic'] !== undefined) {
                 setUserPic(userData[0]['user_ProfilePic']);
+            }
+            if (userData.length > 0){
+                checkDateJoined(userData[0]['DATE_FORMAT(dateJoined, \'%m/%d/%Y\')'])
             }
         }
 
@@ -200,8 +196,11 @@ const UserProfile = (props) => {
         if (userData.length > 0){
             setUserPic(userData[0]['user_ProfilePic']);
         }
+        if (userData.length > 0){
+            checkDateJoined(userData[0]['DATE_FORMAT(dateJoined, \'%m/%d/%Y\')'])
+        }
         getUserPosts();
-    }, [user]);
+    }, [user, rankChanged]);
 
     useEffect(() => {
         const api = new API();
@@ -213,6 +212,92 @@ const UserProfile = (props) => {
 
         getUserFollowing();
     }, [isFollowing]);
+
+    const changeRank = (newRank) => {
+        const api = new API();
+        async function changeRankForUser() {
+            const rankChangeJSONString = await api.changeUserRank(newRank, user);
+            console.log(`routes from the DB ${JSON.stringify(rankChangeJSONString.data)}`);
+        }
+
+        changeRankForUser();
+    }
+
+    function checkDateJoined(userJoinedDate){
+        //get current date
+        let today = new Date();
+        let year = today.getFullYear();
+        let month = today.getMonth()+1;
+        let day = today.getDate();
+        //get user date as int
+        let userDateArray = userJoinedDate.split("/");
+        let userMonth =parseInt(userDateArray[0]);
+        let userDay =parseInt(userDateArray[1]);
+        let userYear =parseInt(userDateArray[2]);
+        //calculate difference
+        let yearDiff = year - userYear;
+
+        if (yearDiff > 0 && userData[0]['user_rank'] !== 'Ultra Noob'){
+            if (userMonth <= month) {
+                if (userMonth === month && userDay <= day) {
+                    changeRank('Ultra Noob');
+                    setRankChanged(true);
+                }
+                else if (userMonth > month){
+                    changeRank('Ultra Noob');
+                    setRankChanged(true);
+                }
+            }
+            else if (userMonth > month){
+                if (month - userMonth > -11 && userDay <= day){
+                    if (userData[0]['user_rank'] !== 'Custy Noob'){
+                        changeRank('Custy Noob');
+                        setRankChanged(true);
+                    }
+                }
+                else if (month - userMonth === -9 && userDay <= day){
+                    if (userData[0]['user_rank'] !== 'Semi Noob'){
+                        changeRank('Semi Noob');
+                        setRankChanged(true);
+                    }
+                }
+                else if (month - userMonth === -6 && userDay <= day){
+                    if (userData[0]['user_rank'] !== 'Hyper Noob'){
+                        changeRank('Hyper Noob');
+                        setRankChanged(true);
+                    }
+                }
+            }
+        }
+        else if (yearDiff === 0){
+            if (month - userMonth > 0){
+                if (month - userMonth < 3){ //custy
+                    if (userDay <= day && userData[0]['user_rank'] !== 'Custy Noob'){
+                        changeRank('Custy Noob');
+                        setRankChanged(true);
+                    }
+                }
+                else if (month - userMonth === 3 && userData[0]['user_rank'] !== 'Semi Noob'){
+                    if (userDay <= day){
+                        changeRank('Semi Noob');
+                        setRankChanged(true);
+                    }
+                }
+                else if (month - userMonth === 6 && userData[0]['user_rank'] !== 'Hyper Noob'){
+                    if (userDay <= day){
+                        changeRank('Hyper Noob');
+                        setRankChanged(true);
+                    }
+                }
+            }
+            else{
+                if (userData[0]['user_rank'] !== 'Nooblet'){
+                    changeRank('N00blet');
+                    setRankChanged(true);
+                }
+            }
+        }
+    }
 
     function checkFollowStatus(followList){
         if(followList.length === 0){
@@ -234,7 +319,6 @@ const UserProfile = (props) => {
 
         async function followUser() {
             const userJSONString = await api.followUser(mainUser, user);
-            console.log(`routes from the DB ${JSON.stringify(userJSONString)}`);
             setIsFollowing(true);
         }
         followUser();
@@ -245,7 +329,6 @@ const UserProfile = (props) => {
 
         async function unfollowUser() {
             const userJSONString = await api.unfollowUser(mainUser, user);
-            console.log(`routes from the DB ${JSON.stringify(userJSONString)}`);
             setIsFollowing(false);
         }
         unfollowUser();
@@ -305,7 +388,7 @@ const UserProfile = (props) => {
                         Activity Feed
                     </Typography>
                 </Box>
-                <Box sx={{height:'1.4%', border:0, borderColor:'red'}}></Box>
+                <Box sx={{height:'1.8%', border:0, borderColor:'red'}}></Box>
                 {
                     posts.map(post =>
                         <Grid container item direction='column' sx={{
@@ -325,22 +408,22 @@ const UserProfile = (props) => {
                             mb:1,
                         }}>
                             <Box display='flex' flexDirection='row' justifyContent='center' sx={{height: '100%', width: '30%', borderRight: 1.5, borderColor: '#4fc3f7', marginLeft:1, mb: 1}}>
-                                <Card key={"profilePicInProfile"} sx={{width: '35%', height: '90%', borderRadius: '50%',  border: 1, mt: 1, marginLeft: 1, borderColor: '#4fc3f7'}}>
+                                <Card key={"profilePicInProfile"} sx={{width: '30%', height: '90%', borderRadius: '50%',  border: 1, mt: 1, marginLeft: 1, borderColor: '#4fc3f7'}}>
                                     <CardMedia style={{width: '100%', height: '100%', justifySelf: 'center'}} image={require(`../UserProfile/UsersPictures/${userData[0]['user_ProfilePic']}`)} title={"profilePic"}/>
                                 </Card>
                                 <Box key="userName" sx={{height:'30%', width:'80%', marginLeft: 1}}>
-                                    <Typography fontSize='16px' sx={{fontFamily: "Jura, Arial", mt: 3, marginLeft: 1, fontWeight:'bold'}}>
+                                    <Typography fontSize='16px' sx={{fontFamily: "Jura, Arial", mt: 2.6, marginLeft: 1, fontWeight:'bold'}}>
                                         @{userData.length > 0 ? userData[0]['username'] : 'none'}
                                     </Typography>
                                 </Box>
                             </Box>
                             <Box display='flex' flexDirection='row' justifyContent='center' sx={{width: '65%', marginLeft: 0, mt:2.5, marginRight:20}}>
-                                <Typography fontSize='16px' sx={{fontFamily: "Jura, Arial", mb: 1, fontWeight:'bold'}}>
+                                <Typography fontSize='15px' sx={{fontFamily: "Jura, Arial", mb: 1, fontWeight:'bold', marginLeft:0.8}}>
                                      {post.post_content}
                                 </Typography>
                             </Box>
-                            <Box display='flex' flexDirection='row' justifyContent='center' sx={{width: '50%', height: '10%', marginLeft: 34}}>
-                                <Typography fontSize='10px' sx={{fontFamily: "Jura, Arial", mb: 2, fontWeight:'bold'}}>
+                            <Box display='flex' flexDirection='row' justifyContent='center' sx={{width: '50%', height: '10%', marginLeft: 34, mt:0.1}}>
+                                <Typography fontSize='12px' sx={{fontFamily: "Jura, Arial", mb: 1, fontWeight:'bold'}}>
                                     {post['DATE_FORMAT(date_created, \'%m/%d/%Y\')'] ? post['DATE_FORMAT(date_created, \'%m/%d/%Y\')'] : ""} {post['cast(date_created as time)']}
                                 </Typography>
                             </Box>
