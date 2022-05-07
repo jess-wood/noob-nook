@@ -115,6 +115,8 @@ const Settings = (props) => {
             minHeight: '100%',
             height: 1000,
             backgroundColor: '#714C7A',
+            flexDirection: 'column',
+            justifyContent: 'flex-start'
         }}>
             <Container sx={{borderBottom: 1, height: 75, mt: 3, marginLeft: 1}}>
                 <Typography fontWeight='bold' sx={{mt: 0.25,
@@ -126,112 +128,115 @@ const Settings = (props) => {
                 </Typography>
             </Container>
 
-            <Grid item key={"UserInfo"} sx={{border: 0, width: '20%', alignItems: 'center', height: '50%'}}>
-                <DropzoneDialogExample/>
-                <Card key={"profilePic"} sx={{width: '80%', height: '50%', borderRadius: '50%',  border: 1, mt: 1, marginLeft: 1}}>
-                    <CardMedia style={{width: '100%',
-                                       height: '100%',
-                                       justifySelf: 'center'}}
-                               image={require('../UserProfile/UsersPictures/default.jpg')} title={"profilePic"}/>
-                </Card>
-            </Grid>
+                <Grid item key={"UserProfilePic"} sx={{border: 0, width: '20%', alignItems: 'center', height: '30%'}}>
+                    <DropzoneDialogExample/>
+                    <Card key={"profilePic"} sx={{width: '80%', height: '80%', borderRadius: '50%',  border: 1, mt: 1, marginLeft: 1}}>
+                        <CardMedia style={{width: '100%',
+                                           height: '100%',
+                                           justifySelf: 'center'}}
+                                   image={require('../UserProfile/UsersPictures/default.jpg')} title={"profilePic"}/>
+                    </Card>
+                </Grid>
 
-            <Grid item key={"UserInfo"} sx={{border: 0, width: '30%', alignItems: 'center', height: '50%'}}>
-                <Box key='userFirstName' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 1}}>
-                    <Typography sx={{fontFamily: "Jura, Arial",
-                        fontWeight: 'bold',
-                        fontSize: '20px',
-                        color:'#E6E6FA'}}>
-                        Current:&nbsp;
-                        <Typography sx={{textDecoration: 'underline',
-                            fontFamily: "Jura, Arial",
+                <Grid item key={"UserInfo"} sx={{border: 0, width: '50%', alignItems: 'center', alignContent:'space-between', height: '40%'}}>
+                    <Box key='userFirstName' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 1}}>
+                        <Typography sx={{fontFamily: "Jura, Arial",
                             fontWeight: 'bold',
                             fontSize: '20px',
-                            color:'#E6E6FA'}} display="inline">
-                            {userData.length > 0 ? userData[0]['user_fName'] : 'none'}</Typography>
-                    </Typography>
-                </Box>
-                <TextField id="standard-basic" label="New First Name" variant="standard" />
+                            color:'#E6E6FA'}}>
+                            First Name:&nbsp;
+                            <Typography sx={{textDecoration: 'underline',
+                                fontFamily: "Jura, Arial",
+                                fontWeight: 'bold',
+                                fontSize: '20px',
+                                color:'#E6E6FA'}} display="inline">
+                                {userData.length > 0 ? userData[0]['user_fName'] : 'none'}</Typography>
+                        </Typography>
+                        <TextField id="standard-basic" label="New First Name" variant="standard" />
+                    </Box>
 
-                <Box key='userLastName' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 1}}>
-                    <Typography sx={{fontFamily: "Jura, Arial",
-                        fontWeight: 'bold',
-                        fontSize: '20px',
-                        color:'#E6E6FA'}}>
-                        Current:&nbsp;
-                        <Typography sx={{textDecoration: 'underline',
-                            fontFamily: "Jura, Arial",
+                    <Box key='userLastName' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 1}}>
+                        <Typography sx={{fontFamily: "Jura, Arial",
                             fontWeight: 'bold',
                             fontSize: '20px',
-                            color:'#E6E6FA'}} display="inline">
-                            {userData.length > 0 ? userData[0]['user_lName'] : 'none'}</Typography>
-                    </Typography>
-                </Box>
-                <TextField id="standard-basic" label="New Last Name" variant="standard" />
+                            color:'#E6E6FA'}}>
+                            Last Name:&nbsp;
+                            <Typography sx={{textDecoration: 'underline',
+                                fontFamily: "Jura, Arial",
+                                fontWeight: 'bold',
+                                fontSize: '20px',
+                                color:'#E6E6FA'}} display="inline">
+                                {userData.length > 0 ? userData[0]['user_lName'] : 'none'}</Typography>
+                        </Typography>
+                        <TextField id="standard-basic" label="New Last Name" variant="standard" />
+                    </Box>
 
-                <Box key='usernameProfile' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 1}}>
-                    <Typography sx={{fontFamily: "Jura, Arial",
-                                     fontWeight: 'bold',
-                                     fontSize: '20px',
-                                     color:'#E6E6FA'}}>
-                        Current:&nbsp;
-                        <Typography sx={{textDecoration: 'underline',
-                            fontFamily: "Jura, Arial",
-                            fontWeight: 'bold',
-                            fontSize: '20px',
-                            color:'#E6E6FA'}} display="inline">
-                            @{userData.length > 0 ? userData[0]['username'] : 'none'}</Typography>
-                    </Typography>
-                </Box>
-                <TextField id="standard-basic" label="New Username" variant="standard" />
-
-                <Box key='usernameEmail' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 1}}>
-                    <Typography sx={{fontFamily: "Jura, Arial",
-                                     fontWeight: 'bold',
-                                     fontSize: '20px',
-                                     color:'#E6E6FA'}}>
-                        Current:&nbsp;
-                        <Typography sx={{textDecoration: 'underline',
-                            fontFamily: "Jura, Arial",
-                            fontWeight: 'bold',
-                            fontSize: '20px',
-                            color:'#E6E6FA'}} display="inline">
-                            {userData.length > 0 ? userData[0]['user_email'] : 'none'} </Typography>
-                    </Typography>
-                </Box>
-                <TextField id="standard-basic" label="New Email" variant="standard" />
-
-                <Box key='usernamePassword' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 1}}>
-                    <Typography sx={{fontFamily: "Jura, Arial",
-                                     fontWeight: 'bold',
-                                     fontSize: '20px',
-                                     color:'#E6E6FA'}}>
-                        Current:&nbsp;
-                        <Typography sx={{textDecoration: 'underline',
-                                         fontFamily: "Jura, Arial",
+                    <Box key='usernameProfile' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 1}}>
+                        <Typography sx={{fontFamily: "Jura, Arial",
                                          fontWeight: 'bold',
                                          fontSize: '20px',
-                                         color:'#E6E6FA'}} display="inline">
-                                         {userData.length > 0 ? userData[0]['user_password'] : 'none'} </Typography>
-                    </Typography>
-                </Box>
-                <TextField id="standard-basic" label="New Password" variant="standard" />
+                                         color:'#E6E6FA'}}>
+                            Username:&nbsp;
+                            <Typography sx={{textDecoration: 'underline',
+                                fontFamily: "Jura, Arial",
+                                fontWeight: 'bold',
+                                fontSize: '20px',
+                                color:'#E6E6FA'}} display="inline">
+                                @{userData.length > 0 ? userData[0]['username'] : 'none'}</Typography>
+                        </Typography>
+                        <TextField id="standard-basic" label="New Username" variant="standard" />
+                    </Box>
+
+                    <Box key='usernameEmail' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 1}}>
+                        <Typography sx={{fontFamily: "Jura, Arial",
+                                         fontWeight: 'bold',
+                                         fontSize: '20px',
+                                         color:'#E6E6FA'}}>
+                            Email:&nbsp;
+                            <Typography sx={{textDecoration: 'underline',
+                                fontFamily: "Jura, Arial",
+                                fontWeight: 'bold',
+                                fontSize: '20px',
+                                color:'#E6E6FA'}} display="inline">
+                                {userData.length > 0 ? userData[0]['user_email'] : 'none'} </Typography>
+                        </Typography>
+                        <TextField id="standard-basic" label="New Email" variant="standard" />
+                    </Box>
+
+                    <Box key='usernamePassword' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 1}}>
+                        <Typography sx={{fontFamily: "Jura, Arial",
+                                         fontWeight: 'bold',
+                                         fontSize: '20px',
+                                         color:'#E6E6FA'}}>
+                            Password:&nbsp;&nbsp;
+                            <Typography sx={{textDecoration: 'underline',
+                                             fontFamily: "Jura, Arial",
+                                             fontWeight: 'bold',
+                                             fontSize: '20px',
+                                             color:'#E6E6FA'}} display="inline">
+                                             {userData.length > 0 ? userData[0]['user_password'] : 'none'} </Typography>
+                        </Typography>
+                        <TextField id="standard-basic" label="New Password" variant="standard" />
+                    </Box>
+
+                    <Grid item key={"Buttons"} sx={{border: 0, width: '40%', alignItems: 'center', height: '30%'}}>
+                        <Box key='Buttons' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 1}}>
+                            <Button variant="outlined" color="success">
+                                Save Changes
+                            </Button>
+
+                            <Button variant="outlined" color="error">
+                                Reset Scores
+                            </Button>
+
+                            <Button variant="contained" color="error">
+                                Delete Profile
+                            </Button>
+                        </Box>
+                    </Grid>
+
+                </Grid>
             </Grid>
-
-            <Grid item sx={{border: 0, width: '30%', alignItems: 'center', height: '50%'}}>
-                <Button variant="outlined" color="success">
-                    Save Changes
-                </Button>
-
-                <Button variant="outlined" color="error">
-                    Reset Scores
-                </Button>
-
-                <Button variant="contained" color="error">
-                    Delete Profile
-                </Button>
-            </Grid>
-        </Grid>
     </Fragment>
 };
 
