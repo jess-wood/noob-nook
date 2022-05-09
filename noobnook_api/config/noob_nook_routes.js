@@ -114,6 +114,7 @@ const settingsRouter = require('koa-router')({
     prefix: '/settings'
 });
 settingsRouter.get('/:username/username', SettingsController.userData);
+settingsRouter.get('/:newProfilePic/:username/change-profile-pic', SettingsController.changeProfilePic);
 
 /**
  * Register all of the controllers into the default controller.

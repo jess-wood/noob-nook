@@ -12,6 +12,7 @@ import '../Login/Login.css';
 
 import DropzoneDialogExample from "./DropZonePicture";
 import highScoresTableAttributes from '../Dashboard/Dashboard.js';
+import Stack from "@mui/material/Stack";
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -110,7 +111,7 @@ const Settings = (props) => {
     }
 
     return <Fragment>
-        <Grid container positions='fixed' style={{
+        <Grid container positions='fixed' columns={2} style={{
             minWidth: '100%',
             minHeight: '100%',
             height: 1000,
@@ -118,29 +119,31 @@ const Settings = (props) => {
             flexDirection: 'column',
             justifyContent: 'flex-start'
         }}>
-            <Container sx={{borderBottom: 1, height: 75, mt: 3, marginLeft: 1}}>
+            <Container sx={{borderBottom: 1, height: 75, mt: 3, marginLeft: 2, width: '35%'}}>
                 <Typography fontWeight='bold' sx={{mt: 0.25,
                                                    mb: 0.25,
-                                                   textAlign: 'center',
-                                                   fontFamily: "Jura, Arial"}}
+                                                   textAlign: 'start',
+                                                   fontFamily: "Jura, Arial", color: '#E6E6FA'}}
                             variant="h3" className="edit-profile-title">
                     Edit Your Profile
                 </Typography>
             </Container>
 
-                <Grid item key={"UserProfilePic"} sx={{border: 0, width: '20%', alignItems: 'center', height: '30%'}}>
+                <Grid item key={"UserProfilePic"} sx={{border: 0, width: '20%', alignItems: 'center', height: '30%', marginLeft: '40%', mt: 5}}>
                     <DropzoneDialogExample/>
-                    <Card key={"profilePic"} sx={{width: '80%', height: '80%', borderRadius: '50%',  border: 1, mt: 1, marginLeft: 1}}>
+                    <Card key={"profilePic"} sx={{width: '80%', height: '77%', borderRadius: '50%',  border: 1, mt: 2, marginLeft: 3}}>
                         <CardMedia style={{width: '100%',
                                            height: '100%',
                                            justifySelf: 'center'}}
-                                   image={require('../UserProfile/UsersPictures/default.jpg')} title={"profilePic"}/>
+                                   image={require(`../UserProfile/UsersPictures/${userData.length > 0 ? userData[0]['user_ProfilePic'] : 'default.jpg'}`)} title={"profilePic"}/>
                     </Card>
                 </Grid>
-
-                <Grid item key={"UserInfo"} sx={{border: 0, width: '50%', alignItems: 'center', alignContent:'space-between', height: '40%'}}>
-                    <Box key='userFirstName' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 1}}>
+                <Grid item key={"UserInfo"} sx={{border: 0, width: '100%', alignItems: 'center', height: '45%', flexDirection: 'column'}}>
+                    <Stack direction={'row'} spacing={'0%'} sx={{marginLeft: '10%'}}>
+                    <Box key='userFirstName' sx={{border: 0, mt: 1, width: '50%', marginLeft: 1}}>
+                        <Stack direction={'row'} spacing={'22%'}>
                         <Typography sx={{fontFamily: "Jura, Arial",
+                            mt: 2,
                             fontWeight: 'bold',
                             fontSize: '20px',
                             color:'#E6E6FA'}}>
@@ -152,11 +155,14 @@ const Settings = (props) => {
                                 color:'#E6E6FA'}} display="inline">
                                 {userData.length > 0 ? userData[0]['user_fName'] : 'none'}</Typography>
                         </Typography>
-                        <TextField id="standard-basic" label="New First Name" variant="standard" />
+                        <TextField sx={{mb: 3}} id="standard-basic" label="New First Name" variant="standard" />
+                        </Stack>
                     </Box>
 
-                    <Box key='userLastName' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 1}}>
+                    <Box key='userLastName' sx={{border: 0, mt: 2, width: 'fit-content', marginLeft: 1, height:'5%'}}>
+                        <Stack direction={'row'} spacing={18}>
                         <Typography sx={{fontFamily: "Jura, Arial",
+                            mt: 3,
                             fontWeight: 'bold',
                             fontSize: '20px',
                             color:'#E6E6FA'}}>
@@ -168,11 +174,16 @@ const Settings = (props) => {
                                 color:'#E6E6FA'}} display="inline">
                                 {userData.length > 0 ? userData[0]['user_lName'] : 'none'}</Typography>
                         </Typography>
-                        <TextField id="standard-basic" label="New Last Name" variant="standard" />
+                        <TextField style={{marginTop: 5}} id="standard-basic" label="New Last Name" variant="standard" />
+                        </Stack>
                     </Box>
+                    </Stack>
 
-                    <Box key='usernameProfile' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 1}}>
+                    <Stack direction={'row'} spacing={'0.7%'} sx={{marginLeft: '10%', mt: 4}}>
+                    <Box key='usernameProfile' sx={{border: 0, mt: 1, width: '50%', marginLeft: 1}}>
+                        <Stack direction={'row'} spacing={'5%'}>
                         <Typography sx={{fontFamily: "Jura, Arial",
+                                        mt: 3,
                                          fontWeight: 'bold',
                                          fontSize: '20px',
                                          color:'#E6E6FA'}}>
@@ -184,11 +195,14 @@ const Settings = (props) => {
                                 color:'#E6E6FA'}} display="inline">
                                 @{userData.length > 0 ? userData[0]['username'] : 'none'}</Typography>
                         </Typography>
-                        <TextField id="standard-basic" label="New Username" variant="standard" />
+                        <TextField style={{marginTop: 5}} id="standard-basic" label="New Username" variant="standard" />
+                        </Stack>
                     </Box>
 
-                    <Box key='usernameEmail' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 1}}>
+                    <Box key='usernameEmail' sx={{border: 0, mt: 1, width: '50%', marginLeft: 1}}>
+                        <Stack direction={'row'} spacing={'13%'} sx={{border:0, width:'100%'}}>
                         <Typography sx={{fontFamily: "Jura, Arial",
+                                        mt: 3,
                                          fontWeight: 'bold',
                                          fontSize: '20px',
                                          color:'#E6E6FA'}}>
@@ -200,11 +214,16 @@ const Settings = (props) => {
                                 color:'#E6E6FA'}} display="inline">
                                 {userData.length > 0 ? userData[0]['user_email'] : 'none'} </Typography>
                         </Typography>
-                        <TextField id="standard-basic" label="New Email" variant="standard" />
+                        <TextField style={{marginTop: 5}} id="standard-basic" label="New Email" variant="standard" />
+                        </Stack>
                     </Box>
+                    </Stack>
 
-                    <Box key='usernamePassword' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 1}}>
+                    <Stack direction={'row'} spacing={'4%'} sx={{marginLeft: '10%', mt: 5, border:0, alignItems:'end'}}>
+                    <Box key='usernamePassword' sx={{border: 0, mt: 1, width: '50%', marginLeft: 1}}>
+                        <Stack direction={'row'} spacing={'20%'}>
                         <Typography sx={{fontFamily: "Jura, Arial",
+                                        mt: 3,
                                          fontWeight: 'bold',
                                          fontSize: '20px',
                                          color:'#E6E6FA'}}>
@@ -216,22 +235,28 @@ const Settings = (props) => {
                                              color:'#E6E6FA'}} display="inline">
                                              {userData.length > 0 ? userData[0]['user_password'] : 'none'} </Typography>
                         </Typography>
-                        <TextField id="standard-basic" label="New Password" variant="standard" />
+                        <TextField style={{marginTop: 5}} id="standard-basic" label="New Password" variant="standard" />
+                        </Stack>
                     </Box>
+                        <Button sx={{width: '30%', height: '5%', mt: '5%', backgroundColor: '#b3e5fc', borderColor: '#4fc3f7', color: '#8b0000', '&:hover': {
+                                backgroundColor: '#b3e5fc',
+                                opacity: [0.9, 0.8, 0.9],
+                            },}} >
+                            Reset Scores
+                        </Button>
+                    </Stack>
 
-                    <Grid item key={"Buttons"} sx={{border: 0, width: '40%', alignItems: 'center', height: '30%'}}>
-                        <Box key='Buttons' sx={{border: 0, mt: 1, width: 'fit-content', marginLeft: 1}}>
-                            <Button variant="outlined" color="success">
+                    <Grid item key={"Buttons"} columns={2} sx={{border: 0, width: '100%', alignItems: 'center', height: '30%', flexDirection:'column', mt: 12}}>
+                        <Box key='Buttons' sx={{border: 0, mt: 1, width: '100%', marginLeft: 1}}>
+                            <Stack direction={'row'} spacing={25} sx={{border:0, width:'100%'}}>
+                            <Button variant="contained" color="success" sx={{width: '30%', height: '5%', marginLeft:'10%', backgroundColor: '#03c04a', color: 'black'}}>
                                 Save Changes
                             </Button>
 
-                            <Button variant="outlined" color="error">
-                                Reset Scores
-                            </Button>
-
-                            <Button variant="contained" color="error">
+                            <Button variant="contained" color="error" sx={{width: '30%', height: '5%', marginLeft:'5%'}}>
                                 Delete Profile
                             </Button>
+                            </Stack>
                         </Box>
                     </Grid>
 
