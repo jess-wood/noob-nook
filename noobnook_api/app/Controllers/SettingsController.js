@@ -103,6 +103,70 @@ class SettingsController {
             });
         }).catch(err => console.log("Database connection error.", err));
     }
+
+    async addUserProfilePicture(ctx){
+        const express = require("express");
+        const multer = require("multer");
+        const cors = require("cors");
+
+        const app = express();
+
+
+        app.use(cors());
+        app.use(express.static("../../../src/Pages/UserProfile/"));
+
+
+        var storage = multer.diskStorage({
+
+            destination: "../../../src/Pages/UserProfile/UsersPictures",
+            filename: function (req, file, cb) {
+                cb(null, Date.now() + '-' +file.originalname )
+            }
+        })
+
+
+
+        var upload = multer({ storage: storage }).array('file');
+
+
+        app.post('/upload',function(req, res) {
+
+            upload(req, res, function (err) {
+                if (err instanceof multer.MulterError) {
+                    return res.status(500).json(err)
+                } else if (err) {
+                    return res.status(500).json(err)
+                }
+                return res.status(200).send(req.file)
+
+            })
+
+        });
+    }
+
+    async changeProfilePic(ctx) {
+        console.log("changeProfilePic called");
+        return new Promise((resolve, reject) => {
+            const query = `UPDATE users
+                            SET user_ProfilePic = ?
+                            where username = ?
+                            `;
+            dbConnection.query({
+                sql: query,
+                values: [ctx.params.newPic, ctx.params.username]
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in SettingsController::changePic", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => console.log("Database connection error.", err));
+    }
 }
 
 module.exports = SettingsController;

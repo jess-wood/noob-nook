@@ -29,7 +29,7 @@ export default class DropzoneDialogExample extends Component {
     render() {
         return (
             <div>
-                <Button onClick={this.handleOpen.bind(this)}>
+                <Button onClick={this.handleOpen.bind(this)} sx={{backgroundColor: '#4fc3f7', borderColor: '#b3e5fc', color: 'black'}}>
                     Add Image
                 </Button>
                 <DropzoneDialog
