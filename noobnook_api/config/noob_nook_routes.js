@@ -108,6 +108,13 @@ dashboardRouter.get('/:username/user-highscores', DashboardController.currentUse
 dashboardRouter.get('/:username/:followed_username/followed-posts', DashboardController.followedUsersPost);
 
 
+//Settings Route
+const SettingsController = new (require('../app/Controllers/SettingsController.js'))();
+const settingsRouter = require('koa-router')({
+    prefix: '/settings'
+});
+settingsRouter.get('/:username/username', SettingsController.userData);
+
 /**
  * Register all of the controllers into the default controller.
  */
@@ -118,7 +125,8 @@ router.use(
     followRouter.routes(),
     highScoresRouter.routes(),
     postsRouter.routes(),
-    dashboardRouter.routes()
+    dashboardRouter.routes(),
+    settingsRouter.routes()
 );
 
 module.exports = function (app) {
