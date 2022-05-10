@@ -107,6 +107,10 @@ export default class APIInterface {
     async getConnect4HS(username){
         return axiosAgent.get(`high-scores/${username}/get-connect4`);
     }
+    
+    async getPongHS(username){
+        return axiosAgent.get(`high-scores/${username}/get-pong`);
+    }
 
     async postNewHighScoreWPM(score, username){
         return axiosAgent.get(`high-scores/${score}/${username}/score-wpm`);
@@ -146,6 +150,10 @@ export default class APIInterface {
 
     async postNewHighScoreConnect4(score, username){
         return axiosAgent.get(`high-scores/${score+1}/${username}/score-connect4`);
+    }
+    
+    async postNewHighScorePong(score, username){
+        return axiosAgent.get(`high-scores/${score}/${username}/score-pong`);
     }
 
     async postNewGameStatus(username, content, date){
