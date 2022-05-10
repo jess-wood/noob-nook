@@ -503,7 +503,29 @@ class HighScoresController {
             });
         }).catch(err => console.log("Database connection error.", err));
     }
-
+    
+async postNewHighScorePong(ctx) {
+        console.log('postNewHighScorePong called');
+        return new Promise((resolve, reject) => {
+            const query = `UPDATE user_highscores SET HS_Pong = ? WHERE username = ?;
+                            `;
+            dbConnection.query({
+                sql: query,
+                values: [ctx.params.score, ctx.params.username]
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in HighScoreController::postNewHighScorePong", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => console.log("Database connection error.", err));
+    }
+    
 }
 
 module.exports = HighScoresController;

@@ -1,8 +1,55 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import API from "../../../../../../API_Interface/API_Interface";
+
+
+const ReturnScore = ({highScore, setHighScore}) => {
+  let today = new Date();
+  let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+  let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+  let dateTime = date+' '+time;
+
+  useEffect(() => {
+    const api = new API();
+
+    async function getUserHS() {
+      const gameHSJSONString = await api.getPongHS(window.currentUserLoggedIn);
+      console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+      console.log(gameHSJSONString.data[0]['HS_Pong']);
+      setHighScore(gameHSJSONString.data[0]['HS_Pong']);
+
+    }
+
+    async function makeNewPost() {
+      const gameHSJSONString = await api.postNewGameStatus(window.currentUserLoggedIn, "is playing Pong!", dateTime);
+      console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+    }
+
+    async function deletePost() {
+      const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Pong!");
+      console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+    }
+
+    /*
+    async function makeNewScore() {
+      const gameHSJSONString = await api.postNewHighScorePong(highScore, window.currentUserLoggedIn);
+      console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+    }
+
+    makeNewScore();
+
+    */
+    makeNewPost();
+    getUserHS();
+    deletePost();
+  }, [])
+
+}
+
 
 class Game extends React.Component {
     componentDidMount() {
         this.updateCanvas();
+
     }
 
     updateCanvas() {
@@ -17,7 +64,7 @@ class Game extends React.Component {
       let ballSpeedX = 10;
       let ballSpeedY = 4;
       const winningScore = 10;
-      const paddleColorX2 = "green";
+      const paddleColorX2 = "yellow";
       let player1Score = 0;
       let player2Score = 0;
       let showWinScreen = true;
@@ -27,7 +74,6 @@ class Game extends React.Component {
       const paddleWidth = 15;
       let paddle1Y = 100;  // User paddle Location.
       let paddle2Y = 250; // Machine Paddle Location
-
 
       // ---------------------- FUNCTIONS ------------------------
       const makeRectangleShape = (cX, cY, width, height, color ) => { canvasContext.fillStyle = color ; canvasContext.fillRect( cX, cY,width, height); }
@@ -44,8 +90,8 @@ class Game extends React.Component {
         makeRectangleShape(10, paddle1Y, paddleWidth, paddleHeight, paddleColorX2)           // Left Paddle creation, (User)
         makeRectangleShape((canvas.width - 25), paddle2Y, paddleWidth, paddleHeight, paddleColorX2)          // Right Paddle creation (Machine)
         makeCircleShape(ballX, ballY, 10, 0, "yellow")                                 // Ball creation
-        canvasContext.fillText(("Score: " + player1Score ), 100, 100);
-        canvasContext.fillText(("Score: " + player2Score ), canvas.width -150, 100);
+        canvasContext.fillText(("Your Score: " + player1Score ), 100, 100);
+        canvasContext.fillText(("AI Score: " + player2Score ), canvas.width -200, 100);
       }
 
 
@@ -59,13 +105,23 @@ class Game extends React.Component {
 
           if(showWinScreen){    // if one player wins, will stop the game and show the scores....
             if(player1Score >= winningScore){
+              const api = new API();
               canvasContext.fillStyle = 'white';
               canvasContext.font = "30px Verdana";
-              canvasContext.fillText("YOU WIN ... Click to Play Again", canvas.width / 4 , 50) }
+              let newScore = player1Score - player2Score;
+              async function makeNewScore() {
+                const gameHSJSONString = await api.postNewHighScorePong(newScore, window.currentUserLoggedIn);
+                console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+              }
+              makeNewScore();
+              canvasContext.fillText("YOU WIN ... Click to Play Again", canvas.width / 4 , 50);
+            }
+
             if(player2Score >= winningScore){
               canvasContext.fillStyle = 'white';
               canvasContext.font = "30px Verdana";
-              canvasContext.fillText("YOU LOSE ... Click to Play Again", canvas.width / 4 , 50) }
+              canvasContext.fillText("YOU LOSE ... Click to Play Again", canvas.width / 4 , 50);
+            }
             return;
           }
 
@@ -121,7 +177,7 @@ class Game extends React.Component {
 
       canvas.addEventListener('mousemove', (evt) => {  // Controlling the User Paddle by calculating the position of the mouse.
         let mousePos = CalculateMousePosition(evt);
-        paddle1Y = mousePos.y ;
+        paddle1Y = mousePos.y - (paddleHeight / 2);
       })
 
       const ballReset = () => {   // this will remove the ball from whatever position is and drop it in the center.
@@ -138,9 +194,9 @@ class Game extends React.Component {
     }
 
     render() {
-        return (
-            <canvas ref="canvas" width={800} height={600}/>
-        );
+      return (
+          <canvas ref="canvas" width={800} height={600}/>
+      );
     }
 }
 
