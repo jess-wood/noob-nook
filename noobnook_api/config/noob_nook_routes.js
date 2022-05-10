@@ -115,6 +115,8 @@ const settingsRouter = require('koa-router')({
 });
 settingsRouter.get('/:username/username', SettingsController.userData);
 settingsRouter.get('/:newPic/:name/:username/change-profile-pic', SettingsController.changeProfilePic);
+settingsRouter.get('/:username/reset-scores', SettingsController.resetAllScores);
+settingsRouter.get('/:username/delete-profile', SettingsController.deleteUserProfile);
 
 /**
  * Register all of the controllers into the default controller.
