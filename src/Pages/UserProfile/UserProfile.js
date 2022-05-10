@@ -350,7 +350,7 @@ const UserProfile = (props) => {
                 <Grid container style={{border: 2}} sx={{border: 5, display: 'flex', flexDirection: 'row', width:'100%', height: '50%'}}>
                     <Grid item key={"ProfilePic"} sx={{border: 0, width: '50%', mt: 0, mb: 3}}>
                         <Card key={"profilePic"} sx={{border: 4, borderRadius: '50%', height: '70%', marginLeft: 4, width: '80%', mt: 5}}>
-                            <CardMedia style={{width: '101%', height: '100%', justifySelf: 'center', marginLeft: 0}} image={require(`./UsersPictures/${userData.length === 0 ? userPic : userData[0]['user_ProfilePic']}`)} title={"profilePic"}/>
+                            <CardMedia style={{width: '101%', height: '100%', justifySelf: 'center', marginLeft: 0}} image={userData.length > 0 ? userData[0]['user_ProfilePic'] : 'https://res.cloudinary.com/noobnook/image/upload/v1652216058/default_seqeny.webp'} title={"profilePic"}/>
                         </Card>
                         {isUserLoggedIn ? <br/> :
                             isFollowing ? <Button key={'unfollow'} sx={{marginLeft: '35%', height:'10%', mt: 3, mb: 3, backgroundColor: '#4fc3f7', color: '#000',borderColor: '#4fc3f7','&:hover': {backgroundColor: '#4fc3f7',opacity: [0.6, 0.6, 0.6],}}} onClick={() => handleUnfollow()}> <Typography sx={{fontFamily: "Jura, Arial", fontWeight:'bold',bottom: '9px'}}>Unfollow <RemoveCircleOutlineIcon style={{ color: '#000', marginLeft:1,verticalAlign:'middle'}}/></Typography> </Button> :
@@ -409,7 +409,7 @@ const UserProfile = (props) => {
                         }}>
                             <Box display='flex' flexDirection='row' justifyContent='center' sx={{height: '100%', width: '30%', borderRight: 1.5, borderColor: '#4fc3f7', marginLeft:1, mb: 1}}>
                                 <Card key={"profilePicInProfile"} sx={{width: '30%', height: '90%', borderRadius: '50%',  border: 1, mt: 1, marginLeft: 1, borderColor: '#4fc3f7'}}>
-                                    <CardMedia style={{width: '100%', height: '100%', justifySelf: 'center'}} image={require(`../UserProfile/UsersPictures/${userData[0]['user_ProfilePic']}`)} title={"profilePic"}/>
+                                    <CardMedia style={{width: '100%', height: '100%', justifySelf: 'center'}} image={userData.length > 0 ? userData[0]['user_ProfilePic'] : 'https://res.cloudinary.com/noobnook/image/upload/v1652216058/default_seqeny.webp'} title={"profilePic"}/>
                                 </Card>
                                 <Box key="userName" sx={{height:'30%', width:'80%', marginLeft: 1}}>
                                     <Typography fontSize='16px' sx={{fontFamily: "Jura, Arial", mt: 2.6, marginLeft: 1, fontWeight:'bold'}}>

@@ -39,7 +39,6 @@ export default class APIInterface {
     }
 
     async createHSRow(username){
-        console.log("in api interface about to get HSRow")
         return axiosAgent.get(`login/${username}/add-highscores/add-row`);
     }
 
@@ -52,7 +51,6 @@ export default class APIInterface {
     }
 
     async allUsers(){
-        console.log("all users");
         return axiosAgent.get(`userprofile/all-users`);
     }
 
@@ -170,5 +168,9 @@ export default class APIInterface {
 
     async usersFollowedPosts(username, followed_username){
         return axiosAgent.get(`dashboard/${username}/${followed_username}/followed-posts`);
+    }
+
+    async changeUserProfilePic(newPic, username){
+        return axiosAgent.get(`settings/v${newPic}/${username}/change-profile-pic`);
     }
 }

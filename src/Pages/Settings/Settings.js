@@ -11,6 +11,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import '../Login/Login.css';
 
 import DropzoneDialogExample from "./DropZonePicture";
+import DropZone from "./DropZonePicture";
 import highScoresTableAttributes from '../Dashboard/Dashboard.js';
 import Stack from "@mui/material/Stack";
 
@@ -59,8 +60,6 @@ function DeleteButton (props) {
 */
 
 const Settings = (props) => {
-    console.log("in settings");
-
     const classes = useStyles();
     const [userData, setUserData] = useState([]);
     const {user, setUser, isUserLoggedIn} = props;
@@ -119,7 +118,7 @@ const Settings = (props) => {
             flexDirection: 'column',
             justifyContent: 'flex-start'
         }}>
-            <Container sx={{borderBottom: 1, height: 75, mt: 3, marginLeft: 2, width: '35%'}}>
+            <Container sx={{borderBottom: 1, height: 75, mt: 1, marginLeft: 2, width: '35%'}}>
                 <Typography fontWeight='bold' sx={{mt: 0.25,
                                                    mb: 0.25,
                                                    textAlign: 'start',
@@ -129,16 +128,10 @@ const Settings = (props) => {
                 </Typography>
             </Container>
 
-                <Grid item key={"UserProfilePic"} sx={{border: 0, width: '20%', alignItems: 'center', height: '30%', marginLeft: '40%', mt: 5}}>
-                    <DropzoneDialogExample/>
-                    <Card key={"profilePic"} sx={{width: '80%', height: '77%', borderRadius: '50%',  border: 1, mt: 2, marginLeft: 3}}>
-                        <CardMedia style={{width: '100%',
-                                           height: '100%',
-                                           justifySelf: 'center'}}
-                                   image={require(`../UserProfile/UsersPictures/${userData.length > 0 ? userData[0]['user_ProfilePic'] : 'default.jpg'}`)} title={"profilePic"}/>
-                    </Card>
+                <Grid item key={"UserProfilePic"} sx={{border: 0, width: '20%', alignItems: 'center', height: '30%', marginLeft: '37%', mt: 3}}>
+                    <DropZone userData={userData}/>
                 </Grid>
-                <Grid item key={"UserInfo"} sx={{border: 0, width: '100%', alignItems: 'center', height: '45%', flexDirection: 'column'}}>
+                <Grid item key={"UserInfo"} sx={{border: 0, width: '100%', alignItems: 'center', height: '45%', flexDirection: 'column', mt:1}}>
                     <Stack direction={'row'} spacing={'0%'} sx={{marginLeft: '10%'}}>
                     <Box key='userFirstName' sx={{border: 0, mt: 1, width: '50%', marginLeft: 1}}>
                         <Stack direction={'row'} spacing={'22%'}>
