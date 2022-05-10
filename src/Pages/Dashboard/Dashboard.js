@@ -112,7 +112,7 @@ function UserDataEntry (props) {
             }}>
                 <Box display='flex' flexDirection='row' justifyContent='left' sx={{height: '100%', width: '32%', borderRight: 1.5, borderColor: '#4fc3f7'}}>
                     <Card key={"profilePic"} sx={{width: '40%', height: '80%', borderRadius: '50%',  border: 1, mt: 1, marginLeft: 1}}>
-                        <CardMedia style={{width: '100%', height: '100%', justifySelf: 'center'}} image={require(`../UserProfile/UsersPictures/${props.account['user_ProfilePic'] !== undefined ? props.account['user_ProfilePic'] : props.account[0]['user_ProfilePic']}`)} title={"profilePic"}/>
+                        <CardMedia style={{width: '100%', height: '100%', justifySelf: 'center'}} image={props.account['user_ProfilePic'] !== undefined ? props.account['user_ProfilePic'] : props.account[0]['user_ProfilePic']} title={"profilePic"}/>
                     </Card>
                     <Box key="userName" sx={{height:'30%', width:'80%', marginLeft: 1}}>
                         <Typography fontSize='auto' fontWeight='bold' sx={{fontFamily: "Jura, Arial", mt: 4}}>
