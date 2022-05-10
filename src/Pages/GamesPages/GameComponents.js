@@ -7,7 +7,7 @@ import Snake from "../GamesPages/Games/Snake/Snake";
 import Game_2048 from "../GamesPages/Games/_2048/src/components/mainBoard";
 import TypingMaster from "../GamesPages/Games/TypingMaster/TypingMaster";
 import Memory from "./Games/Memory/Memory";
-import GatherComp from "./Games/Pong/src";
+import Pong from "./Games/Pong/src";
 import Connect4App from "./Games/Connect4/Connect4App"
 
 
@@ -51,7 +51,7 @@ const gameComponents = (props) => {
         },
         {
             title:'Pong',
-            component: <GatherComp/>
+            component: <Pong/>
         },
         {
             title:'Memory',
