@@ -145,7 +145,7 @@ class SettingsController {
     }
 
     async changeProfilePic(ctx) {
-        console.log("changeProfilePic called");
+        const url = 'https://res.cloudinary.com/noobnook/image/upload/' + ctx.params.newPic + '/' + ctx.params.name;
         return new Promise((resolve, reject) => {
             const query = `UPDATE users
                             SET user_ProfilePic = ?
@@ -153,7 +153,7 @@ class SettingsController {
                             `;
             dbConnection.query({
                 sql: query,
-                values: [ctx.params.newPic, ctx.params.username]
+                values: [url, ctx.params.username]
             }, (error, tuples) => {
                 if (error) {
                     console.log("Connection error in SettingsController::changePic", error);
