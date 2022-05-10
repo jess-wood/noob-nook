@@ -180,5 +180,13 @@ export default class APIInterface {
     async changeUserProfilePic(newPic, username){
         return axiosAgent.get(`settings/v${newPic}/${username}/change-profile-pic`);
     }
+
+    async resetHighScores(username){
+        return axiosAgent.get(`settings/${username}/reset-scores`);
+    }
+
+    async deleteProfile(username) {
+        return axiosAgent.get(`settings/${username}/delete-profile`);
+    }
 }
-}
+

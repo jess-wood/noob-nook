@@ -64,7 +64,7 @@ class SettingsController {
                         `;
             dbConnection.query({
                 sql: query,
-                values: [ctx.params.score, ctx.params.username]
+                values: [ctx.params.username]
             }, (error, tuples) => {
                 if (error) {
                     console.log("Connection error in SettingsController::resetAllScores", error);
@@ -89,7 +89,7 @@ class SettingsController {
                         `;
             dbConnection.query({
                 sql: query,
-                values: [ctx.params.score, ctx.params.username]
+                values: [ctx.params.username]
             }, (error, tuples) => {
                 if (error) {
                     console.log("Connection error in SettingsController::deleteUserProfile", error);
