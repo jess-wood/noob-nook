@@ -142,51 +142,63 @@ const Settings = (props) => {
     }
 
     const handleSubmit = () => {
-        if (firstName !== ""){
+        if (firstName !== "") {
             const api = new API;
+
             async function changefName() {
                 await api.changeUserfName(firstName, window.currentUserLoggedIn);
             }
+
             changefName();
             setChangedSettings(true);
         }
-        if (lastName !== ""){
+        if (lastName !== "") {
             const api = new API;
+
             async function changelName() {
                 await api.changeUserlName(lastName, window.currentUserLoggedIn);
             }
+
             changelName();
             setChangedSettings(true);
         }
-        if (userName !== ""){
+        if (userName !== "") {
             window.currentUserLoggedIn = userName;
             const api = new API;
+
             async function changeUserName() {
                 await api.changeUsername(userName, window.currentUserLoggedIn);
             }
-            async function changeUsernameHS(){
+
+            async function changeUsernameHS() {
                 await api.changeUsernameHS(userName, window.currentUserLoggedIn);
             }
+
             changeUserName();
             changeUsernameHS();
             setChangedSettings(true);
         }
-        if (userEmail !== ""){
+        if (userEmail !== "") {
             const api = new API;
+
             async function changeEmail() {
                 await api.changeUserEmail(userEmail, window.currentUserLoggedIn);
             }
+
             changeEmail();
             setChangedSettings(true);
         }
-        if (userPassword !== ""){
+        if (userPassword !== "") {
             const api = new API;
+
             async function changePW() {
                 await api.changeUserPW(userPassword, window.currentUserLoggedIn);
             }
+
             changePW();
             setChangedSettings(true);
         }
+    }
 
     function resetScoresCallback () {
         const api = new API;
