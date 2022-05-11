@@ -205,4 +205,12 @@ export default class APIInterface {
     async changeUsernameHS(newUsername, username){
         return axiosAgent.get(`settings/${newUsername}/${username}/change-usernameHS`);
     }
+
+    async resetHighScores(username){
+        return axiosAgent.get(`settings/${username}/reset-scores`);
+    }
+
+    async deleteProfile(username) {
+        return axiosAgent.get(`settings/${username}/delete-profile`);
+    }
 }

@@ -12,6 +12,7 @@ import Button from "@mui/material/Button";
 import API from '../../API_Interface/API_Interface';
 import UserProfile from "../UserProfile/UserProfile";
 import Dashboard from "../Dashboard/Dashboard";
+import Settings from "../Settings/Settings";
 import {alpha} from "@material-ui/core/styles/colorManipulator";
 
 //shows the screen of the component clicked (default: login)
@@ -38,7 +39,7 @@ const AppBar = styled(MuiAppBar, {shouldForwardProp: (prop) => prop !== 'open' }
     })
 );
 
-const findSelectedComponent = (selectedItem, user, onClickCallback) => {
+const findSelectedComponent = (selectedItem, user, onClickCallback, logoutCallback) => {
     const component = [...presentationComponents()].filter(comp => comp.title === selectedItem);
     if(component.length === 1) {
         if (component[0].title === "Profile"){
@@ -50,6 +51,11 @@ const findSelectedComponent = (selectedItem, user, onClickCallback) => {
             return {
                 title: null,
                 component: <Dashboard clickCallback={onClickCallback}/>
+            }
+        } else if (component[0].title === "Settings"){
+            return {
+                title: null,
+                component: <Settings clickCallback={logoutCallback}/>
             }
         }
         return component[0];
@@ -196,7 +202,7 @@ const TopBar = (props) => {
             </AppBar>
             <Main open={open}>
                 <DrawerHeader />
-                {otherUser === undefined ? findSelectedComponent(selectedItem, user, followedUserOnClickCallback).component : otherUserProfile(otherUser, user)}
+                {otherUser === undefined ? findSelectedComponent(selectedItem, user, followedUserOnClickCallback, logout).component : otherUserProfile(otherUser, user)}
             </Main>
         </Fragment>
     )

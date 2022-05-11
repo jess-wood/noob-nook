@@ -121,6 +121,8 @@ settingsRouter.get('/:newPW/:username/change-password', SettingsController.chang
 settingsRouter.get('/:newUsername/:oldUsername/change-username', SettingsController.changeUsername);
 settingsRouter.get('/:newUsername/:oldUsername/change-usernameHS', SettingsController.changeUsernameHS);
 settingsRouter.get('/:newPic/:name/:username/change-profile-pic', SettingsController.changeProfilePic);
+settingsRouter.get('/:username/reset-scores', SettingsController.resetAllScores);
+settingsRouter.get('/:username/delete-profile', SettingsController.deleteUserProfile);
 
 /**
  * Register all of the controllers into the default controller.

@@ -62,7 +62,7 @@ function DeleteButton (props) {
 const Settings = (props) => {
     const classes = useStyles();
     const [userData, setUserData] = useState([]);
-    const {user, setUser, isUserLoggedIn} = props;
+    const {user, setUser, isUserLoggedIn, clickCallback} = props;
     const {verifyUser, setVerifyUser} = useState(false);
     const [userPic, setUserPic] = useState('default.jpg');
     const [firstName, setFirstName] = useState ("");
@@ -187,6 +187,24 @@ const Settings = (props) => {
             changePW();
             setChangedSettings(true);
         }
+
+    function resetScoresCallback () {
+        const api = new API;
+        async function resetAllHighScores() {
+            const highScoresJSONString = await api.resetHighScores(window.currentUserLoggedIn);
+            console.log(`routes from the DB ${JSON.stringify(highScoresJSONString)}`);
+        }
+        resetAllHighScores();
+    }
+
+    function deleteProfileCallback () {
+        const api = new API;
+        async function deleteProfile () {
+            const profileJSONString = await api.deleteProfile(window.currentUserLoggedIn);
+            console.log(`routes from the DB ${JSON.stringify(profileJSONString)}`);
+        }
+        deleteProfile();
+        clickCallback();
     }
 
     return <Fragment>
@@ -311,7 +329,7 @@ const Settings = (props) => {
                         <TextField value={userPassword} style={{marginTop: 5}} id="standard-basic" label="New Password" variant="standard" onChange={handlePWChange}/>
                         </Stack>
                     </Box>
-                        <Button sx={{width: '30%', height: '5%', mt: '5%', backgroundColor: '#b3e5fc', borderColor: '#4fc3f7', color: '#8b0000', '&:hover': {
+                        <Button onClick={resetScoresCallback} sx={{width: '30%', height: '5%', mt: '5%', backgroundColor: '#b3e5fc', borderColor: '#4fc3f7', color: '#8b0000', '&:hover': {
                                 backgroundColor: '#b3e5fc',
                                 opacity: [0.9, 0.8, 0.9],
                             },}} >
@@ -326,7 +344,7 @@ const Settings = (props) => {
                                 Save Changes
                             </Button>
 
-                            <Button variant="contained" color="error" sx={{width: '30%', height: '5%', marginLeft:'5%'}}>
+                            <Button onClick={deleteProfileCallback} variant="contained" color="error" sx={{width: '30%', height: '5%', marginLeft:'5%'}}>
                                 Delete Profile
                             </Button>
                             </Stack>
