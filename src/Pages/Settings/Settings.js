@@ -71,6 +71,8 @@ const Settings = (props) => {
     const [userEmail, setUserEmail] = useState("");
     const [userPassword, setUserPassword] = useState("");
     const [confirmUserPassword, setConfirmUserPassword] = useState("");
+    const [changedSettings, setChangedSettings] = useState(false);
+
 
     useEffect(() => {
         const api = new API();
@@ -90,7 +92,7 @@ const Settings = (props) => {
         }
 
         getUserInfo();
-    }, [user]);
+    }, [user, changedSettings]);
 
     const submitHandler = (event) => {
         event.preventDefault();
@@ -108,6 +110,83 @@ const Settings = (props) => {
         }
         updateUserInfo();
     }
+
+    const handleFnameChange = (event) => {
+        setChangedSettings(false);
+        setFirstName(event.target.value);
+        console.log(firstName);
+    }
+
+    const handleLnameChange = (event) => {
+        setChangedSettings(false);
+        setLastName(event.target.value);
+        console.log(lastName);
+    }
+
+    const handleUsernameChange = (event) => {
+        setChangedSettings(false);
+        setUserName(event.target.value);
+        console.log(userName);
+    }
+
+    const handlePWChange = (event) => {
+        setChangedSettings(false);
+        setUserPassword(event.target.value);
+        console.log(userPassword);
+    }
+
+    const handleEmailChange = (event) => {
+        setChangedSettings(false);
+        setUserEmail(event.target.value);
+        console.log(userEmail);
+    }
+
+    const handleSubmit = () => {
+        if (firstName !== ""){
+            const api = new API;
+            async function changefName() {
+                await api.changeUserfName(firstName, window.currentUserLoggedIn);
+            }
+            changefName();
+            setChangedSettings(true);
+        }
+        if (lastName !== ""){
+            const api = new API;
+            async function changelName() {
+                await api.changeUserlName(lastName, window.currentUserLoggedIn);
+            }
+            changelName();
+            setChangedSettings(true);
+        }
+        if (userName !== ""){
+            window.currentUserLoggedIn = userName;
+            const api = new API;
+            async function changeUserName() {
+                await api.changeUsername(userName, window.currentUserLoggedIn);
+            }
+            async function changeUsernameHS(){
+                await api.changeUsernameHS(userName, window.currentUserLoggedIn);
+            }
+            changeUserName();
+            changeUsernameHS();
+            setChangedSettings(true);
+        }
+        if (userEmail !== ""){
+            const api = new API;
+            async function changeEmail() {
+                await api.changeUserEmail(userEmail, window.currentUserLoggedIn);
+            }
+            changeEmail();
+            setChangedSettings(true);
+        }
+        if (userPassword !== ""){
+            const api = new API;
+            async function changePW() {
+                await api.changeUserPW(userPassword, window.currentUserLoggedIn);
+            }
+            changePW();
+            setChangedSettings(true);
+        }
 
     function resetScoresCallback () {
         const api = new API;
@@ -167,7 +246,7 @@ const Settings = (props) => {
                                 color:'#E6E6FA'}} display="inline">
                                 {userData.length > 0 ? userData[0]['user_fName'] : 'none'}</Typography>
                         </Typography>
-                        <TextField sx={{mb: 3}} id="standard-basic" label="New First Name" variant="standard" />
+                        <TextField value={firstName} sx={{mb: 3}} id="standard-basic" label="New First Name" variant="standard" onChange={handleFnameChange}/>
                         </Stack>
                     </Box>
 
@@ -186,7 +265,7 @@ const Settings = (props) => {
                                 color:'#E6E6FA'}} display="inline">
                                 {userData.length > 0 ? userData[0]['user_lName'] : 'none'}</Typography>
                         </Typography>
-                        <TextField style={{marginTop: 5}} id="standard-basic" label="New Last Name" variant="standard" />
+                        <TextField value={lastName} style={{marginTop: 5}} id="standard-basic" label="New Last Name" variant="standard" onChange={handleLnameChange} />
                         </Stack>
                     </Box>
                     </Stack>
@@ -207,7 +286,7 @@ const Settings = (props) => {
                                 color:'#E6E6FA'}} display="inline">
                                 @{userData.length > 0 ? userData[0]['username'] : 'none'}</Typography>
                         </Typography>
-                        <TextField style={{marginTop: 5}} id="standard-basic" label="New Username" variant="standard" />
+                        <TextField value={userName} style={{marginTop: 5}} id="standard-basic" label="New Username" variant="standard" onChange={handleUsernameChange}/>
                         </Stack>
                     </Box>
 
@@ -226,12 +305,12 @@ const Settings = (props) => {
                                 color:'#E6E6FA'}} display="inline">
                                 {userData.length > 0 ? userData[0]['user_email'] : 'none'} </Typography>
                         </Typography>
-                        <TextField style={{marginTop: 5}} id="standard-basic" label="New Email" variant="standard" />
+                        <TextField value={userEmail} style={{marginTop: 5}} id="standard-basic" label="New Email" variant="standard" onChange={handleEmailChange}/>
                         </Stack>
                     </Box>
                     </Stack>
 
-                    <Stack direction={'row'} spacing={'4%'} sx={{marginLeft: '10%', mt: 5, border:0, alignItems:'end'}}>
+                    <Stack direction={'row'} spacing={'0%'} sx={{marginLeft: '10%', mt: 5, border:0, alignItems:'end'}}>
                     <Box key='usernamePassword' sx={{border: 0, mt: 1, width: '50%', marginLeft: 1}}>
                         <Stack direction={'row'} spacing={'20%'}>
                         <Typography sx={{fontFamily: "Jura, Arial",
@@ -247,7 +326,7 @@ const Settings = (props) => {
                                              color:'#E6E6FA'}} display="inline">
                                              {userData.length > 0 ? userData[0]['user_password'] : 'none'} </Typography>
                         </Typography>
-                        <TextField style={{marginTop: 5}} id="standard-basic" label="New Password" variant="standard" />
+                        <TextField value={userPassword} style={{marginTop: 5}} id="standard-basic" label="New Password" variant="standard" onChange={handlePWChange}/>
                         </Stack>
                     </Box>
                         <Button onClick={resetScoresCallback} sx={{width: '30%', height: '5%', mt: '5%', backgroundColor: '#b3e5fc', borderColor: '#4fc3f7', color: '#8b0000', '&:hover': {
@@ -261,7 +340,7 @@ const Settings = (props) => {
                     <Grid item key={"Buttons"} columns={2} sx={{border: 0, width: '100%', alignItems: 'center', height: '30%', flexDirection:'column', mt: 12}}>
                         <Box key='Buttons' sx={{border: 0, mt: 1, width: '100%', marginLeft: 1}}>
                             <Stack direction={'row'} spacing={25} sx={{border:0, width:'100%'}}>
-                            <Button variant="contained" color="success" sx={{width: '30%', height: '5%', marginLeft:'10%', backgroundColor: '#03c04a', color: 'black'}}>
+                            <Button variant="contained" color="success" sx={{width: '30%', height: '5%', marginLeft:'10%', backgroundColor: '#03c04a', color: 'black'}} onClick={handleSubmit}>
                                 Save Changes
                             </Button>
 

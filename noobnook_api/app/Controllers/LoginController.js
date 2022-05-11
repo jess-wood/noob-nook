@@ -57,7 +57,7 @@ class LoginController {
         return new Promise((resolve, reject) => {
             const query = `
                        INSERT INTO users (username, user_email, user_password, dateJoined, user_rank, user_ProfilePic)
-                       VALUES (?,?,?,?,'N00blet','default.jpg')
+                       VALUES (?,?,?,?,'N00blet','https://res.cloudinary.com/noobnook/image/upload/v1652216058/default_seqeny.webp')
                         `;
             dbConnection.query({
                 sql: query,

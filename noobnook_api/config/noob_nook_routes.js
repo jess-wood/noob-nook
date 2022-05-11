@@ -114,6 +114,12 @@ const settingsRouter = require('koa-router')({
     prefix: '/settings'
 });
 settingsRouter.get('/:username/username', SettingsController.userData);
+settingsRouter.get('/:newEmail/:username/change-email', SettingsController.changeEmail);
+settingsRouter.get('/:newlName/:username/change-lastName', SettingsController.changeLastName);
+settingsRouter.get('/:newfName/:username/change-firstName', SettingsController.changeFirstName);
+settingsRouter.get('/:newPW/:username/change-password', SettingsController.changeUserPassword);
+settingsRouter.get('/:newUsername/:oldUsername/change-username', SettingsController.changeUsername);
+settingsRouter.get('/:newUsername/:oldUsername/change-usernameHS', SettingsController.changeUsernameHS);
 settingsRouter.get('/:newPic/:name/:username/change-profile-pic', SettingsController.changeProfilePic);
 settingsRouter.get('/:username/reset-scores', SettingsController.resetAllScores);
 settingsRouter.get('/:username/delete-profile', SettingsController.deleteUserProfile);

@@ -35,9 +35,154 @@ class SettingsController {
         }).catch(err => console.log("Database connection error.", err));
     }
 
-    // Update contents of the User's Profile
-    async updateUserProfile(ctx){
+    async changeEmail(ctx) {
+        console.log("changeEmail called");
+        return new Promise((resolve, reject) => {
+            const query = `UPDATE users
+                            SET user_email = ?
+                            where username = ?
+                            `;
+            dbConnection.query({
+                sql: query,
+                values: [ctx.params.newEmail, ctx.params.username]
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in SettingsController::changeEmail", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                console.log(`db return tuples ${JSON.stringify(tuples)}`);
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => console.log("Database connection error.", err));
+    }
 
+    async changeLastName(ctx) {
+        console.log("changeLastName called");
+        return new Promise((resolve, reject) => {
+            const query = `UPDATE users 
+                            SET user_lName = ?
+                            where username = ?
+                            `;
+            dbConnection.query({
+                sql: query,
+                values: [ctx.params.newlName, ctx.params.username]
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in SettingsController::changeLastName", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                console.log(`db return tuples ${JSON.stringify(tuples)}`);
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => console.log("Database connection error.", err));
+    }
+
+    async changeFirstName(ctx) {
+        console.log("changeFirstName called");
+        return new Promise((resolve, reject) => {
+            const query = `UPDATE users 
+                            SET user_fName = ?
+                            where username = ?
+                            `;
+            dbConnection.query({
+                sql: query,
+                values: [ctx.params.newfName, ctx.params.username]
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in SettingsController::changeFirstName", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                console.log(`db return tuples ${JSON.stringify(tuples)}`);
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => console.log("Database connection error.", err));
+    }
+
+    async changeUsername(ctx) {
+        console.log("changeUsernames called ");
+
+        return new Promise((resolve, reject) => {
+            const query = `UPDATE users 
+                            SET username = ?
+                            where username = ?
+                            `;
+            dbConnection.query({
+                sql: query,
+                values: [ctx.params.newUsername, ctx.params.oldUsername]
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in SettingsController::changeUsername", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => console.log("Database connection error.", err));
+    }
+
+    async changeUsernameHS(ctx) {
+        console.log("changeUsernames called ");
+
+        return new Promise((resolve, reject) => {
+            const query = `UPDATE user_highscores
+                            SET username = ?
+                            where username = ?
+                            `;
+            dbConnection.query({
+                sql: query,
+                values: [ctx.params.newUsername, ctx.params.oldUsername]
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in SettingsController::changeUsername", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => console.log("Database connection error.", err));
+    }
+
+    async changeUserPassword(ctx) {
+        console.log("changePassword called");
+
+        return new Promise((resolve, reject) => {
+            const query = `UPDATE users
+                            SET user_password = ?
+                            where username = ?
+                            `;
+            dbConnection.query({
+                sql: query,
+                values: [ctx.params.newPW, ctx.params.username]
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in SettingsController::changePassword", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => console.log("Database connection error.", err));
     }
 
     // Reset all scores to 0
@@ -102,46 +247,6 @@ class SettingsController {
                 return resolve();
             });
         }).catch(err => console.log("Database connection error.", err));
-    }
-
-    async addUserProfilePicture(ctx){
-        const express = require("express");
-        const multer = require("multer");
-        const cors = require("cors");
-
-        const app = express();
-
-
-        app.use(cors());
-        app.use(express.static("../../../src/Pages/UserProfile/"));
-
-
-        var storage = multer.diskStorage({
-
-            destination: "../../../src/Pages/UserProfile/UsersPictures",
-            filename: function (req, file, cb) {
-                cb(null, Date.now() + '-' +file.originalname )
-            }
-        })
-
-
-
-        var upload = multer({ storage: storage }).array('file');
-
-
-        app.post('/upload',function(req, res) {
-
-            upload(req, res, function (err) {
-                if (err instanceof multer.MulterError) {
-                    return res.status(500).json(err)
-                } else if (err) {
-                    return res.status(500).json(err)
-                }
-                return res.status(200).send(req.file)
-
-            })
-
-        });
     }
 
     async changeProfilePic(ctx) {

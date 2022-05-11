@@ -36,7 +36,7 @@ function App() {
     console.log(user);
   return (
       <Fragment>
-          {user !== undefined ? <TopBar logout={logout(setUser)} user={username}/> : <EntryPage user={user} setUser={setUser}/>}
+          {user !== undefined ? <TopBar logout={logout(setUser)} user={window.currentUserLoggedIn}/> : <EntryPage user={user} setUser={setUser}/>}
       </Fragment>
   );
 }

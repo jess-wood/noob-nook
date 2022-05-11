@@ -79,8 +79,6 @@ const DropZone = (props) => {
 
     }
 
-    console.log(typeof url);
-
     return (
         <div>
             <div>
