@@ -98,6 +98,11 @@ export default class APIInterface {
         return axiosAgent.get(`high-scores/${username}/get-snake`);
     }
 
+    async get2048HS(username) {
+        return axiosAgent.get(`high-scores/${username}/get-2048`);
+
+    }
+    
     async getMemoryHS(username){
         return axiosAgent.get(`high-scores/${username}/get-match`);
     }
@@ -138,6 +143,10 @@ export default class APIInterface {
         return axiosAgent.get(`high-scores/${score}/${username}/score-lo`);
     }
 
+    async postNewHighScore2048(score, username){
+        return axiosAgent.get(`high-scores/${score+1}/${username}/score-2048`);
+    }
+    
     async postNewHighScoreWordleMin(score, username){
         return axiosAgent.get(`high-scores/${score}/${username}/score-wordleMin`);
     }
