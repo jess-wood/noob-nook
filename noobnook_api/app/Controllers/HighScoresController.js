@@ -247,6 +247,34 @@ class HighScoresController {
         }).catch(err => console.log("Database connection error.", err));
     }
 
+
+    /// getting highscore 2048
+    async getHighScore2048(ctx) {
+        return new Promise((resolve, reject) => {
+            const query = ` SELECT HS_2048
+                            FROM user_highscores
+                            WHERE username = ?
+                            `;
+            dbConnection.query({
+                sql: query,
+                values: [ctx.params.username]
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in HighScoresController:getHighScores2048", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => console.log("Database connection error.", err));
+    }
+
+
+
+
     async postNewHighScoreTyping(ctx) {
         console.log('postNewHighScore called.');
         return new Promise((resolve, reject) => {
@@ -493,6 +521,30 @@ class HighScoresController {
             }, (error, tuples) => {
                 if (error) {
                     console.log("Connection error in HighScoreController::postNewHighScoreConnect4", error);
+                    ctx.body = [];
+                    ctx.status = 200;
+                    return reject(error);
+                }
+                ctx.body = tuples;
+                ctx.status = 200;
+                return resolve();
+            });
+        }).catch(err => console.log("Database connection error.", err));
+    }
+
+
+
+    async postNewHighScore2048(ctx) {
+        console.log('postNewHighSCoreConnect4 called');
+        return new Promise((resolve, reject) => {
+            const query = `UPDATE user_highscores SET HS_2048 = ? WHERE username = ?;
+                            `;
+            dbConnection.query({
+                sql: query,
+                values: [ctx.params.score, ctx.params.username]
+            }, (error, tuples) => {
+                if (error) {
+                    console.log("Connection error in HighScoreController::postNewHighScore2048", error);
                     ctx.body = [];
                     ctx.status = 200;
                     return reject(error);
