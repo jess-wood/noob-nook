@@ -1,10 +1,17 @@
-import React, {Component} from 'react'
+import React, {Component, useEffect, useState} from 'react'
 import '../styles/styles.css';
 import TileView from './tileView';
 import Cell from './cell';
 import {EndGame} from './endGame';
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import API from "../../../../../../API_Interface/API_Interface";
+
+
+//import API from "../../../../API_Interface/API_Interface";
+
+
+
 
 var rotateLeft = function (matrix) {
     var rows = matrix.length;
@@ -185,7 +192,67 @@ Board.prototype.hasLost = function () {
     return !canMove;
 };
 
+
+// let today = new Date();
+// let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+// let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+// let dateTime = date+' '+time;
+//
+//
+// export function HighScore() {
+//
+//     const [bestScore, setBestScore] = useState(2);
+//
+//
+//     useEffect(() => {
+//         const api = new API();
+//
+//         async function getUserHS() {
+//             const gameHSJSONString = await api.get2048HS( window.currentUserLoggedIn);
+//             console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+//             console.log(`data=${gameHSJSONString.data[0]['HS_2048']}`);
+//             setBestScore(gameHSJSONString.data[0]['HS_2048']);
+//
+//         }
+//         async function makeNewPost() {
+//             const gameHSJSONString = await api.postNewGameStatus(window.currentUserLoggedIn, "is playing 2048!", dateTime);
+//             console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+//         }
+//         makeNewPost();
+//         getUserHS();
+//     }, []);
+//
+//     const makeNewHighScore = () => {
+//         let today = new Date();
+//         let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+//         let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+//         let dateTime = date+' '+time;
+//         const api = new API();
+//
+//         async function makeNewScore() {
+//             const gameHSJSONString = await api.postNewHighScoreMemory(moves, window.currentUserLoggedIn);
+//             console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+//         }
+//         //update post here
+//         async function newHSPost() {
+//             const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `beat Memory Scramble in ${moves} moves and set a new high score  ( ᐛ )و`, dateTime);
+//             console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+//         }
+//         makeNewScore();
+//         newHSPost();
+//     }
+//
+// }
+
+
+
 export default class MainBoard extends Component {
+
+
+
+
+
+
     constructor(props) {
         super(props);
         this.state = {board: new Board};
