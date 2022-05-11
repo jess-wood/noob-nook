@@ -177,8 +177,32 @@ export default class APIInterface {
     async usersFollowedPosts(username, followed_username){
         return axiosAgent.get(`dashboard/${username}/${followed_username}/followed-posts`);
     }
+
     async changeUserProfilePic(newPic, username){
         return axiosAgent.get(`settings/v${newPic}/${username}/change-profile-pic`);
     }
-}
+
+    async changeUsername(newUsername, username){
+        return axiosAgent.get(`settings/${newUsername}/${username}/change-username`);
+    }
+
+    async changeUserfName(fName, username){
+        return axiosAgent.get(`settings/${fName}/${username}/change-firstName`);
+    }
+
+    async changeUserlName(lName, username){
+        return axiosAgent.get(`settings/${lName}/${username}/change-lastName`);
+    }
+
+    async changeUserEmail(email, username){
+        return axiosAgent.get(`settings/${email}/${username}/change-email`);
+    }
+
+    async changeUserPW(password, username){
+        return axiosAgent.get(`settings/${password}/${username}/change-password`);
+    }
+
+    async changeUsernameHS(newUsername, username){
+        return axiosAgent.get(`settings/${newUsername}/${username}/change-usernameHS`);
+    }
 }
