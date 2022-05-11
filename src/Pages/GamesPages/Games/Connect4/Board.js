@@ -1,4 +1,4 @@
-import {Fragment, useState} from 'react';
+import {Fragment, useEffect, useState} from 'react';
 import doWeHaveAWinner from './doWeHaveAWinner'
 import { NUM_ROWS, NUM_COLUMNS, PLAYER_COLOR, AI_COLOR } from './constants'
 import Stack from "@mui/material/Stack";
@@ -7,9 +7,16 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import './Connect4.css';
+import API from "../../../../API_Interface/API_Interface";
+
+let today = new Date();
+let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+let dateTime = date+' '+time;
 
 let moves;
-let invalidMoves =[]
+let currHighScore;
+let invalidMoves =[];
 
 function advanceColor(color) {
     if( color === 'white' )
@@ -145,8 +152,43 @@ export default function Board(props) {
     const [winnerColor, setWinnerColor] = useState(undefined);
     const [numMovesToWin, setNumMovesToWin] = useState(0);
     const [firstAvailableIndex, setFirstAvailableIndex] = useState(Array(NUM_COLUMNS).fill(NUM_ROWS - 1));
-    const [winMove, setWinMove] = useState({isWin: false, row: -1, col: -1})
+    const [winMove, setWinMove] = useState({isWin: false, row: -1, col: -1});
+    const [currHighScore, setCurrHighScore] = useState(0);
 
+    useEffect(() => {
+        const api = new API();
+
+        async function getUserHS() {
+            const gameHSJSONString = await api.getConnect4HS( window.currentUserLoggedIn);
+            setCurrHighScore(gameHSJSONString.data[0]['HS_Connect4']);
+        }
+        async function makeNewPost() {
+            const gameHSJSONString = await api.postNewGameStatus(window.currentUserLoggedIn, "is playing Connect4!", dateTime);
+        }
+        getUserHS();
+        makeNewPost();
+    }, [currHighScore]);
+
+    const makeNewHighScore = () => {
+        let today = new Date();
+        let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        let dateTime = date+' '+time;
+        const api = new API();
+
+        async function makeNewScore() {
+            const gameHSJSONString = await api.postNewHighScoreConnect4(moves, window.currentUserLoggedIn);
+            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+            //setCurrHighScore(gameHSJSONString.data);
+        }
+        //update post here
+        async function newHSPost() {
+            const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `beat the AI in ${moves+1} moves in Connect4 and beat their high score  ⊂( ・ ̫・)⊃`, dateTime);
+            console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+        }
+        makeNewScore();
+        newHSPost();
+    }
 
     const reset = () => {
         setBoard(createInitialBoard());
@@ -295,6 +337,24 @@ export default function Board(props) {
             if (doWeHaveAWinner(rowIdx, colIdx, nextColor, newBoard)) {
                 setHaveAWinner(true);
                 setWinnerColor(nextColor);
+                let today = new Date();
+                let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                let dateTime = date+' '+time;
+                const api = new API();
+                async function deletePost() {
+                    const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Lights Out!");
+                }
+                deletePost();
+                if (moves > currHighScore){
+                    makeNewHighScore();
+                }
+                else {
+                    async function newGamePost() {
+                        const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `beat the AI in ${moves+1} moves in Connect4 but didn't beat their high score  ಥ_ಥ`, dateTime);
+                    }
+                    newGamePost();
+                }
             }
             invalidMoves.push([rowIdx, colIdx]);
         } else {
