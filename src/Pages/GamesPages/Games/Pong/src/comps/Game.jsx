@@ -1,52 +1,65 @@
-import React, {useEffect, useState} from 'react';
+import React, {Component} from 'react';
 import API from "../../../../../../API_Interface/API_Interface";
 
+let hs = 0;
+let today = new Date();
+let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+let dateTime = date+' '+time;
 
-const ReturnScore = ({highScore, setHighScore}) => {
-  let today = new Date();
-  let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-  let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-  let dateTime = date+' '+time;
+const getCurrHS = () => {
+  const api = new API();
+  async function getUserHS() {
+    const gameHSJSONString = await api.getPongHS(window.currentUserLoggedIn);
+    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+    console.log(gameHSJSONString.data[0]);
+    hs = gameHSJSONString.data[0]['HS_Pong'];
+    console.log(`hs=${hs}`);
 
-  useEffect(() => {
-    const api = new API();
-
-    async function getUserHS() {
-      const gameHSJSONString = await api.getPongHS(window.currentUserLoggedIn);
-      console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
-      console.log(gameHSJSONString.data[0]['HS_Pong']);
-      setHighScore(gameHSJSONString.data[0]['HS_Pong']);
-
-    }
-
-    async function makeNewPost() {
-      const gameHSJSONString = await api.postNewGameStatus(window.currentUserLoggedIn, "is playing Pong!", dateTime);
-      console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
-    }
-
-    async function deletePost() {
-      const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Pong!");
-      console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
-    }
-
-    /*
-    async function makeNewScore() {
-      const gameHSJSONString = await api.postNewHighScorePong(highScore, window.currentUserLoggedIn);
-      console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
-    }
-
-    makeNewScore();
-
-    */
-    makeNewPost();
-    getUserHS();
-    deletePost();
-  }, [])
-
+  }
+  getUserHS();
 }
 
+const getNewHS = (hs) => {
+  const api = new API();
 
-class Game extends React.Component {
+  async function makeNewScore() {
+    const gameHSJSONString = await api.postNewHighScorePong(hs, window.currentUserLoggedIn);
+    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+  }
+  makeNewScore();
+}
+
+const getNewPost = () => {
+  const api = new API();
+  async function makeNewPost() {
+    const gameHSJSONString = await api.postNewGameStatus(window.currentUserLoggedIn, "is playing Pong!", dateTime);
+    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+  }
+  makeNewPost();
+}
+
+const deleteNewPost = () => {
+  const api = new API();
+  async function deletePost() {
+    const gameHSJSONString = await api.deleteUserPost( window.currentUserLoggedIn, "is playing Pong!");
+    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+  }
+  deletePost();
+}
+
+const updateHSPost = (Player1Score) => {
+  const api = new API();
+  async function newHSPost() {
+    const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${Player1Score} points in Pong and beat their high score  ⊂( ・ ̫・)⊃`, dateTime);
+    console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+  }
+  newHSPost();
+}
+
+let gameOver = false;
+
+export default class Game extends Component {
     componentDidMount() {
         this.updateCanvas();
 
@@ -68,6 +81,7 @@ class Game extends React.Component {
       let player1Score = 0;
       let player2Score = 0;
       let showWinScreen = true;
+
       canvasContext.font = "20px Verdana";
 
       const paddleHeight = 100; // Paddles Measurements.
@@ -102,25 +116,49 @@ class Game extends React.Component {
       }
 
       const move = () => {   // This function is in charge of the moving parts.
-
+        console.log(gameOver);
+        if (gameOver)
+          return;
           if(showWinScreen){    // if one player wins, will stop the game and show the scores....
             if(player1Score >= winningScore){
-              const api = new API();
+              let fullScore = player1Score - player2Score;
+              console.log(`Player 1 Score ... ${player1Score}`);
+              getCurrHS();
               canvasContext.fillStyle = 'white';
               canvasContext.font = "30px Verdana";
-              let newScore = player1Score - player2Score;
-              async function makeNewScore() {
-                const gameHSJSONString = await api.postNewHighScorePong(newScore, window.currentUserLoggedIn);
-                console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
-              }
-              makeNewScore();
               canvasContext.fillText("YOU WIN ... Click to Play Again", canvas.width / 4 , 50);
+              gameOver = true;
+              if(fullScore > hs) {
+                getNewHS(fullScore);
+                updateHSPost(fullScore);
+              }
+              else {
+                async function newGamePost() {
+                  const api = new API();
+                  const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${player1Score} points in Pong but didn't beat their high score  ಥ_ಥ`, dateTime);
+                  console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+                }
+                newGamePost();
+                deleteNewPost();
+              }
             }
 
             if(player2Score >= winningScore){
+              console.log(`Player 2 Score ... ${player2Score}`);
+              getCurrHS();
               canvasContext.fillStyle = 'white';
               canvasContext.font = "30px Verdana";
               canvasContext.fillText("YOU LOSE ... Click to Play Again", canvas.width / 4 , 50);
+              gameOver = true;
+
+              async function newGamePost() {
+                const api = new API();
+                const gameHSJSONString = await api.postNewGameStatus( window.currentUserLoggedIn, `scored ${player1Score} points in Pong but didn't beat their high score  ಥ_ಥ`, dateTime);
+                console.log(`routes from the DB ${JSON.stringify(gameHSJSONString)}`);
+              }
+              newGamePost();
+              deleteNewPost();
+
             }
             return;
           }
@@ -169,6 +207,7 @@ class Game extends React.Component {
           player1Score = 0;
           player2Score = 0;
           canvasContext.font = "20px Verdana";
+          gameOver = false;
           showWinScreen = false;
         }
       }
@@ -188,7 +227,6 @@ class Game extends React.Component {
         ballY = canvas.height / 2;
       }
 
-
       setInterval(() => { draw(); move(); }, 1000/framesPerSecond);
 
     }
@@ -199,5 +237,3 @@ class Game extends React.Component {
       );
     }
 }
-
-export default Game;
