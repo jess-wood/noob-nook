@@ -1,3 +1,5 @@
+// made with help from https://github.com/aeskafi/2048-react.git
+
 import React, {Component, useEffect, useState} from 'react'
 import '../styles/styles.css';
 import TileView from './tileView';
